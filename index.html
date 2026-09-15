@@ -504,7 +504,7 @@
 
   .topbar-inner {
     height: 100%;
-    max-width: 1560px;
+    max-width: 1320px;
     margin-inline: auto;
     padding-inline: var(--gutter);
     display: flex;
@@ -674,7 +674,7 @@
     scroll-snap-stop: always;
     display: grid;
     align-content: start;
-    max-width: 1560px;
+    max-width: 1320px;
     margin-inline: auto;
     padding: calc(var(--topbar-h) + clamp(16px, 2.4vh, 34px))
              var(--gutter)
@@ -820,9 +820,9 @@
   /* ---------- case slide: text left, figure right ---------- */
 
   .slide-case {
-    /* Text takes a readable measure, not half the screen; the drawing
-       gets the rest. A 50/50 split gives Korean prose an over-long line. */
-    grid-template-columns: minmax(0, 38ch) minmax(0, 1fr);
+    /* Text 2 : drawing 3. The prose column keeps a readable measure and
+       the diagram gets the larger share. */
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     /* Title and body start at the top of the column and read downward.
        Centring made the heading float in mid-screen. */
     align-content: start;
@@ -834,8 +834,7 @@
      figure right. Naming only the column would drop text to a 2nd row. */
   .slide-case .case-text {
     grid-area: 1 / 1;
-    max-width: 38ch;
-    min-width: 0;
+    min-width: 0;   /* the 2fr track sets the width */
   }
   /* The drawing has no reading order of its own, so it sits centred
      against the text column rather than pinned to the top. */
