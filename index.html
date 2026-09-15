@@ -10,7 +10,7 @@
 <title>기울어진 바닥</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
 <style>
   :root {
     --ground:      #F0F0F0;
@@ -111,10 +111,10 @@
 
   h1 {
     font-family: var(--f-display);
-    font-weight: 800;
+    font-weight: 400;
     font-size: clamp(2.9rem, 8.5vw, 5.4rem);
     line-height: 0.94;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.02em;
     margin: 0 0 4px;
     text-wrap: balance;
   }
@@ -140,7 +140,7 @@
     font-size: 1.02rem;
     color: var(--ink-soft);
   }
-  .lede strong { font-weight: 600; color: var(--ink); }
+  .lede strong { font-weight: 500; color: var(--ink); }
 
   /* ---------- map ---------- */
 
@@ -165,9 +165,9 @@
 
   h2 {
     font-family: var(--f-display);
-    font-weight: 700;
+    font-weight: 500;
     font-size: clamp(1.5rem, 3.6vw, 2.1rem);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.015em;
     line-height: 1.16;
     margin: 0 0 14px;
     text-wrap: balance;
@@ -235,17 +235,17 @@
 
   h3 {
     font-family: var(--f-display);
-    font-weight: 700;
+    font-weight: 500;
     font-size: clamp(1.32rem, 3vw, 1.72rem);
     line-height: 1.16;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.012em;
     margin: 0 0 20px;
     text-wrap: balance;
   }
 
   .case p { margin: 0 0 14px; font-size: 0.96rem; }
   .case p:last-child { margin-bottom: 0; }
-  .case strong { font-weight: 600; }
+  .case strong { font-weight: 500; color: var(--ink); }
 
   a {
     color: inherit;
@@ -289,9 +289,9 @@
   .num dd {
     margin: 0;
     font-family: var(--f-display);
-    font-weight: 700;
+    font-weight: 500;
     font-size: 1.44rem;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.015em;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
   }
@@ -390,7 +390,7 @@
   }
   .axis-table td:first-child {
     font-family: var(--f-display);
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: -0.015em;
     white-space: nowrap;
   }
@@ -520,7 +520,7 @@
     padding: 0;
     cursor: pointer;
     font-family: var(--f-display);
-    font-weight: 800;
+    font-weight: 600;
     font-size: 15px;
     letter-spacing: -0.02em;
     color: var(--ink);
@@ -666,13 +666,14 @@
   .deck::-webkit-scrollbar { display: none; }
 
   .slide {
-    /* full viewport tall; the header's worth of space is padding inside
-       the slide, so content is centred in the area below the bar */
+    /* Full viewport tall; the header's worth of space is padding inside
+       the slide. Content starts at the top and reads downward - only the
+       cover centres itself. */
     min-height: 100dvh;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     display: grid;
-    align-content: center;
+    align-content: start;
     max-width: 1560px;
     margin-inline: auto;
     padding: calc(var(--topbar-h) + clamp(16px, 2.4vh, 34px))
@@ -683,7 +684,10 @@
 
   /* ---------- cover ---------- */
 
-  .slide-cover { justify-items: center; }
+  .slide-cover {
+    justify-items: center;
+    align-content: center;   /* the cover is the one centred screen */
+  }
   .cover-inner { text-align: center; }
   .cover-sub,
   .cover-lede { margin-inline: auto; }
@@ -736,14 +740,16 @@
   }
   .slide-cover h1 {
     font-family: var(--f-display);
-    font-weight: 800;
+    font-weight: 300;
     font-size: clamp(2.2rem, 11vw, 6rem);
-    line-height: 0.96;
-    letter-spacing: -0.04em;
+    line-height: 1.0;
+    /* light weights need less negative tracking than bold ones */
+    letter-spacing: -0.022em;
     margin: 0;
     white-space: nowrap;   /* the title is short; keep it on one line */
   }
-  .slide-cover h1 em { font-style: normal; color: var(--designer); }
+  /* the accent word carries the emphasis instead of the weight */
+  .slide-cover h1 em { font-style: normal; font-weight: 500; color: var(--designer); }
 
   .cover-sub {
     font-family: var(--f-display);
@@ -795,9 +801,19 @@
   .slide-map figure,
   .slide-case figure { margin: 0; }
 
+  /* Heading and note sit at the top; the plot takes the space left over. */
+  .slide-map { grid-template-rows: auto auto 1fr; }
+  .slide-map figure {
+    min-height: 0;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-content: center;
+  }
   .slide-map .figscroll {
     display: grid;
     justify-items: center;
+    align-content: center;
+    min-height: 0;
   }
   .slide-map svg { max-height: calc(100dvh - var(--topbar-h) - 210px); }
 
@@ -807,8 +823,10 @@
     /* Text takes a readable measure, not half the screen; the drawing
        gets the rest. A 50/50 split gives Korean prose an over-long line. */
     grid-template-columns: minmax(0, 38ch) minmax(0, 1fr);
-    align-content: center;
-    align-items: center;
+    /* Title and body start at the top of the column and read downward.
+       Centring made the heading float in mid-screen. */
+    align-content: start;
+    align-items: start;
     gap: 0 clamp(28px, 4vw, 64px);
   }
 
@@ -817,12 +835,14 @@
   .slide-case .case-text {
     grid-area: 1 / 1;
     max-width: 38ch;
-    max-height: calc(100dvh - var(--topbar-h) - 120px);
-    overflow-y: auto;
-    scrollbar-width: thin;
-    padding-right: 8px;
+    min-width: 0;
   }
-  .slide-case .case-figure { grid-area: 1 / 2; }
+  /* The drawing has no reading order of its own, so it sits centred
+     against the text column rather than pinned to the top. */
+  .slide-case .case-figure {
+    grid-area: 1 / 2;
+    align-self: center;
+  }
 
   .slide-case .case-figure figure {
     background: var(--panel);
@@ -834,9 +854,9 @@
 
   /* ---------- synthesis ---------- */
 
-  .slide-synth .axis-table { margin-top: 22px; }
-  .slide-synth .closer { margin-top: 28px; }
-  .slide-synth .lede { margin-top: 26px !important; }
+  .slide-synth .axis-table { margin-top: 20px; }
+  .slide-synth .closer { margin-top: 26px; }
+  .slide-synth .lede { margin-top: 24px !important; max-width: var(--read); }
 
   /* ---------- notes ---------- */
 
@@ -909,9 +929,7 @@
     .slide-case .case-figure { grid-area: auto; }
     .slide-case .case-text {
       order: 1;
-      max-height: none;
-      overflow: visible;
-      padding-right: 0;
+      max-width: none;
     }
     .slide-case .case-figure { order: 2; }
     .slide-case svg,
@@ -1165,14 +1183,18 @@
         </dl>
 
         <p>
-          두 나라는 언어도 문화도 비슷하다. 다른 것은 서류의 기본 상태뿐이다.
-          <strong>누구도 강요받지 않았고, 양쪽 다 3초면 바꿀 수 있다.</strong>
+          두 나라는 언어도 문화도 의료 체계도 비슷하다. 다른 것은 서류의 기본 상태뿐이다.
+          오스트리아는 "거부하려면 표시하시오", 독일은 "동의하려면 표시하시오".
+          <strong>누구도 기증을 강요받지 않았고, 양쪽 다 3초면 바꿀 수 있다.</strong>
+          넛지 문헌이 가장 먼저 꺼내는 사례이기도 하다.
         </p>
 
         <div class="twist">
           <p>
-            다만 실제로 전환한 5개국을 추적하면 기증률은 늘지 않았고,
-            생체 기증은 오히려 <strong>29% 감소</strong>했다.
+            다만 실제로 opt-out으로 <strong>전환한</strong> 5개국(아르헨티나·칠레·스웨덴·우루과이·웨일스)을
+            추적하면 기증률은 유의미하게 늘지 않았고, 생체 기증은 오히려
+            <strong>29% 감소</strong>했다. 등록 서류의 숫자는 바뀌었지만 병원에서
+            실제로 일어나는 일은 바뀌지 않았다는 뜻이다.
             바뀐 것은 행동이 아니라 <strong>기록된 행동</strong>이었을 수 있다.
           </p>
         </div>
@@ -1274,13 +1296,14 @@
 
         <p>
           사용자를 잠그는 장치는 없다. 설정에서 세 번만 누르면 검색엔진을 바꿀 수 있다.
-          그런데도 구글은 <strong>그 자리 하나에 매년 200억 달러</strong>를 지불했다.
+          그런데도 구글은 <strong>사파리 주소창의 기본값 자리 하나에 2022년에만 200억 달러</strong>를
+          지불했다. 애플 영업이익의 17.5%다.
           바꾸기 쉬운데도 아무도 바꾸지 않는다는 것을 양쪽 다 알기 때문이다.
         </p>
         <p>
-          반독점 재판에서 멜라 판사는 이 누적 260억 달러의 지불이
+          반독점 재판에서 메흐타 판사는 이 누적 260억 달러의 지불이
           <strong>경쟁사가 성공할 여지를 실질적으로 차단했다</strong>고 판단했다.
-          기본값의 가격이 법정에서 매겨진, 아마도 유일한 사례다.
+          기본값에 시장 가격이 매겨진, 아마도 유일한 사례다.
         </p>
 
         <div class="src">
@@ -1350,15 +1373,18 @@
         </dl>
 
         <p>
-          스히폴 공항은 1990년대 초 소변기마다 파리를 새겼다. 안내문도 경고도 없다.
-          그냥 <strong>조준할 것을 하나 놓았을 뿐</strong>인데 흘림이 80% 줄었다고 알려져 있다.
+          암스테르담 스히폴 공항은 1990년대 초 소변기마다 파리를 새겼다.
+          "조준하시오"라는 안내문도, 경고도 없다. 그냥
+          <strong>조준할 대상을 하나 놓았을 뿐</strong>인데 흘림이 80% 줄었다고 알려져 있다.
+          지금은 JFK를 포함해 전 세계 공항·경기장·학교로 퍼졌다.
         </p>
 
         <div class="twist">
           <p>
-            다만 도입 담당자 Kieboom은 관련 연구를 본 적이 없으며
-            <strong>80%는 "매우 경험적인" 수치</strong>였다고 말했다.
-            가장 많이 인용되는 사례의 숫자가 한 번도 측정된 적이 없다.
+            다만 <em>Works That Work</em>의 취재에서 도입 담당자 Kieboom은
+            관련 연구를 본 적이 없으며 <strong>80%는 "매우 경험적인(very empirical)" 수치</strong>였다고
+            말했다. 넛지 분야에서 가장 많이 인용되는 사례의 숫자가,
+            한 번도 제대로 측정된 적이 없다.
           </p>
         </div>
 
@@ -1450,9 +1476,10 @@
         </dl>
 
         <p>
-          런던 캠든 구의회가 의뢰한 콘크리트 덩어리. 각진 면과 예상치 못한 경사가
+          2012년 런던 캠든 구의회가 의뢰한 콘크리트 덩어리. 각진 면과 예상치 못한 경사가
           잠자기, 스케이트보드, 낙서, 마약 은닉, 쓰레기 투기를
-          <strong>전부 물리적으로 불가능하게</strong> 만든다. 규칙을 적을 필요가 없다.
+          <strong>전부 물리적으로 불가능하게</strong> 만든다. 틈이 없어 물건을 숨길 수도 없다.
+          규칙을 적을 필요가 없으니 표지판도 없다.
         </p>
 
         <p>
@@ -1538,7 +1565,9 @@
         <p>
           미시간 주립대 건축가 Joseph Bradford는 보도를 어디에 깔지 예측하지 않았다.
           대신 <strong>겨울까지 기다렸다가 열기구를 타고 올라가</strong> 학생들이 눈밭에 낸
-          발자국을 관찰한 뒤, 그 선을 따라 포장했다.
+          발자국을 관찰한 뒤, 그 선을 따라 포장했다. 오하이오 주립대 Oval의
+          곡선 보도도 1920년대에 같은 방식으로 생겼다 — 잔디를 먼저 심고,
+          길이 드러나기를 기다렸다가 포장한 것이다.
         </p>
         <p>
           이 사례가 목록에서 특별한 이유는 <strong>방향이 반대</strong>이기 때문이다.
@@ -1646,14 +1675,15 @@
         </dl>
 
         <p>
-          하버드 연구진이 두 기업의 개방형 전환 전후를
-          <strong>소시오메트릭 배지로 실측</strong>했다. 설문이 아니라 실측이다.
-          벽을 없애자 프라이버시가 사라졌고, 사람들은
-          <strong>헤드폰을 쓰고 슬랙으로 도망쳤다.</strong>
+          하버드의 Bernstein &amp; Turban(2018)이 포춘 500대 기업 두 곳의 개방형 전환 전후를
+          <strong>소시오메트릭 배지로 실측</strong>했다. 설문이 아니라 실측이라는 점이 중요하다 —
+          사람들은 자기가 얼마나 대화했는지를 정확히 기억하지 못한다.
         </p>
         <p>
-          환경은 <strong>설계자의 이론이 아니라 인간의 실제 반응</strong>을 따른다.
-          의도는 입력값일 뿐 출력을 결정하지 않는다.
+          벽을 없애면 대화가 늘 것이라 예상했지만, 프라이버시가 사라지자 사람들은
+          <strong>헤드폰을 쓰고 슬랙으로 도망쳤다.</strong> 환경은 의도대로 작동하지 않았지만
+          <strong>작동은 했다</strong> — 반대 방향으로. 환경은 설계자의 이론이 아니라
+          인간의 실제 반응을 따른다.
         </p>
 
         <div class="src">
@@ -1895,12 +1925,14 @@
 
         <p>
           레딧 r/assholedesign은 "이거 좀 봐라"는 분노의 게시판이었다.
-          학술 연구가 이 게시물 <strong>1,002개를 분석해</strong> 다크 패턴 분류 체계를 만들었고,
+          학술 연구가 이 게시물 <strong>1,002개를 분석해</strong> 가짜 긴급함, 숨은 해지,
+          확인 수치심 같은 다크 패턴 분류 체계를 만들었고,
           EFF와 Consumer Reports는 신고 창구를 열었다.
         </p>
         <p>
           <strong>전문가가 정의한 것이 아니라, 당한 사람들이 수집한 사례가 연구 데이터가 되었다.</strong>
-          환경에 프로그래밍당한 사람들이 그 환경을 역으로 기록한 셈이다.
+          환경에 프로그래밍당한 사람들이 그 환경을 역으로 기록한 셈이고,
+          그 기록이 앞 장의 규제로 이어졌다.
         </p>
 
         <div class="src">
