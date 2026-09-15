@@ -12,473 +12,426 @@
   body { margin: 0; font: 14px system-ui, sans-serif; }
   img { max-width: 100%; }
   [hidden] { display: none !important; }
-</style>
-<title>기울어진 바닥</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
 
-<style>
+  /* ==========================================================
+     DECK — one section per screen, fixed header, no page scroll
+     ========================================================== */
+
   :root {
-    --ground:      #F0F0F0;
-    --ground-deep: #E2E2E2;
-    --panel:       #FFFFFF;
-    --ink:         #1A1A1A;
-    --ink-soft:    #565656;
-    --ink-faint:   #858585;
-    --rule:        #D2D2D2;
-    --rule-soft:   #E4E4E4;
-    --designer:    #BF4E1C;
-    --designer-bg: #F6E6DC;
-    --user:        #1E6459;
-    --user-bg:     #E0EAE7;
-    --shadow:      rgba(0, 0, 0, 0.10);
-
-    --f-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
-    --f-body:    "IBM Plex Sans KR", -apple-system, "Malgun Gothic", sans-serif;
-    --f-mono:    "IBM Plex Mono", ui-monospace, monospace;
-
-    --wrap: 1120px;
-    --read: 68ch;
+    --topbar-h: 60px;
+    --gutter: clamp(20px, 4vw, 56px);
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --ground:      #141414;
-      --ground-deep: #0C0C0C;
-      --panel:       #1F1F1F;
-      --ink:         #EDEDED;
-      --ink-soft:    #ADADAD;
-      --ink-faint:   #757575;
-      --rule:        #383838;
-      --rule-soft:   #2A2A2A;
-      --designer:    #F2874B;
-      --designer-bg: #3A2114;
-      --user:        #5EC2B4;
-      --user-bg:     #14302B;
-      --shadow:      rgba(0, 0, 0, 0.55);
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --ground:      #141414;
-    --ground-deep: #0C0C0C;
-    --panel:       #1F1F1F;
-    --ink:         #EDEDED;
-    --ink-soft:    #ADADAD;
-    --ink-faint:   #757575;
-    --rule:        #383838;
-    --rule-soft:   #2A2A2A;
-    --designer:    #F2874B;
-    --designer-bg: #3A2114;
-    --user:        #5EC2B4;
-    --user-bg:     #14302B;
-    --shadow:      rgba(0, 0, 0, 0.55);
-  }
-
-  * { box-sizing: border-box; }
+  html, body { height: 100%; }
 
   body {
-    margin: 0;
-    padding-inline: 20px;
-    background-color: var(--ground);
-    color: var(--ink);
-    font-family: var(--f-body);
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 1.72;
-    -webkit-font-smoothing: antialiased;
+    overflow: hidden;            /* the deck scrolls, not the page */
+    padding-inline: 0;
   }
 
-  .wrap { max-width: var(--wrap); margin-inline: auto; }
+  .skip {
+    position: fixed;
+    top: -60px; left: 12px; z-index: 60;
+    background: var(--panel);
+    color: var(--ink);
+    padding: 10px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-size: 13px;
+  }
+  .skip:focus { top: 10px; }
 
-  /* ---------- masthead ---------- */
+  /* ---------- fixed top bar ---------- */
 
-  .masthead {
-    padding-block: 72px 40px;
+  .topbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: var(--topbar-h);
+    z-index: 40;
+    background: color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--rule);
   }
 
-  .stamp {
-    font-family: var(--f-mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
+  .topbar-inner {
+    height: 100%;
+    max-width: 1560px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px 18px;
-    margin-bottom: 26px;
+    align-items: center;
+    gap: 20px;
   }
-  .stamp b { font-weight: 500; color: var(--designer); }
 
-  h1 {
+  .brand {
+    flex: none;
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
     font-family: var(--f-display);
     font-weight: 800;
-    font-size: clamp(2.9rem, 8.5vw, 5.4rem);
-    line-height: 0.94;
-    letter-spacing: -0.035em;
-    margin: 0 0 4px;
-    text-wrap: balance;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    white-space: nowrap;
   }
-  h1 em {
-    font-style: normal;
-    color: var(--designer);
+  .brand:hover { color: var(--designer); }
+
+  .nav {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
   }
+  .nav::-webkit-scrollbar { display: none; }
 
-  .sub {
-    font-family: var(--f-display);
-    font-weight: 500;
-    font-size: clamp(1.05rem, 2.6vw, 1.5rem);
-    line-height: 1.34;
-    letter-spacing: -0.01em;
-    color: var(--ink-soft);
-    max-width: 34ch;
-    margin: 18px 0 0;
+  .nav-item {
+    flex: none;
+    appearance: none;
+    background: none;
+    border: 0;
+    border-radius: 3px;
+    padding: 6px 9px;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    transition: color .15s, background .15s;
   }
-
-  .lede {
-    margin: 30px 0 0;
-    max-width: var(--read);
-    font-size: 1.02rem;
-    color: var(--ink-soft);
+  .nav-item:hover { color: var(--ink); background: var(--ground-deep); }
+  .nav-num { font-size: 9.5px; opacity: .6; }
+  .nav-item[aria-current="true"] {
+    color: var(--panel);
+    background: var(--ink);
   }
-  .lede strong { font-weight: 600; color: var(--ink); }
+  .nav-item[aria-current="true"] .nav-num { opacity: .7; }
 
-  /* ---------- map ---------- */
+  .pager {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .counter {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .counter b { color: var(--ink); font-weight: 500; }
+  .counter .sep { margin-inline: 3px; opacity: .5; }
 
-  .map-block { padding-block: 44px 8px; }
-
-  .card {
+  .pgbtn {
+    appearance: none;
+    width: 30px; height: 30px;
+    display: grid;
+    place-items: center;
     background: var(--panel);
     border: 1px solid var(--rule);
-    border-radius: 6px;
-    box-shadow: 0 1px 2px var(--shadow), 0 8px 24px -14px var(--shadow);
-    padding: 36px 44px 40px;
+    border-radius: 3px;
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color .15s, color .15s;
+  }
+  .pgbtn:hover:not(:disabled) { border-color: var(--ink); }
+  .pgbtn:disabled { opacity: .3; cursor: default; }
+
+  .progress {
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px;
+    background: transparent;
+  }
+  .progress span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--designer);
+    transition: width .35s ease;
   }
 
-  .section-label {
+  /* ---------- deck ---------- */
+
+  .deck {
+    height: 100dvh;
+    padding-top: var(--topbar-h);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+  .deck::-webkit-scrollbar { display: none; }
+
+  .slide {
+    height: calc(100dvh - var(--topbar-h));
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: grid;
+    align-content: center;
+    max-width: 1560px;
+    margin-inline: auto;
+    padding: clamp(16px, 2.4vh, 34px) var(--gutter) clamp(44px, 6vh, 64px);
+    overflow: hidden;
+  }
+
+  /* ---------- cover ---------- */
+
+  .slide-cover { justify-items: start; }
+  .cover-inner { max-width: 62ch; }
+
+  .cover-kicker {
     font-family: var(--f-mono);
     font-size: 11px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ink-faint);
-    margin: 0 0 10px;
+    color: var(--designer);
+    margin: 0 0 22px;
   }
-
-  h2 {
+  .slide-cover h1 {
     font-family: var(--f-display);
-    font-weight: 700;
-    font-size: clamp(1.5rem, 3.6vw, 2.1rem);
-    letter-spacing: -0.025em;
-    line-height: 1.16;
-    margin: 0 0 14px;
-    text-wrap: balance;
-  }
-
-  .map-note {
-    max-width: var(--read);
-    color: var(--ink-soft);
-    font-size: 0.95rem;
-    margin: 0 0 30px;
-  }
-
-  figure { margin: 0; }
-
-  .figscroll { overflow-x: auto; }
-
-  figcaption {
-    font-family: var(--f-mono);
-    font-size: 11.5px;
-    line-height: 1.6;
-    color: var(--ink-faint);
-    margin-top: 12px;
-    max-width: 62ch;
-  }
-
-  svg { max-width: 100%; height: auto; display: block; }
-
-  /* ---------- case list ---------- */
-
-  .cases {
-    padding-block: 28px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 26px;
-  }
-
-  .case {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    gap: 38px 48px;
-    padding: 40px 44px;
-    align-items: start;
-    background: var(--panel);
-    border: 1px solid var(--rule);
-    border-radius: 6px;
-    box-shadow: 0 1px 2px var(--shadow), 0 8px 24px -14px var(--shadow);
-  }
-
-  /* Text reads on the left, drawing on the right. Source order is
-     figure-then-text, so both row and column must be pinned - naming
-     the column alone would push the text onto a second row. */
-  .case-text   { grid-area: 1 / 1; }
-  .case-figure { grid-area: 1 / 2; }
-
-  /* drawings sit on the page ground, not the panel ground,
-     so each figure reads as a plate set into its card */
-  .case-figure figure,
-  .map-block figure {
-    background: var(--ground);
-    border: 1px solid var(--rule);
-    border-radius: 3px;
-    padding: 18px 20px;
-  }
-  .map-block figcaption { padding-inline: 2px; }
-
-  h3 {
-    font-family: var(--f-display);
-    font-weight: 700;
-    font-size: clamp(1.32rem, 3vw, 1.72rem);
-    line-height: 1.16;
-    letter-spacing: -0.022em;
-    margin: 0 0 20px;
-    text-wrap: balance;
-  }
-
-  .case p { margin: 0 0 14px; font-size: 0.96rem; }
-  .case p:last-child { margin-bottom: 0; }
-  .case strong { font-weight: 600; }
-
-  a {
-    color: inherit;
-    text-decoration-color: var(--ink-faint);
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-  }
-  a:hover { text-decoration-color: var(--designer); }
-  a:focus-visible {
-    outline: 2px solid var(--designer);
-    outline-offset: 2px;
-    border-radius: 1px;
-  }
-
-  /* numbers strip */
-  .nums {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    margin: 0 0 20px;
-    border-top: 1px solid var(--rule-soft);
-    border-bottom: 1px solid var(--rule-soft);
-  }
-  .num {
-    flex: 1 1 auto;
-    min-width: 96px;
-    padding: 13px 16px 13px 0;
-  }
-  .num + .num {
-    padding-left: 16px;
-    border-left: 1px solid var(--rule-soft);
-  }
-  .num dt {
-    font-family: var(--f-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin: 0 0 3px;
-  }
-  .num dd {
+    font-weight: 800;
+    font-size: clamp(2.8rem, 9vw, 6rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
     margin: 0;
+  }
+  .slide-cover h1 em { font-style: normal; color: var(--designer); }
+
+  .cover-sub {
     font-family: var(--f-display);
-    font-weight: 700;
-    font-size: 1.44rem;
-    letter-spacing: -0.025em;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.1;
+    font-weight: 500;
+    font-size: clamp(1.05rem, 2.4vw, 1.6rem);
+    line-height: 1.34;
+    letter-spacing: -0.012em;
+    color: var(--ink-soft);
+    margin: 22px 0 0;
   }
-  .num dd.hi { color: var(--designer); }
-  .num dd.lo { color: var(--user); }
-
-  /* counter-evidence: a rule, not a labelled callout */
-  .twist {
-    border-left: 2px solid var(--designer);
-    padding-left: 16px;
-    margin-top: 18px;
+  .cover-lede {
+    max-width: 58ch;
+    margin: 26px 0 0;
+    font-size: 0.97rem;
+    color: var(--ink-soft);
   }
-  .twist p { color: var(--ink-soft); }
-
-  .src {
+  .cover-hint {
+    margin: 34px 0 0;
     font-family: var(--f-mono);
     font-size: 11px;
     color: var(--ink-faint);
-    margin-top: 18px;
-    padding-top: 13px;
-    border-top: 1px solid var(--rule-soft);
-    line-height: 1.5;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
   }
-  .src a {
-    color: var(--ink-soft);
-    text-decoration-color: var(--rule);
+  kbd {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    padding: 2px 6px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--panel);
   }
 
-  /* source kind: primary research vs secondary reporting vs reference */
-  .src-item {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
+  /* ---------- map & synthesis: no card chrome inside a slide ---------- */
+
+  .slide-map,
+  .slide-synth,
+  .slide-notes {
+    background: none;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding-block: clamp(16px, 2.4vh, 34px) clamp(44px, 6vh, 64px);
+    margin-top: 0;
   }
-  .kind {
-    flex: none;
-    min-width: 42px;
-    padding: 1px 5px;
-    border-radius: 2px;
-    font-size: 9.5px;
-    letter-spacing: 0.06em;
-    text-align: center;
-    border: 1px solid;
+
+  .slide-map figure,
+  .slide-case figure { margin: 0; }
+
+  .slide-map .figscroll {
+    display: grid;
+    justify-items: center;
   }
-  /* 1차: 원 연구·판결·공식 자료 */
-  .kind.p {
-    color: var(--user);
-    border-color: var(--user);
-    background: var(--user-bg);
+  .slide-map svg { max-height: 58vh; }
+
+  /* ---------- case slide: text left, figure right ---------- */
+
+  .slide-case {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    align-content: center;
+    align-items: center;
+    gap: 0 clamp(28px, 4vw, 64px);
   }
-  /* 2차: 언론 보도·해설 */
-  .kind.s {
-    color: var(--ink-faint);
-    border-color: var(--rule);
-    background: transparent;
+
+  .slide-case .case-text {
+    grid-area: auto;
+    max-height: calc(100dvh - var(--topbar-h) - 100px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 8px;
   }
-  /* 참고: 백과·정리글 */
-  .kind.r {
-    color: var(--ink-faint);
-    border-color: var(--rule-soft);
-    background: transparent;
-    opacity: 0.85;
+  .slide-case .case-figure { grid-area: auto; }
+
+  .slide-case .case-figure figure {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 5px;
+    padding: clamp(14px, 2vw, 26px);
   }
+  .slide-case svg { max-height: 56vh; }
 
   /* ---------- synthesis ---------- */
 
-  .synthesis {
-    margin-top: 26px;
-    border-top: 2px solid var(--designer);
-  }
+  .slide-synth .axis-table { margin-top: 22px; }
+  .slide-synth .closer { margin-top: 28px; }
+  .slide-synth .lede { margin-top: 26px !important; }
 
-  .axis-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 30px 0 0;
-    font-size: 0.92rem;
-  }
-  .axis-table th,
-  .axis-table td {
-    text-align: left;
-    padding: 14px 18px 14px 0;
-    border-bottom: 1px solid var(--rule-soft);
-    vertical-align: top;
-  }
-  .axis-table th {
-    font-family: var(--f-mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-weight: 500;
-    border-bottom-color: var(--rule);
-  }
-  .axis-table td:first-child {
-    font-family: var(--f-display);
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    white-space: nowrap;
-  }
-  .axis-table .vs { color: var(--ink-faint); font-family: var(--f-mono); font-size: 0.82em; }
+  /* ---------- notes ---------- */
 
-  .closer {
-    margin-top: 44px;
-    padding: 28px 30px;
-    background: var(--ground);
-    border: 1px solid var(--rule-soft);
-    border-left: 3px solid var(--designer);
-    border-radius: 3px;
-  }
-  .closer p {
-    margin: 0;
-    font-family: var(--f-display);
-    font-weight: 500;
-    font-size: clamp(1.1rem, 2.6vw, 1.42rem);
-    line-height: 1.44;
-    letter-spacing: -0.015em;
-    text-wrap: balance;
-    max-width: 44ch;
-  }
-  .closer p + p { margin-top: 14px; }
-  .closer em { font-style: normal; color: var(--designer); }
-
-  footer {
-    padding-block: 30px 72px;
-    margin-top: 0;
+  .notes-inner { max-width: 74ch; }
+  .notes-body { font-family: var(--f-mono); font-size: 12px; color: var(--ink-faint); line-height: 1.85; }
+  .notes-body p { margin: 0 0 14px; }
+  .notes-tail {
+    margin-top: 22px;
     font-family: var(--f-mono);
     font-size: 11px;
     color: var(--ink-faint);
-    line-height: 1.85;
   }
-  footer p { margin: 0 0 14px; max-width: 72ch; }
-  footer p:last-child { margin-bottom: 0; }
-  .legend {
+
+  /* ---------- dots ---------- */
+
+  .dots {
+    position: fixed;
+    left: 0; right: 0; bottom: 16px;
+    z-index: 30;
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px 22px;
-    line-height: 1.5;
+    justify-content: center;
+    gap: 7px;
+    pointer-events: none;
+  }
+  .dot {
+    pointer-events: auto;
+    appearance: none;
+    width: 7px; height: 7px;
+    padding: 0;
+    border: 1px solid var(--ink-faint);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, transform .2s;
+  }
+  .dot:hover { border-color: var(--ink); }
+  .dot[aria-current="true"] {
+    background: var(--designer);
+    border-color: var(--designer);
+    transform: scale(1.35);
+  }
+
+  /* ---------- focus ---------- */
+
+  .nav-item:focus-visible,
+  .pgbtn:focus-visible,
+  .dot:focus-visible,
+  .brand:focus-visible {
+    outline: 2px solid var(--designer);
+    outline-offset: 2px;
+  }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 1100px) {
+    .nav { display: none; }
   }
 
   @media (max-width: 820px) {
-    .case {
+    :root { --topbar-h: 52px; }
+
+    .slide-case {
       grid-template-columns: 1fr;
-      gap: 26px;
-      padding: 28px 24px 32px;
+      align-content: start;
+      gap: 18px;
+      overflow-y: auto;
     }
-    /* release the pinned cells so the two stack in one column */
-    .case-text,
-    .case-figure { grid-area: auto; }
-    .case-text   { order: 1; }
-    .case-figure { order: 2; }
-    .card { padding: 28px 24px 32px; }
-    .closer { padding: 22px 22px; }
-    .case-figure figure,
-    .map-block figure { padding: 14px 14px; }
-    .masthead { padding-block: 52px 32px; }
+    .slide-case .case-text {
+      order: 1;
+      max-height: none;
+      overflow: visible;
+      padding-right: 0;
+    }
+    .slide-case .case-figure { order: 2; }
+    .slide-case svg,
+    .slide-map svg { max-height: none; }
+    .slide { padding-bottom: 52px; }
+    .dots { gap: 5px; }
+    .dot { width: 6px; height: 6px; }
+  }
+
+  @media (max-height: 560px) {
+    .slide-case { align-content: start; overflow-y: auto; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    * { animation: none !important; transition: none !important; }
+    .deck { scroll-behavior: auto; }
+    .progress span { transition: none; }
   }
+
 </style>
 </head>
 <body>
-<div class="wrap">
+<a class="skip" href="#deck">본문으로 건너뛰기</a>
 
-  <header class="masthead">
-    <div class="stamp">
-      <span>사례 8건</span>
-      <span><b>반증 2건 포함</b></span>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button type="button" class="brand" data-goto="0">기울어진 바닥</button>
+
+    <nav class="nav" aria-label="화면 이동">
+      <button type="button" class="nav-item" data-goto="0"><span class="nav-num">00</span><span class="nav-label">표지</span></button>
+      <button type="button" class="nav-item" data-goto="1"><span class="nav-num">01</span><span class="nav-label">좌표계</span></button>
+      <button type="button" class="nav-item" data-goto="2"><span class="nav-num">02</span><span class="nav-label">장기기증</span></button>
+      <button type="button" class="nav-item" data-goto="3"><span class="nav-num">03</span><span class="nav-label">구글 기본값</span></button>
+      <button type="button" class="nav-item" data-goto="4"><span class="nav-num">04</span><span class="nav-label">스히폴 파리</span></button>
+      <button type="button" class="nav-item" data-goto="5"><span class="nav-num">05</span><span class="nav-label">캠든 벤치</span></button>
+      <button type="button" class="nav-item" data-goto="6"><span class="nav-num">06</span><span class="nav-label">욕망의 길</span></button>
+      <button type="button" class="nav-item" data-goto="7"><span class="nav-num">07</span><span class="nav-label">개방형 사무실</span></button>
+      <button type="button" class="nav-item" data-goto="8"><span class="nav-num">08</span><span class="nav-label">해지 규제</span></button>
+      <button type="button" class="nav-item" data-goto="9"><span class="nav-num">09</span><span class="nav-label">감시 데이터셋</span></button>
+      <button type="button" class="nav-item" data-goto="10"><span class="nav-num">10</span><span class="nav-label">종합</span></button>
+      <button type="button" class="nav-item" data-goto="11"><span class="nav-num">11</span><span class="nav-label">주석</span></button>
+    </nav>
+
+    <div class="pager">
+      <span class="counter"><b id="cur">01</b><span class="sep">/</span><span id="total">12</span></span>
+      <button type="button" class="pgbtn" id="prev" aria-label="이전 화면">‹</button>
+      <button type="button" class="pgbtn" id="next" aria-label="다음 화면">›</button>
     </div>
-    <h1>기울어진 <em>바닥</em></h1>
-    <p class="sub">환경은 명령하지 않는다. 한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.</p>
-    <p class="lede">
-      넓은 계단은 사람을 앉게 하고, 바닥의 선은 줄을 서게 한다. 여기 모은 8개 사례는 모두
-      <strong>아무에게도 아무것도 명령하지 않았다.</strong> 대신 선택지 사이의 마찰을 조정했다.
-      그중 둘은 설계자의 의도와 <strong>정반대로</strong> 작동했고, 하나는 사람들이 환경을 거꾸로 프로그래밍한 경우다.
-    </p>
-  </header>
+  </div>
+  <div class="progress"><span id="bar"></span></div>
+</header>
 
-  <!-- ============ MAP ============ -->
-  <section class="map-block card">
+<main id="deck" class="deck">
+<section class="slide slide-cover" id="s0" aria-label="표지">
+  <div class="cover-inner">
+    <p class="cover-kicker">사례 8건 · 반증 2건 포함</p>
+    <h1>기울어진 <em>바닥</em></h1>
+    <p class="cover-sub">환경은 명령하지 않는다.<br>한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.</p>
+    <p class="cover-lede">넓은 계단은 사람을 앉게 하고, 바닥의 선은 줄을 서게 한다.
+      여기 모은 8개 사례는 모두 아무에게도 아무것도 명령하지 않았다.
+      대신 선택지 사이의 마찰을 조정했다. 그중 둘은 설계자의 의도와 정반대로 작동했고,
+      하나는 사람들이 환경을 거꾸로 프로그래밍한 경우다.</p>
+    <p class="cover-hint"><kbd>→</kbd> 또는 스페이스로 다음 장</p>
+  </div>
+</section>
+
+<section class="slide slide-map" id="s1">
     <p class="section-label">좌표계</p>
     <h2>같은 "넛지"라도 기울기의 수혜자가 다르다</h2>
     <p class="map-note">
@@ -584,11 +537,7 @@
     </figure>
   </section>
 
-  <!-- ============ CASES ============ -->
-  <div class="cases">
-
-    <!-- 01 -->
-    <article class="case">
+<section class="slide slide-case" id="s2">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -683,10 +632,9 @@
             <a href="https://www.mpg.de/23726833/organ-donation-opt-out-defaults-do-not-increase-donation-rates">Max Planck Institute (2026)</a></span>
         </div>
       </div>
-    </article>
+    </section>
 
-    <!-- 02 -->
-    <article class="case">
+<section class="slide slide-case" id="s3">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -790,10 +738,9 @@
             <a href="https://www.cnbc.com/2025/09/02/google-antitrust-search-ruling.html">CNBC — 반독점 판결</a></span>
         </div>
       </div>
-    </article>
+    </section>
 
-    <!-- 03 -->
-    <article class="case">
+<section class="slide slide-case" id="s4">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -871,10 +818,9 @@
             <a href="https://thedecisionlab.com/intervention/how-a-picture-of-a-fly-reduced-washroom-cleaning-costs-by-8">The Decision Lab</a></span>
         </div>
       </div>
-    </article>
+    </section>
 
-    <!-- 04 -->
-    <article class="case">
+<section class="slide slide-case" id="s5">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -971,10 +917,9 @@
             <a href="https://en.wikipedia.org/wiki/Camden_bench">Camden bench, Wikipedia</a></span>
         </div>
       </div>
-    </article>
+    </section>
 
-    <!-- 05 -->
-    <article class="case">
+<section class="slide slide-case" id="s6">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1057,10 +1002,9 @@
             <a href="https://www.fullstory.com/blog/what-are-desire-paths-and-how-use-desire-paths-for-design-and-development/">FullStory</a></span>
         </div>
       </div>
-    </article>
+    </section>
 
-    <!-- 06 -->
-    <article class="case">
+<section class="slide slide-case" id="s7">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1174,10 +1118,9 @@
             <a href="https://www.weforum.org/stories/2018/11/open-plan-offices-make-workers-less-collaborative-harvard-study-finds/">World Economic Forum</a></span>
         </div>
       </div>
-    </article>
+    </section>
 
-    <!-- 07 -->
-    <article class="case">
+<section class="slide slide-case" id="s8">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1298,10 +1241,9 @@
             <a href="https://cookie-script.com/privacy-laws/dark-patterns-2026-the-ftc-new-click-to-cancel-rule">Cookie Script — CCPA 2026</a></span>
         </div>
       </div>
-    </article>
+    </section>
 
-    <!-- 08 -->
-    <article class="case">
+<section class="slide slide-case" id="s9">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1421,12 +1363,9 @@
             <a href="https://en.wikipedia.org/wiki/Dark_pattern">Dark pattern, Wikipedia</a></span>
         </div>
       </div>
-    </article>
+    </section>
 
-  </div>
-
-  <!-- ============ SYNTHESIS ============ -->
-  <section class="synthesis card">
+<section class="slide slide-synth" id="s10">
     <p class="section-label">종합</p>
     <h2>네 개의 축으로 보면</h2>
 
@@ -1482,7 +1421,10 @@
     </p>
   </section>
 
-  <footer>
+<section class="slide slide-notes" id="s11">
+  <div class="notes-inner">
+    <h2>자료에 대하여</h2>
+<div class="notes-body">
     <p class="legend">
       <span class="src-item"><span class="kind p">1차</span> 원논문 · 공식 자료 · 당사자 인터뷰</span>
       <span class="src-item"><span class="kind s">2차</span> 언론 보도 · 비평</span>
@@ -1492,8 +1434,115 @@
       산점도의 좌표는 사례 간 상대 비교를 위한 배치이며 측정값이 아니다.
       장기기증·스히폴 두 사례는 널리 인용되지만 반증 또는 미검증 상태이므로 그대로 표기했다.
     </p>
-  </footer>
+  </div>
+    <p class="notes-tail">각 수치의 출처는 사례 화면 하단에 링크로 달려 있다.</p>
+  </div>
+</section>
 
+</main>
+
+<div class="dots" role="tablist" aria-label="화면 표시기">
+      <button type="button" class="dot" data-goto="0" aria-label="1번째 화면: 표지"></button>
+      <button type="button" class="dot" data-goto="1" aria-label="2번째 화면: 좌표계"></button>
+      <button type="button" class="dot" data-goto="2" aria-label="3번째 화면: 장기기증"></button>
+      <button type="button" class="dot" data-goto="3" aria-label="4번째 화면: 구글 기본값"></button>
+      <button type="button" class="dot" data-goto="4" aria-label="5번째 화면: 스히폴 파리"></button>
+      <button type="button" class="dot" data-goto="5" aria-label="6번째 화면: 캠든 벤치"></button>
+      <button type="button" class="dot" data-goto="6" aria-label="7번째 화면: 욕망의 길"></button>
+      <button type="button" class="dot" data-goto="7" aria-label="8번째 화면: 개방형 사무실"></button>
+      <button type="button" class="dot" data-goto="8" aria-label="9번째 화면: 해지 규제"></button>
+      <button type="button" class="dot" data-goto="9" aria-label="10번째 화면: 감시 데이터셋"></button>
+      <button type="button" class="dot" data-goto="10" aria-label="11번째 화면: 종합"></button>
+      <button type="button" class="dot" data-goto="11" aria-label="12번째 화면: 주석"></button>
 </div>
+
+<script>
+(function () {
+  'use strict';
+
+  var deck   = document.getElementById('deck');
+  var slides = Array.prototype.slice.call(deck.querySelectorAll('.slide'));
+  var navs   = Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+  var dots   = Array.prototype.slice.call(document.querySelectorAll('.dot'));
+  var prev   = document.getElementById('prev');
+  var next   = document.getElementById('next');
+  var cur    = document.getElementById('cur');
+  var bar    = document.getElementById('bar');
+
+  var index = 0;
+
+  function pad(n) { return (n < 9 ? '0' : '') + (n + 1); }
+
+  function paint(i) {
+    index = i;
+    cur.textContent = pad(i);
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    prev.disabled = (i === 0);
+    next.disabled = (i === slides.length - 1);
+
+    navs.forEach(function (b, n) { b.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+    dots.forEach(function (d, n) { d.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+
+    var active = navs[i];
+    if (active && active.scrollIntoView) {
+      active.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    }
+  }
+
+  function go(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    paint(i);
+  }
+
+  // Track which slide is on screen. The deck is scroll-snapped, so the
+  // slide covering the viewport centre is the current one.
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting && e.intersectionRatio > 0.55) {
+        var i = slides.indexOf(e.target);
+        if (i !== -1 && i !== index) paint(i);
+      }
+    });
+  }, { root: deck, threshold: [0.55, 0.75] });
+
+  slides.forEach(function (s) { io.observe(s); });
+
+  prev.addEventListener('click', function () { go(index - 1); });
+  next.addEventListener('click', function () { go(index + 1); });
+
+  document.querySelectorAll('[data-goto]').forEach(function (el) {
+    el.addEventListener('click', function () { go(parseInt(el.dataset.goto, 10)); });
+  });
+
+  // Keyboard. Let the inner text column keep its own arrow scrolling when
+  // it actually overflows, so long cards stay readable.
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'PageDown':
+      case ' ':
+        e.preventDefault(); go(index + 1); break;
+      case 'ArrowLeft':
+      case 'PageUp':
+        e.preventDefault(); go(index - 1); break;
+      case 'ArrowDown':
+        e.preventDefault(); go(index + 1); break;
+      case 'ArrowUp':
+        e.preventDefault(); go(index - 1); break;
+      case 'Home':
+        e.preventDefault(); go(0); break;
+      case 'End':
+        e.preventDefault(); go(slides.length - 1); break;
+    }
+  });
+
+  paint(0);
+})();
+</script>
 </body>
 </html>
