@@ -54,16 +54,19 @@ open index.html           # macOS
 python -m http.server 8000
 ```
 
-## GitHub Pages 배포
+## GitHub Pages 배포 (현재 비활성)
 
-`main` 브랜치에 푸시하면 `.github/workflows/pages.yml`이 자동 배포한다.
-최초 1회만 저장소 설정이 필요하다.
+저장소가 프라이빗이라 Pages를 쓸 수 없어 자동 트리거를 꺼두었다.
+워크플로 파일(`.github/workflows/pages.yml`)은 그대로 남아 있다.
 
-1. GitHub에 저장소 생성 후 푸시
-2. **Settings → Pages → Build and deployment → Source** 를 **GitHub Actions** 로 변경
-3. 이후 `main` 푸시마다 자동 배포. 주소는 `https://<사용자>.github.io/nudge-cases/`
+공개로 전환해 배포하려면:
 
-`Source`를 `Deploy from a branch`로 두면 워크플로가 동작하지 않으니 반드시 위 2번을 먼저 한다.
+1. **Settings → General → Danger Zone** 에서 저장소를 public으로 변경
+2. **Settings → Pages → Build and deployment → Source** 를 **GitHub Actions** 로 설정
+3. `pages.yml`의 주석 처리된 `push:` 블록을 복원
+
+이후 `main` 푸시마다 `https://gekodesignkisung.github.io/nudge-cases/` 로 배포된다.
+(유료 플랜이면 프라이빗 상태로도 Pages를 켤 수 있다.)
 
 ## 기술
 
