@@ -21,10 +21,12 @@
     --ink-faint:   #858585;
     --rule:        #D2D2D2;
     --rule-soft:   #E4E4E4;
-    --designer:    #BF4E1C;
-    --designer-bg: #F6E6DC;
-    --user:        #1E6459;
-    --user-bg:     #E0EAE7;
+    /* One accent, cool. Deliberately not the warm terracotta-on-cream
+       default; the page is grey and the accent reads as ink, not brand. */
+    --designer:    #0F5E84;
+    --designer-bg: #DFDFDF;
+    --user:        #0F5E84;
+    --user-bg:     #EAEAEA;
     --shadow:      rgba(0, 0, 0, 0.10);
 
     --f-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
@@ -45,10 +47,10 @@
       --ink-faint:   #757575;
       --rule:        #383838;
       --rule-soft:   #2A2A2A;
-      --designer:    #F2874B;
-      --designer-bg: #3A2114;
-      --user:        #5EC2B4;
-      --user-bg:     #14302B;
+      --designer:    #5FB4DA;
+      --designer-bg: #333333;
+      --user:        #5FB4DA;
+      --user-bg:     #262626;
       --shadow:      rgba(0, 0, 0, 0.55);
     }
   }
@@ -62,10 +64,10 @@
     --ink-faint:   #757575;
     --rule:        #383838;
     --rule-soft:   #2A2A2A;
-    --designer:    #F2874B;
-    --designer-bg: #3A2114;
-    --user:        #5EC2B4;
-    --user-bg:     #14302B;
+    --designer:    #5FB4DA;
+    --designer-bg: #333333;
+    --user:        #5FB4DA;
+    --user-bg:     #262626;
     --shadow:      rgba(0, 0, 0, 0.55);
   }
 
@@ -634,7 +636,10 @@
 
   /* ---------- cover ---------- */
 
-  .slide-cover { justify-items: start; }
+  .slide-cover { justify-items: center; }
+  .cover-inner { text-align: center; }
+  .cover-sub,
+  .cover-lede { margin-inline: auto; }
   /* Korean line breaking: break between words, never inside one.
      keep-all stops the browser splitting 한글 mid-word, which is the
      default for CJK and reads as broken text in Korean prose. */
@@ -700,13 +705,13 @@
     line-height: 1.42;
     letter-spacing: -0.012em;
     color: var(--ink-soft);
-    margin: 22px 0 0;
-    max-width: 30ch;
+    margin: 22px auto 0;
+    max-width: 34ch;
     text-wrap: balance;
   }
   .cover-lede {
-    max-width: 46ch;
-    margin: 26px 0 0;
+    max-width: 52ch;
+    margin: 26px auto 0;
     font-size: 0.97rem;
     line-height: 1.8;
     color: var(--ink-soft);
@@ -758,14 +763,16 @@
     gap: 0 clamp(28px, 4vw, 64px);
   }
 
+  /* Source order is figure-then-text, so pin both cells: text left,
+     figure right. Naming only the column would drop text to a 2nd row. */
   .slide-case .case-text {
-    grid-area: auto;
+    grid-area: 1 / 1;
     max-height: calc(100dvh - var(--topbar-h) - 100px);
     overflow-y: auto;
     scrollbar-width: thin;
     padding-right: 8px;
   }
-  .slide-case .case-figure { grid-area: auto; }
+  .slide-case .case-figure { grid-area: 1 / 2; }
 
   .slide-case .case-figure figure {
     background: var(--panel);
@@ -847,6 +854,8 @@
       gap: 18px;
       overflow-y: auto;
     }
+    .slide-case .case-text,
+    .slide-case .case-figure { grid-area: auto; }
     .slide-case .case-text {
       order: 1;
       max-height: none;
@@ -909,12 +918,10 @@
     <p class="cover-kicker">사례 8건 · 반증 2건 포함</p>
     <h1>기울어진 <em>바닥</em></h1>
     <p class="cover-sub"><span class="ln">환경은 명령하지 않는다.</span> <span class="ln">한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.</span></p>
-    <p class="cover-lede">넓은 계단은 <span class="nb">사람을 앉게 하고</span>,
-      바닥의 선은 <span class="nb">줄을 서게 한다</span>.
-      여기 모은 8개 사례는 모두 <span class="nb">아무에게도 아무것도 명령하지 않았다</span>.
-      대신 <span class="nb">선택지 사이의 마찰을</span> 조정했다.
-      그중 둘은 <span class="nb">설계자의 의도와 정반대로</span> 작동했고,
-      하나는 사람들이 <span class="nb">환경을 거꾸로 프로그래밍한</span> 경우다.</p>
+    <p class="cover-lede">넓은 계단은 사람을 앉게 하고, 바닥의 선은 줄을 서게 한다.
+      여기 모은 8개 사례는 모두 아무에게도 아무것도 명령하지 않았다.
+      대신 선택지 사이의 마찰을 조정했다. 그중 둘은 설계자의 의도와 정반대로 작동했고,
+      하나는 사람들이 환경을 거꾸로 프로그래밍한 경우다.</p>
     <p class="cover-hint"><kbd>→</kbd> 또는 스페이스로 다음 장</p>
   </div>
 </section>
@@ -939,8 +946,9 @@
           </defs>
 
           <!-- quadrant washes -->
-          <rect x="470" y="60"  width="360" height="180" fill="var(--user-bg)"     opacity="0.55"/>
-          <rect x="470" y="240" width="360" height="180" fill="var(--designer-bg)" opacity="0.55"/>
+          <!-- upper half left open, lower half shaded: the two quadrants
+               read apart by value now that both washes are grey -->
+          <rect x="470" y="240" width="360" height="180" fill="var(--designer-bg)" opacity="0.9"/>
 
           <!-- grid -->
           <g stroke="currentColor" opacity="0.13" stroke-width="1">
@@ -960,43 +968,43 @@
           <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">
             <text x="838" y="262" text-anchor="end" opacity="0.75">의도대로 작동 →</text>
             <text x="112" y="262" opacity="0.75">← 빗나감</text>
-            <text x="482" y="60" opacity="0.75" fill="var(--user)">↑ 사용자에게 이로움</text>
-            <text x="482" y="424" opacity="0.75" fill="var(--designer)">↓ 설계자에게 이로움</text>
+            <text x="482" y="60" opacity="0.75">↑ 사용자에게 이로움 (○)</text>
+            <text x="482" y="424" opacity="0.75">↓ 설계자에게 이로움 (●)</text>
           </g>
 
           <!-- points -->
           <g font-family="IBM Plex Sans KR, sans-serif" font-size="12.5" fill="currentColor">
 
             <!-- Q1 user + worked -->
-            <circle cx="740" cy="120" r="6" fill="var(--user)"/>
+            <circle cx="740" cy="120" r="5.5" fill="var(--panel)" stroke="var(--user)" stroke-width="2"/>
             <text x="726" y="124" text-anchor="end">스히폴 파리</text>
 
-            <circle cx="596" cy="186" r="6" fill="var(--user)"/>
+            <circle cx="596" cy="186" r="5.5" fill="var(--panel)" stroke="var(--user)" stroke-width="2"/>
             <text x="582" y="190" text-anchor="end">Click-to-Cancel 규제</text>
 
             <!-- Q2 designer + worked -->
-            <circle cx="782" cy="306" r="6" fill="var(--designer)"/>
+            <circle cx="782" cy="306" r="5.5" fill="var(--designer)"/>
             <text x="768" y="310" text-anchor="end">구글 → 애플 기본값</text>
 
-            <circle cx="620" cy="374" r="6" fill="var(--designer)"/>
+            <circle cx="620" cy="374" r="5.5" fill="var(--designer)"/>
             <text x="606" y="378" text-anchor="end">캠든 벤치</text>
 
             <!-- Q3 missed, user-ish -->
-            <circle cx="214" cy="146" r="6" fill="var(--user)"/>
+            <circle cx="214" cy="146" r="5.5" fill="var(--panel)" stroke="var(--user)" stroke-width="2"/>
             <text x="230" y="150">욕망의 길</text>
             <text x="230" y="167" font-family="IBM Plex Mono, monospace"
                   font-size="10" opacity="0.6">사람 → 환경 (역방향)</text>
 
-            <circle cx="336" cy="200" r="6" fill="currentColor" opacity="0.55"/>
+            <circle cx="336" cy="200" r="5.5" fill="var(--panel)" stroke="currentColor" stroke-width="1.6" stroke-opacity="0.5"/>
             <text x="352" y="204">r/assholedesign</text>
 
             <!-- Q4 missed, backfired -->
-            <circle cx="248" cy="330" r="6" fill="var(--designer)"/>
+            <circle cx="248" cy="330" r="5.5" fill="var(--designer)"/>
             <text x="264" y="334">개방형 사무실</text>
             <text x="264" y="351" font-family="IBM Plex Mono, monospace"
                   font-size="10" opacity="0.6">대면 −70%</text>
 
-            <circle cx="358" cy="392" r="6" fill="var(--designer)"/>
+            <circle cx="358" cy="392" r="5.5" fill="var(--designer)"/>
             <text x="374" y="396">장기기증 opt-out</text>
             <text x="374" y="413" font-family="IBM Plex Mono, monospace"
                   font-size="10" opacity="0.6">등록↑ 실제 기증→</text>
