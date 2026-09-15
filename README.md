@@ -27,7 +27,7 @@
 - **출처를 1차/2차/참고로 구분했다.** 원논문·공식 자료·당사자 인터뷰는 `1차`,
   언론 보도와 비평은 `2차`, 해설과 백과는 `참고`로 태그를 달았다.
 
-## 실행
+## 보기
 
 빌드 과정이 없다. `index.html` 하나로 완결된다.
 
@@ -39,6 +39,17 @@ open index.html           # macOS
 # 또는 로컬 서버
 python -m http.server 8000
 ```
+
+## GitHub Pages 배포
+
+`main` 브랜치에 푸시하면 `.github/workflows/pages.yml`이 자동 배포한다.
+최초 1회만 저장소 설정이 필요하다.
+
+1. GitHub에 저장소 생성 후 푸시
+2. **Settings → Pages → Build and deployment → Source** 를 **GitHub Actions** 로 변경
+3. 이후 `main` 푸시마다 자동 배포. 주소는 `https://<사용자>.github.io/nudge-cases/`
+
+`Source`를 `Deploy from a branch`로 두면 워크플로가 동작하지 않으니 반드시 위 2번을 먼저 한다.
 
 ## 기술
 
