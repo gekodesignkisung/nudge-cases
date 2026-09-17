@@ -10,7 +10,7 @@
 <title>기울어진 바닥</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
 <style>
   :root {
     --ground:      #F0F0F0;
@@ -83,6 +83,31 @@
 
   * { box-sizing: border-box; }
 
+  /* Hold the optical-size axis at a large value. Left free, Bricolage
+     thins its strokes at small sizes and the text looks ragged. */
+  h1, h2, h3, .brand, .num dd, .closer p, .cover-sub,
+  .axis-table td:first-child {
+    font-variation-settings: "opsz" 40;
+  }
+
+  /* One text-rendering policy for the whole page, SVG labels included.
+     No -webkit-font-smoothing: antialiased anywhere - it disables subpixel
+     rendering and thins hangul strokes until they break up. */
+  *,
+  *::before,
+  *::after {
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
+    font-synthesis: none;
+  }
+
+  /* SVG labels: set through CSS classes, because var() does not resolve
+     inside SVG presentation attributes. */
+  svg text { font-family: var(--f-body); }
+  svg .t-body { font-family: var(--f-body); }
+  svg .t-mono { font-family: var(--f-mono); }
+
   body {
     margin: 0;
     padding-inline: 20px;
@@ -124,7 +149,7 @@
 
   h1 {
     font-family: var(--f-display);
-    font-weight: 400;
+    font-weight: 600;
     font-size: clamp(2.9rem, 8.5vw, 5.4rem);
     line-height: 0.94;
     letter-spacing: -0.02em;
@@ -311,7 +336,7 @@
   .num dd {
     margin: 0;
     font-family: var(--f-display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.44rem;
     letter-spacing: -0.015em;
     font-variant-numeric: tabular-nums;
@@ -774,9 +799,7 @@
   }
   .slide-cover h1 {
     font-family: var(--f-display);
-    /* Malgun Gothic has no Light, so 300 would resolve to 400 anyway.
-       Say 400 and let the accent word carry the contrast. */
-    font-weight: 400;
+    font-weight: 500;
     font-size: clamp(2.2rem, 11vw, 6rem);
     line-height: 1.0;
     /* light weights need less negative tracking than bold ones */
@@ -1078,7 +1101,7 @@
           </g>
 
           <!-- axis labels -->
-          <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">
+          <g class="t-mono" font-size="11.5" fill="currentColor">
             <text x="838" y="262" text-anchor="end" opacity="0.75">의도대로 작동 →</text>
             <text x="112" y="262" opacity="0.75">← 빗나감</text>
             <text x="482" y="60" opacity="0.75">↑ 사용자에게 이로움 (○)</text>
@@ -1086,7 +1109,7 @@
           </g>
 
           <!-- points -->
-          <g font-family="IBM Plex Sans KR, sans-serif" font-size="12.5" fill="currentColor">
+          <g class="t-body" font-size="12.5" fill="currentColor">
 
             <!-- Q1 user + worked -->
             <circle cx="740" cy="120" r="5.5" fill="var(--panel)" stroke="var(--user)" stroke-width="2"/>
@@ -1105,7 +1128,7 @@
             <!-- Q3 missed, user-ish -->
             <circle cx="214" cy="146" r="5.5" fill="var(--panel)" stroke="var(--user)" stroke-width="2"/>
             <text x="230" y="150">욕망의 길</text>
-            <text x="230" y="167" font-family="IBM Plex Mono, monospace"
+            <text x="230" y="167" class="t-mono"
                   font-size="10" opacity="0.6">사람 → 환경 (역방향)</text>
 
             <circle cx="336" cy="200" r="5.5" fill="var(--panel)" stroke="currentColor" stroke-width="1.6" stroke-opacity="0.5"/>
@@ -1114,17 +1137,17 @@
             <!-- Q4 missed, backfired -->
             <circle cx="248" cy="330" r="5.5" fill="var(--designer)"/>
             <text x="264" y="334">개방형 사무실</text>
-            <text x="264" y="351" font-family="IBM Plex Mono, monospace"
+            <text x="264" y="351" class="t-mono"
                   font-size="10" opacity="0.6">대면 −70%</text>
 
             <circle cx="358" cy="392" r="5.5" fill="var(--designer)"/>
             <text x="374" y="396">장기기증 opt-out</text>
-            <text x="374" y="413" font-family="IBM Plex Mono, monospace"
+            <text x="374" y="413" class="t-mono"
                   font-size="10" opacity="0.6">등록↑ 실제 기증→</text>
           </g>
 
           <!-- quadrant corner labels -->
-          <g font-family="IBM Plex Mono, monospace" font-size="10"
+          <g class="t-mono" font-size="10"
              letter-spacing="1.4" fill="currentColor" opacity="0.4">
             <text x="822" y="80"  text-anchor="end">좋은 넛지</text>
             <text x="822" y="412" text-anchor="end">다크 패턴</text>
@@ -1133,7 +1156,7 @@
           </g>
 
           <!-- footnote inside plot -->
-          <text x="110" y="470" font-family="IBM Plex Mono, monospace"
+          <text x="110" y="470" class="t-mono"
                 font-size="10.5" fill="currentColor" opacity="0.5">
             축 위의 위치는 사례 간 상대 비교용이며, 측정된 좌표가 아니다.
           </text>
@@ -1151,7 +1174,7 @@
         <figure>
           <svg viewBox="0 0 440 290" role="img"
                aria-label="오스트리아와 독일의 장기기증 동의서를 나란히 비교한 그림. 체크박스의 기본 상태만 다르며 등록률은 99.5퍼센트와 36퍼센트로 갈린다.">
-            <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">
+            <g class="t-mono" font-size="10.5" fill="currentColor">
               <text x="18" y="20" opacity="0.6">오스트리아 · OPT-OUT</text>
               <text x="242" y="20" opacity="0.6">독일 · OPT-IN</text>
             </g>
@@ -1167,11 +1190,11 @@
                   fill="var(--user)" stroke="var(--user)"/>
             <path d="M 37.5 93.5 L 41 97 L 46 89" stroke="var(--panel)"
                   stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            <text x="58" y="98" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="58" y="98" class="t-body"
                   font-size="11.5" fill="currentColor">기증 동의</text>
-            <text x="34" y="122" font-family="IBM Plex Mono, monospace"
+            <text x="34" y="122" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.55">거부하려면 체크 해제</text>
-            <text x="34" y="144" font-family="IBM Plex Mono, monospace"
+            <text x="34" y="144" class="t-mono"
                   font-size="9.5" fill="var(--user)">↑ 미리 켜져 있음</text>
 
             <!-- DE form -->
@@ -1183,27 +1206,27 @@
             </g>
             <rect x="258" y="86" width="15" height="15" rx="1.5"
                   fill="none" stroke="currentColor" stroke-opacity="0.5"/>
-            <text x="282" y="98" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="282" y="98" class="t-body"
                   font-size="11.5" fill="currentColor">기증 동의</text>
-            <text x="258" y="122" font-family="IBM Plex Mono, monospace"
+            <text x="258" y="122" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.55">동의하려면 체크</text>
-            <text x="258" y="144" font-family="IBM Plex Mono, monospace"
+            <text x="258" y="144" class="t-mono"
                   font-size="9.5" fill="currentColor" opacity="0.5">↑ 비어 있음</text>
 
             <!-- result bars -->
-            <text x="18" y="192" font-family="IBM Plex Mono, monospace"
+            <text x="18" y="192" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.6">등록률</text>
             <rect x="18" y="202" width="176" height="26" fill="var(--user-bg)"/>
             <rect x="18" y="202" width="175" height="26" fill="var(--user)"/>
-            <text x="28" y="220" font-family="IBM Plex Mono, monospace"
+            <text x="28" y="220" class="t-mono"
                   font-size="13" font-weight="500" fill="var(--panel)">99.5%</text>
 
             <rect x="242" y="202" width="176" height="26" fill="var(--user-bg)"/>
             <rect x="242" y="202" width="63" height="26" fill="var(--ink-faint)"/>
-            <text x="252" y="220" font-family="IBM Plex Mono, monospace"
+            <text x="252" y="220" class="t-mono"
                   font-size="13" font-weight="500" fill="var(--panel)">36%</text>
 
-            <text x="18" y="262" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="18" y="262" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.72">
               두 나라의 차이는 체크박스 하나의 초기 상태뿐이다.
             </text>
@@ -1263,26 +1286,26 @@
             <!-- google -->
             <rect x="16" y="26" width="118" height="52" rx="2"
                   fill="var(--panel)" stroke="var(--designer)" stroke-width="1.5"/>
-            <text x="75" y="49" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="75" y="49" text-anchor="middle" class="t-body"
                   font-size="13" font-weight="500" fill="currentColor">구글</text>
-            <text x="75" y="66" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+            <text x="75" y="66" text-anchor="middle" class="t-mono"
                   font-size="9.5" fill="currentColor" opacity="0.6">검색 점유율 90%</text>
 
             <!-- apple -->
             <rect x="306" y="26" width="118" height="52" rx="2"
                   fill="var(--panel)" stroke="currentColor" stroke-opacity="0.3"/>
-            <text x="365" y="49" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="365" y="49" text-anchor="middle" class="t-body"
                   font-size="13" font-weight="500" fill="currentColor">애플</text>
-            <text x="365" y="66" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+            <text x="365" y="66" text-anchor="middle" class="t-mono"
                   font-size="9.5" fill="currentColor" opacity="0.6">영업이익의 17.5%</text>
 
             <!-- payment arrow -->
             <line x1="138" y1="52" x2="300" y2="52" stroke="var(--designer)"
                   stroke-width="2" marker-end="url(#ah2o)"/>
             <rect x="166" y="34" width="106" height="17" rx="2" fill="var(--ground)"/>
-            <text x="219" y="47" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+            <text x="219" y="47" text-anchor="middle" class="t-mono"
                   font-size="11" font-weight="500" fill="var(--designer)">$20,000,000,000</text>
-            <text x="219" y="70" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+            <text x="219" y="70" text-anchor="middle" class="t-mono"
                   font-size="9.5" fill="currentColor" opacity="0.55">연간 · 2022년 기준</text>
 
             <!-- what is bought -->
@@ -1292,14 +1315,14 @@
             <!-- safari bar -->
             <rect x="196" y="116" width="228" height="62" rx="3"
                   fill="var(--panel)" stroke="currentColor" stroke-opacity="0.3"/>
-            <text x="210" y="134" font-family="IBM Plex Mono, monospace"
+            <text x="210" y="134" class="t-mono"
                   font-size="9.5" fill="currentColor" opacity="0.55">사파리 주소창</text>
             <rect x="210" y="142" width="200" height="24" rx="12"
                   fill="var(--ground-deep)" stroke="var(--designer)" stroke-width="1.5"/>
             <circle cx="224" cy="154" r="4" fill="var(--designer)"/>
-            <text x="236" y="158" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="236" y="158" class="t-body"
                   font-size="11.5" fill="currentColor">Google</text>
-            <text x="402" y="158" text-anchor="end" font-family="IBM Plex Mono, monospace"
+            <text x="402" y="158" text-anchor="end" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.4">▾</text>
 
             <!-- user escape path -->
@@ -1308,12 +1331,12 @@
                   stroke-dasharray="3 3"/>
             <rect x="196" y="196" width="228" height="36" rx="2"
                   fill="none" stroke="currentColor" stroke-opacity="0.22" stroke-dasharray="3 3"/>
-            <text x="210" y="213" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="210" y="213" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.6">설정 → Safari → 검색엔진</text>
-            <text x="210" y="226" font-family="IBM Plex Mono, monospace"
+            <text x="210" y="226" class="t-mono"
                   font-size="9.5" fill="currentColor" opacity="0.45">3탭이면 바꿀 수 있다</text>
 
-            <text x="16" y="264" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="264" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.72">
               법원은 이 지불이 경쟁사의 시장 진입을 사실상 차단했다고 판단했다.
             </text>
@@ -1376,24 +1399,24 @@
             <circle cx="97" cy="128" r="17" fill="none" stroke="var(--user)"
                     stroke-width="1.2" stroke-dasharray="3 3"/>
             <line x1="114" y1="128" x2="164" y2="112" stroke="var(--user)" stroke-width="1"/>
-            <text x="170" y="110" font-family="IBM Plex Mono, monospace"
+            <text x="170" y="110" class="t-mono"
                   font-size="10" fill="var(--user)">조준점</text>
-            <text x="170" y="124" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="170" y="124" class="t-body"
                   font-size="11" fill="currentColor" opacity="0.6">"조준하시오" 대신</text>
-            <text x="170" y="138" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="170" y="138" class="t-body"
                   font-size="11" fill="currentColor" opacity="0.6">조준할 대상을 줬다</text>
 
             <!-- results -->
-            <text x="53" y="216" font-family="IBM Plex Mono, monospace"
+            <text x="53" y="216" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.6">흘림 감소</text>
             <rect x="53" y="224" width="240" height="20" fill="var(--user-bg)"/>
             <rect x="53" y="224" width="192" height="20" fill="var(--user)"/>
-            <text x="63" y="239" font-family="IBM Plex Mono, monospace"
+            <text x="63" y="239" class="t-mono"
                   font-size="12" font-weight="500" fill="var(--panel)">80%</text>
-            <text x="302" y="239" font-family="IBM Plex Mono, monospace"
+            <text x="302" y="239" class="t-mono"
                   font-size="10.5" fill="var(--designer)">※ 미검증</text>
 
-            <text x="53" y="272" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="53" y="272" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.72">
               도입 당사자 본인이 "매우 경험적인 수치"라고 인정했다.
             </text>
@@ -1441,7 +1464,7 @@
         <figure>
           <svg viewBox="0 0 440 290" role="img"
                aria-label="일반 벤치와 캠든 벤치의 단면 비교. 일반 벤치는 눕기, 스케이트, 물건 보관이 가능하지만 캠든 벤치는 경사와 각진 면으로 그 행동들을 물리적으로 불가능하게 만든다.">
-            <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">
+            <g class="t-mono" font-size="10.5" fill="currentColor">
               <text x="18" y="20" opacity="0.6">일반 벤치</text>
               <text x="242" y="20" opacity="0.6">캠든 벤치 · 2012</text>
             </g>
@@ -1456,9 +1479,9 @@
               <circle cx="46" cy="62" r="7" fill="var(--user)"/>
               <rect x="54" y="57" width="120" height="10" rx="5" fill="var(--user)"/>
             </g>
-            <text x="18" y="142" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="18" y="142" class="t-body"
                   font-size="11" fill="var(--user)">누울 수 있다</text>
-            <text x="18" y="157" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="18" y="157" class="t-body"
                   font-size="11" fill="currentColor" opacity="0.5">스케이트 · 보관 · 낙서도</text>
 
             <!-- camden bench -->
@@ -1473,16 +1496,16 @@
             <line x1="258" y1="44" x2="404" y2="74" stroke="var(--designer)" stroke-width="1.6"/>
             <line x1="404" y1="44" x2="258" y2="74" stroke="var(--designer)" stroke-width="1.6"/>
 
-            <text x="242" y="142" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="242" y="142" class="t-body"
                   font-size="11" fill="var(--designer)">누울 수 없다</text>
-            <text x="242" y="157" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="242" y="157" class="t-body"
                   font-size="11" fill="currentColor" opacity="0.5">틈이 없어 은닉·투기도 불가</text>
 
             <!-- designed-out list -->
             <line x1="18" y1="182" x2="422" y2="182" stroke="currentColor" stroke-opacity="0.18"/>
-            <text x="18" y="204" font-family="IBM Plex Mono, monospace"
+            <text x="18" y="204" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.6">설계로 제거된 행동</text>
-            <g font-family="IBM Plex Sans KR, sans-serif" font-size="11.5" fill="currentColor">
+            <g class="t-body" font-size="11.5" fill="currentColor">
               <text x="18"  y="228">잠자기</text>
               <text x="86"  y="228">스케이트</text>
               <text x="168" y="228">낙서</text>
@@ -1497,7 +1520,7 @@
               <line x1="310" y1="224" x2="396" y2="224"/>
             </g>
 
-            <text x="18" y="266" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="18" y="266" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.72">
               금지 표지판은 한 장도 없다. 형태가 곧 규칙이다.
             </text>
@@ -1542,7 +1565,7 @@
         <figure>
           <svg viewBox="0 0 440 290" role="img"
                aria-label="캠퍼스 잔디밭을 가로지르는 학생들의 발자국이 실제 경로가 되고, 설계자가 그 선을 따라 보도를 포장한 과정을 세 단계로 보여주는 그림.">
-            <g font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity="0.6">
+            <g class="t-mono" font-size="10" fill="currentColor" opacity="0.6">
               <text x="16" y="18">1 · 설계된 길</text>
               <text x="160" y="18">2 · 실제 통행</text>
               <text x="304" y="18">3 · 포장</text>
@@ -1563,7 +1586,7 @@
                   stroke-width="2.6" stroke-dasharray="5 4" stroke-linecap="round"/>
             <circle cx="164" cy="32" r="4.5" fill="var(--user)"/>
             <circle cx="278" cy="146" r="4.5" fill="var(--user)"/>
-            <text x="196" y="72" font-family="IBM Plex Mono, monospace"
+            <text x="196" y="72" class="t-mono"
                   font-size="9.5" fill="var(--user)">발자국</text>
 
             <!-- stage 3 -->
@@ -1575,17 +1598,17 @@
 
             <!-- reversed arrow -->
             <line x1="16" y1="182" x2="424" y2="182" stroke="currentColor" stroke-opacity="0.18"/>
-            <text x="16" y="208" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="208" class="t-body"
                   font-size="12" fill="var(--user)" font-weight="500">사람 → 환경 (역방향)</text>
-            <text x="16" y="232" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="232" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.7">
               미시간 주립대 건축가는 1914년 겨울까지 기다렸다가
             </text>
-            <text x="16" y="250" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="250" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.7">
               열기구를 타고 올라가 눈밭의 발자국을 관찰한 뒤 포장했다.
             </text>
-            <text x="16" y="274" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="274" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.5">
               오하이오 주립대 Oval의 곡선 보도도 1920년대에 같은 방식으로 생겼다.
             </text>
@@ -1629,7 +1652,7 @@
         <figure>
           <svg viewBox="0 0 440 290" role="img"
                aria-label="칸막이 사무실에서 개방형 사무실로 전환한 뒤 대면 대화는 70퍼센트 줄고 이메일과 메신저는 각각 56퍼센트와 67퍼센트 늘어난 것을 보여주는 그림.">
-            <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">
+            <g class="t-mono" font-size="10.5" fill="currentColor">
               <text x="16" y="18" opacity="0.6">BEFORE · 칸막이</text>
               <text x="252" y="18" opacity="0.6">AFTER · 개방형</text>
             </g>
@@ -1652,7 +1675,7 @@
               <path d="M 66 50 Q 100 34 134 50"/>
               <path d="M 44 100 Q 79 84 114 100"/>
             </g>
-            <text x="16" y="152" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="152" class="t-body"
                   font-size="11" fill="var(--user)">대면 대화 활발</text>
 
             <!-- after -->
@@ -1677,12 +1700,12 @@
               <rect x="398" y="62" width="20" height="13" rx="3"/>
               <rect x="374" y="96" width="20" height="13" rx="3"/>
             </g>
-            <text x="252" y="152" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="252" y="152" class="t-body"
                   font-size="11" fill="var(--designer)">헤드폰 + 메신저로 후퇴</text>
 
             <!-- delta bars -->
             <line x1="16" y1="176" x2="424" y2="176" stroke="currentColor" stroke-opacity="0.18"/>
-            <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">
+            <g class="t-mono" font-size="10.5" fill="currentColor">
               <text x="16" y="200" opacity="0.7">대면</text>
               <text x="16" y="228" opacity="0.7">이메일</text>
               <text x="16" y="256" opacity="0.7">메신저</text>
@@ -1691,15 +1714,15 @@
             <line x1="176" y1="186" x2="176" y2="264" stroke="currentColor" stroke-opacity="0.3"/>
             <!-- face-to-face -70% -->
             <rect x="64" y="190" width="112" height="14" fill="var(--designer)"/>
-            <text x="58" y="201" text-anchor="end" font-family="IBM Plex Mono, monospace"
+            <text x="58" y="201" text-anchor="end" class="t-mono"
                   font-size="12" font-weight="500" fill="var(--designer)">−70%</text>
             <!-- email +56% -->
             <rect x="176" y="218" width="90" height="14" fill="var(--user)" opacity="0.75"/>
-            <text x="274" y="229" font-family="IBM Plex Mono, monospace"
+            <text x="274" y="229" class="t-mono"
                   font-size="12" font-weight="500" fill="var(--user)">+56%</text>
             <!-- IM +67% -->
             <rect x="176" y="246" width="107" height="14" fill="var(--user)" opacity="0.75"/>
-            <text x="291" y="257" font-family="IBM Plex Mono, monospace"
+            <text x="291" y="257" class="t-mono"
                   font-size="12" font-weight="500" fill="var(--user)">+67%</text>
           </svg>
         </figure>
@@ -1753,48 +1776,48 @@
             </defs>
 
             <!-- signup path -->
-            <text x="16" y="20" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="20" class="t-mono"
                   font-size="10.5" fill="currentColor" opacity="0.6">가입</text>
             <rect x="16" y="30" width="86" height="30" rx="2"
                   fill="var(--user)" />
-            <text x="59" y="50" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="59" y="50" text-anchor="middle" class="t-body"
                   font-size="12" fill="var(--panel)">시작하기</text>
             <line x1="106" y1="45" x2="150" y2="45" stroke="currentColor"
                   stroke-opacity="0.4" stroke-width="1.4" marker-end="url(#ah7)"/>
             <rect x="154" y="30" width="86" height="30" rx="2" fill="var(--user-bg)"
                   stroke="var(--user)" stroke-opacity="0.5"/>
-            <text x="197" y="50" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="197" y="50" text-anchor="middle" class="t-body"
                   font-size="12" fill="var(--user)">완료</text>
-            <text x="256" y="50" font-family="IBM Plex Mono, monospace"
+            <text x="256" y="50" class="t-mono"
                   font-size="11.5" fill="var(--user)">1 클릭 · 10초</text>
 
             <!-- cancel path -->
-            <text x="16" y="94" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="94" class="t-mono"
                   font-size="10.5" fill="currentColor" opacity="0.6">해지</text>
             <g>
               <rect x="16" y="104" width="62" height="26" rx="2" fill="var(--panel)"
                     stroke="var(--designer)" stroke-opacity="0.5"/>
-              <text x="47" y="121" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+              <text x="47" y="121" text-anchor="middle" class="t-body"
                     font-size="10.5" fill="currentColor">설정</text>
 
               <rect x="90" y="104" width="62" height="26" rx="2" fill="var(--panel)"
                     stroke="var(--designer)" stroke-opacity="0.5"/>
-              <text x="121" y="121" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+              <text x="121" y="121" text-anchor="middle" class="t-body"
                     font-size="10.5" fill="currentColor">계정</text>
 
               <rect x="164" y="104" width="62" height="26" rx="2" fill="var(--panel)"
                     stroke="var(--designer)" stroke-opacity="0.5"/>
-              <text x="195" y="121" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+              <text x="195" y="121" text-anchor="middle" class="t-body"
                     font-size="10.5" fill="currentColor">구독관리</text>
 
               <rect x="238" y="104" width="76" height="26" rx="2" fill="var(--designer-bg)"
                     stroke="var(--designer)"/>
-              <text x="276" y="121" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+              <text x="276" y="121" text-anchor="middle" class="t-body"
                     font-size="10.5" fill="var(--designer)">"정말요?"</text>
 
               <rect x="326" y="104" width="94" height="26" rx="2" fill="var(--designer-bg)"
                     stroke="var(--designer)"/>
-              <text x="373" y="121" text-anchor="middle" font-family="IBM Plex Sans KR, sans-serif"
+              <text x="373" y="121" text-anchor="middle" class="t-body"
                     font-size="10.5" fill="var(--designer)">전화 대기</text>
             </g>
             <g stroke="var(--designer)" stroke-opacity="0.55" stroke-width="1.2">
@@ -1803,26 +1826,26 @@
               <line x1="228" y1="117" x2="234" y2="117" marker-end="url(#ah7)"/>
               <line x1="316" y1="117" x2="322" y2="117" marker-end="url(#ah7)"/>
             </g>
-            <text x="16" y="150" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="150" class="t-mono"
                   font-size="11.5" fill="var(--designer)">5 단계 · 40분</text>
 
             <!-- the law -->
             <line x1="16" y1="176" x2="424" y2="176" stroke="currentColor" stroke-opacity="0.18"/>
-            <text x="16" y="200" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="200" class="t-mono"
                   font-size="10.5" fill="currentColor" opacity="0.6">2026 · FTC CLICK-TO-CANCEL</text>
 
             <rect x="16" y="212" width="404" height="42" rx="2"
                   fill="var(--user-bg)" stroke="var(--user)" stroke-opacity="0.5"/>
-            <text x="32" y="232" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="32" y="232" class="t-body"
                   font-size="12.5" font-weight="500" fill="var(--user)">
               해지는 가입만큼 쉬워야 한다
             </text>
-            <text x="32" y="248" font-family="IBM Plex Mono, monospace"
+            <text x="32" y="248" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.65">
               규제 대상은 거짓말이 아니라 두 경로의 클릭 수 차이다
             </text>
 
-            <text x="16" y="278" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="278" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.72">
               아무도 거짓말하지 않았다. 한쪽 길을 험하게 만들었을 뿐이다.
             </text>
@@ -1877,7 +1900,7 @@
             </defs>
 
             <!-- crowd of posts -->
-            <text x="16" y="20" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="20" class="t-mono"
                   font-size="10.5" fill="currentColor" opacity="0.6">당한 사람들</text>
             <g fill="var(--user)" opacity="0.7">
               <rect x="16"  y="32" width="26" height="9" rx="1.5"/>
@@ -1896,23 +1919,23 @@
               <rect x="58"  y="92" width="22" height="9" rx="1.5"/>
               <rect x="86"  y="92" width="34" height="9" rx="1.5"/>
             </g>
-            <text x="16" y="122" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="122" class="t-mono"
                   font-size="11.5" fill="var(--user)">r/assholedesign</text>
-            <text x="16" y="138" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="138" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.55">"이거 좀 봐라" 게시물</text>
 
             <!-- arrow -->
             <line x1="140" y1="72" x2="188" y2="72" stroke="currentColor"
                   stroke-opacity="0.45" stroke-width="1.5" marker-end="url(#ah8)"/>
-            <text x="164" y="62" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+            <text x="164" y="62" text-anchor="middle" class="t-mono"
                   font-size="9.5" fill="currentColor" opacity="0.55">수집</text>
 
             <!-- dataset -->
             <rect x="198" y="40" width="96" height="66" rx="2"
                   fill="var(--panel)" stroke="currentColor" stroke-opacity="0.3"/>
-            <text x="246" y="68" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+            <text x="246" y="68" text-anchor="middle" class="t-mono"
                   font-size="17" font-weight="500" fill="currentColor">1,002</text>
-            <text x="246" y="85" text-anchor="middle" font-family="IBM Plex Mono, monospace"
+            <text x="246" y="85" text-anchor="middle" class="t-mono"
                   font-size="9.5" fill="currentColor" opacity="0.6">분석된 게시물</text>
 
             <!-- arrow -->
@@ -1920,7 +1943,7 @@
                   stroke-opacity="0.45" stroke-width="1.5" marker-end="url(#ah8)"/>
 
             <!-- taxonomy -->
-            <text x="352" y="30" font-family="IBM Plex Mono, monospace"
+            <text x="352" y="30" class="t-mono"
                   font-size="10.5" fill="currentColor" opacity="0.6">분류 체계</text>
             <g stroke="var(--designer)" stroke-width="1.4" fill="none">
               <line x1="354" y1="46" x2="354" y2="102"/>
@@ -1929,7 +1952,7 @@
               <line x1="354" y1="86"  x2="368" y2="86"/>
               <line x1="354" y1="102" x2="368" y2="102"/>
             </g>
-            <g font-family="IBM Plex Sans KR, sans-serif" font-size="10" fill="currentColor" opacity="0.8">
+            <g class="t-body" font-size="10" fill="currentColor" opacity="0.8">
               <text x="374" y="56">가짜 긴급함</text>
               <text x="374" y="72">숨은 해지</text>
               <text x="374" y="90">선택 유도</text>
@@ -1938,19 +1961,19 @@
 
             <!-- reversal note -->
             <line x1="16" y1="170" x2="424" y2="170" stroke="currentColor" stroke-opacity="0.18"/>
-            <text x="16" y="196" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="196" class="t-body"
                   font-size="12.5" font-weight="500" fill="var(--user)">
               전문가가 정의한 게 아니라, 당한 사람들이 수집했다
             </text>
-            <text x="16" y="224" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="224" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.72">
               환경에 프로그래밍당한 사람들이 그 환경을 역으로 기록했고,
             </text>
-            <text x="16" y="242" font-family="IBM Plex Sans KR, sans-serif"
+            <text x="16" y="242" class="t-body"
                   font-size="11.5" fill="currentColor" opacity="0.72">
               그 기록이 규제의 근거 자료가 되었다.
             </text>
-            <text x="16" y="270" font-family="IBM Plex Mono, monospace"
+            <text x="16" y="270" class="t-mono"
                   font-size="10" fill="currentColor" opacity="0.5">
               "dark pattern"이라는 용어 자체는 2010년 Harry Brignull이 만들었다.
             </text>
