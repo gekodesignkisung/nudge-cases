@@ -13,79 +13,57 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root {
-    --ground:      #F0F0F0;
-    --ground-deep: #E2E2E2;
-    --panel:       #FFFFFF;
-    --ink:         #1A1A1A;
-    --ink-soft:    #565656;
-    --ink-faint:   #5A5A5A;
-    --rule:        #D2D2D2;
-    --rule-soft:   #E4E4E4;
-    /* One accent, cool. Deliberately not the warm terracotta-on-cream
-       default; the page is grey and the accent reads as ink, not brand. */
-    --designer:    #0F5E84;
-    --designer-bg: #DFDFDF;
-    --user:        #0F5E84;
-    --user-bg:     #EAEAEA;
-    --shadow:      rgba(0, 0, 0, 0.10);
+    color-scheme: dark;
 
-    /* Bricolage covers latin and numerals; hangul falls through to the
-       system face, so name it explicitly rather than leaving it to
-       a generic sans-serif. */
+    /* One committed world: ink-black ground, panels lifted a step, and a
+       category hue per kind of environment so ten cases do not read alike. */
+    --ground:      #0B0D10;
+    --ground-deep: #06080A;
+    --panel:       #14181D;
+    --panel-hi:    #1B2027;
+
+    --ink:         #F2F5F7;
+    --ink-soft:    #A8B3BD;
+    --ink-faint:   #6C7883;
+
+    --rule:        #262C34;
+    --rule-soft:   #1B2026;
+
+    /* category hues */
+    --c-default:   #4DD8E8;   /* 기본값 - 장기기증, 구글, 추적 동의 */
+    --c-space:     #FFB347;   /* 물리 공간 - 캠든, 모스키토, 공유 공간 */
+    --c-algo:      #A78BFA;   /* 알고리즘 - 추천 */
+    --c-rule:      #A3E635;   /* 조직 규칙 - 회의 없는 날 */
+    --c-object:    #FF8FA3;   /* 사물 - 스히폴, 개방형 사무실 */
+    --warn:        #FF6B5A;   /* 반증 */
+
+    /* the accent of the current slide, set per card */
+    --accent:      var(--c-default);
+
+    --designer:    var(--accent);
+    --designer-bg: #1B2027;
+    --user:        var(--accent);
+    --user-bg:     #10151A;
+    --shadow:      rgba(0, 0, 0, 0.6);
+
     --f-display: "Bricolage Grotesque", -apple-system,
                  "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
-    /* Webfont hangul (Noto Sans KR, IBM Plex Sans KR) is hinted for
-       rendering stacks that do subpixel AA; on Windows it comes out ragged
-       at body sizes. The OS faces are hinted for their own rasteriser. */
     --f-body:    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
                  "Malgun Gothic", "맑은 고딕", "Segoe UI", sans-serif;
-    /* Latin/figures only - IBM Plex Mono carries no hangul, so Korean set
-       in it falls through to a monospace fallback and breaks up. */
     --f-mono:    "IBM Plex Mono", ui-monospace, monospace;
-    /* Small UI labels that contain Korean: body face, tracked out a little
-       so they still read as labels rather than prose. */
     --f-label:   -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
                  "Malgun Gothic", "맑은 고딕", "Segoe UI", sans-serif;
 
     --wrap: 1120px;
-    /* Korean glyphs are full-width, so a latin 65-68ch measure reads far
-       too long. 44ch lands near the same physical line length. */
     --read: 44ch;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --ground:      #141414;
-      --ground-deep: #0C0C0C;
-      --panel:       #1F1F1F;
-      --ink:         #EDEDED;
-      --ink-soft:    #ADADAD;
-      --ink-faint:   #A6A6A6;
-      --rule:        #383838;
-      --rule-soft:   #2A2A2A;
-      --designer:    #5FB4DA;
-      --designer-bg: #333333;
-      --user:        #5FB4DA;
-      --user-bg:     #262626;
-      --shadow:      rgba(0, 0, 0, 0.55);
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --ground:      #141414;
-    --ground-deep: #0C0C0C;
-    --panel:       #1F1F1F;
-    --ink:         #EDEDED;
-    --ink-soft:    #ADADAD;
-    --ink-faint:   #A6A6A6;
-    --rule:        #383838;
-    --rule-soft:   #2A2A2A;
-    --designer:    #5FB4DA;
-    --designer-bg: #333333;
-    --user:        #5FB4DA;
-    --user-bg:     #262626;
-    --shadow:      rgba(0, 0, 0, 0.55);
-  }
+  /* per-category accent */
+  .slide[data-cat="default"] { --accent: var(--c-default); }
+  .slide[data-cat="space"]   { --accent: var(--c-space); }
+  .slide[data-cat="algo"]    { --accent: var(--c-algo); }
+  .slide[data-cat="rule"]    { --accent: var(--c-rule); }
+  .slide[data-cat="object"]  { --accent: var(--c-object); }
 
   * { box-sizing: border-box; }
 
@@ -1109,6 +1087,105 @@
     color: var(--ink-faint);
   }
 
+  /* ---------- redesign: hierarchy and surface ---------- */
+
+  body {
+    background:
+      radial-gradient(1200px 620px at 78% -10%, rgba(77,216,232,0.055), transparent 60%),
+      radial-gradient(900px 520px at 6% 108%, rgba(167,139,250,0.045), transparent 62%),
+      var(--ground);
+  }
+
+  .slide-case h3 {
+    font-size: clamp(1.7rem, 3.5vw, 2.55rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  /* a hairline in the card's own hue, so category reads before the words do */
+  .slide-case h3::before {
+    content: "";
+    display: block;
+    width: 38px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .nums {
+    border: 0;
+    gap: 0 28px;
+    margin-bottom: 26px;
+  }
+  .num { padding: 0; min-width: 0; }
+  .num + .num { border-left: 0; padding-left: 0; }
+  .num dt {
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+  }
+  .num dd {
+    font-family: var(--f-display);
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .num dd.hi, .num dd.lo { color: var(--accent); }
+
+  .slide-case .case-figure figure {
+    background: linear-gradient(180deg, var(--panel-hi), var(--panel));
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: clamp(18px, 2.2vw, 30px);
+    box-shadow: 0 30px 70px -50px #000;
+  }
+
+  .twist {
+    border-left-color: var(--warn);
+    background: linear-gradient(90deg, rgba(255,107,90,0.06), transparent 70%);
+    padding: 14px 0 14px 18px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .comment { color: var(--ink-soft); }
+
+  a { color: var(--ink-soft); }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+  .kind.p { color: var(--accent); border-color: var(--accent); background: transparent; }
+
+  /* topbar and controls on the dark ground */
+  .topbar {
+    background: color-mix(in srgb, var(--ground) 82%, transparent);
+    border-bottom-color: var(--rule);
+  }
+  .progress span { background: var(--accent); }
+  .pgbtn { background: var(--panel); border-color: var(--rule); }
+  .dot[aria-current="true"] { background: var(--accent); }
+  .menu { background: var(--panel-hi); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #0B0D10; }
+  .toggle button[aria-pressed="true"] { background: var(--accent); color: #0B0D10; }
+
+  /* cover */
+  .slide-cover h1 { font-weight: 600; letter-spacing: -0.045em; }
+  .slide-cover h1 em { color: var(--c-default); }
+  .cover-kicker { color: var(--c-default); }
+
+  /* motion: elements start hidden only when GSAP is present to reveal them */
+  .js-motion .reveal { opacity: 0; }
+  /* Nothing stays invisible: once a slide has been played the class is
+     removed, and a slide never observed still shows at full opacity. */
+  .js-motion .slide.shown .reveal { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js-motion .reveal { opacity: 1 !important; transform: none !important; }
+  }
+
   /* ---------- responsive ---------- */
 
   @media (max-width: 1100px) {
@@ -1152,6 +1229,7 @@
   }
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
 <script>if(location.hash)history.scrollRestoration='manual';</script>
@@ -1207,7 +1285,7 @@
   </div>
 </section>
 
-<section class="slide slide-case" id="s1">
+<section class="slide slide-case" id="s1" data-cat="default">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 250" role="img" id="organSvg"
@@ -1292,7 +1370,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s2">
+<section class="slide slide-case" id="s2" data-cat="default">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1405,7 +1483,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s3">
+<section class="slide slide-case" id="s3" data-cat="object">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1489,7 +1567,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s4">
+<section class="slide slide-case" id="s4" data-cat="space">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1593,7 +1671,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s5">
+<section class="slide slide-case" id="s5" data-cat="object">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1711,7 +1789,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s6">
+<section class="slide slide-case" id="s6" data-cat="algo">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1813,7 +1891,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s7">
+<section class="slide slide-case" id="s7" data-cat="rule">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1905,7 +1983,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s8">
+<section class="slide slide-case" id="s8" data-cat="space">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -2009,7 +2087,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s9">
+<section class="slide slide-case" id="s9" data-cat="default">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -2109,7 +2187,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s10">
+<section class="slide slide-case" id="s10" data-cat="space">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -2538,6 +2616,69 @@
     requestAnimationFrame(function () { deck.style.scrollBehavior = prevBehavior; });
   }
 })();
+
+  // ---------- motion: reveal each slide's parts in reading order ----------
+  (function () {
+    if (!window.gsap) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    document.documentElement.classList.add('js-motion');
+
+    // mark what animates, per slide
+    slides.forEach(function (sl) {
+      var parts = sl.querySelectorAll(
+        'h1, h2, h3, .nums .num, .case-text > p, .twist, .comment, ' +
+        '.src, figure, .fig-controls, .cover-sub, .cover-lede, .cover-hint, ' +
+        '.map-note, .axis-table, .closer, .lede, .notes-body, .notes-tail');
+      parts.forEach(function (el) { el.classList.add('reveal'); });
+    });
+
+    var played = new WeakSet();
+
+    function play(sl) {
+      if (played.has(sl)) return;
+      played.add(sl);
+      sl.classList.add('shown');
+
+      var text = sl.querySelectorAll(
+        '.reveal:not(figure):not(.fig-controls)');
+      var fig = sl.querySelector('figure.reveal');
+      var ctrl = sl.querySelector('.fig-controls.reveal');
+
+      var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+      if (fig) {
+        tl.fromTo(fig, { opacity: 0, y: 18, scale: 0.985 },
+                       { opacity: 1, y: 0, scale: 1, duration: 0.55 }, 0);
+        // draw the drawing: strokes first, then fills, then labels
+        var shapes = fig.querySelectorAll('svg rect, svg circle, svg line, svg path, svg polygon');
+        var labels = fig.querySelectorAll('svg text');
+        tl.fromTo(shapes, { opacity: 0 }, { opacity: 1, duration: 0.4, stagger: 0.012 }, 0.18);
+        tl.fromTo(labels, { opacity: 0, y: 4 },
+                          { opacity: 1, y: 0, duration: 0.35, stagger: 0.015 }, 0.34);
+      }
+
+      tl.fromTo(text, { opacity: 0, y: 14 },
+                      { opacity: 1, y: 0, duration: 0.5, stagger: 0.07 }, fig ? 0.1 : 0);
+
+      if (ctrl) {
+        tl.fromTo(ctrl, { opacity: 0, y: 10 },
+                        { opacity: 1, y: 0, duration: 0.4 }, '>-0.2');
+      }
+    }
+
+    // play when a slide reaches the viewport
+    var mo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && e.intersectionRatio > 0.4) play(e.target);
+      });
+    }, { root: deck, threshold: [0.4] });
+
+    slides.forEach(function (sl) { mo.observe(sl); });
+    play(slides[startAt] || slides[0]);
+
+  })();
 
   // ---------- 1. organ donation: flip the default, the drawing follows ----------
   (function () {
