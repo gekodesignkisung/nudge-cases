@@ -970,6 +970,121 @@
     outline-offset: 2px;
   }
 
+  /* ---------- interactions ---------- */
+
+  .try {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .try-label {
+    font-family: var(--f-label);
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+  }
+
+  .btn {
+    appearance: none;
+    font-family: var(--f-body);
+    font-size: 13.5px;
+    padding: 9px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    background: var(--ground);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .btn:hover { border-color: var(--ink-faint); }
+  .btn.primary {
+    background: var(--user);
+    border-color: var(--user);
+    color: var(--panel);
+  }
+  .btn:disabled { opacity: .45; cursor: default; }
+
+  /* default toggle */
+  .toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .toggle button {
+    appearance: none;
+    font-family: var(--f-body);
+    font-size: 13px;
+    padding: 9px 18px;
+    border: 0;
+    background: var(--ground);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .toggle button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--panel);
+  }
+  .toggle button + button { border-left: 1px solid var(--rule); }
+
+  .try-note {
+    margin: 12px 0 0;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    min-height: 2.6em;
+  }
+  .try-note strong { color: var(--ink); font-weight: 700; }
+
+  /* the tracking dialog, drawn as the real thing */
+  .att {
+    max-width: 330px;
+    margin-top: 12px;
+    padding: 18px 16px 8px;
+    border-radius: 12px;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    box-shadow: 0 12px 32px -18px var(--shadow);
+    text-align: center;
+  }
+  .att h4 {
+    margin: 0 0 8px;
+    font-family: var(--f-body);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .att p {
+    margin: 0 0 14px;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .att-actions { display: flex; flex-direction: column; }
+  .att-actions button {
+    appearance: none;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--rule-soft);
+    padding: 11px 0;
+    font-family: var(--f-body);
+    font-size: 13.5px;
+    color: var(--user);
+    cursor: pointer;
+  }
+  .att-actions button:hover { background: var(--ground); }
+
+  .beep {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .warn {
+    font-family: var(--f-label);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+  }
+
   /* ---------- responsive ---------- */
 
   @media (max-width: 1100px) {
@@ -1029,17 +1144,17 @@
       </button>
       <div class="menu" id="jumpMenu" role="listbox" aria-label="화면 이동" hidden>
         <button type="button" role="option" class="menu-item" data-goto="0"><span class="menu-num">00</span><span>표지</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="1"><span class="menu-num">01</span><span>좌표계</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="2"><span class="menu-num">02</span><span>장기기증</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="3"><span class="menu-num">03</span><span>구글 기본값</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="4"><span class="menu-num">04</span><span>스히폴 파리</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="5"><span class="menu-num">05</span><span>캠든 벤치</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="6"><span class="menu-num">06</span><span>개방형 사무실</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="7"><span class="menu-num">07</span><span>추천 알고리즘</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="8"><span class="menu-num">08</span><span>회의 없는 날</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="9"><span class="menu-num">09</span><span>모스키토</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="10"><span class="menu-num">10</span><span>추적 동의</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="11"><span class="menu-num">11</span><span>공유 공간</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="1"><span class="menu-num">01</span><span>장기기증</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="2"><span class="menu-num">02</span><span>구글 기본값</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="3"><span class="menu-num">03</span><span>스히폴 파리</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="4"><span class="menu-num">04</span><span>캠든 벤치</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="5"><span class="menu-num">05</span><span>개방형 사무실</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="6"><span class="menu-num">06</span><span>추천 알고리즘</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="7"><span class="menu-num">07</span><span>회의 없는 날</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="8"><span class="menu-num">08</span><span>모스키토</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="9"><span class="menu-num">09</span><span>추적 동의</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="10"><span class="menu-num">10</span><span>공유 공간</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="11"><span class="menu-num">11</span><span>좌표계</span></button>
         <button type="button" role="option" class="menu-item" data-goto="12"><span class="menu-num">12</span><span>종합</span></button>
         <button type="button" role="option" class="menu-item" data-goto="13"><span class="menu-num">13</span><span>주석</span></button>
       </div>
@@ -1068,106 +1183,7 @@
   </div>
 </section>
 
-<section class="slide slide-map" id="s1">
-    <p class="section-label">좌표계</p>
-    <h2>의도한 것인가, 그리고 누구에게 유리한가</h2>
-    <p class="map-note">주제가 묻는 두 질문을 축으로 삼았다. 가로는 <strong>의도적으로 설계된 것인지</strong>, 세로는 <strong>마찰이 누구에게 유리한지</strong>. 오른쪽 아래와 왼쪽 아래가 논쟁이 벌어지는 자리다.</p>
-
-    <figure>
-      <div class="figscroll">
-        <svg viewBox="0 0 900 520" role="img" width="900"
-             aria-label="가로축은 의도적으로 설계되었는지, 세로축은 마찰이 누구에게 유리한지를 나타내는 4사분면에 10개 사례를 배치한 산점도.">
-          <defs>
-            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5"
-                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
-            </marker>
-          </defs>
-
-          <rect x="470" y="240" width="360" height="180"
-                fill="var(--designer-bg)" opacity="0.9"/>
-
-          <g stroke="currentColor" opacity="0.13" stroke-width="1">
-            <line x1="110" y1="150" x2="830" y2="150"/>
-            <line x1="110" y1="330" x2="830" y2="330"/>
-            <line x1="290" y1="60"  x2="290" y2="420"/>
-            <line x1="650" y1="60"  x2="650" y2="420"/>
-          </g>
-
-          <g stroke="currentColor" stroke-width="1.5" opacity="0.8">
-            <line x1="110" y1="240" x2="838" y2="240" marker-end="url(#ah)"/>
-            <line x1="470" y1="430" x2="470" y2="52"  marker-end="url(#ah)"/>
-          </g>
-
-          <g class="t-body" font-size="13" fill="currentColor">
-            <text x="838" y="264" text-anchor="end" opacity="0.75">의도적으로 설계 →</text>
-            <text x="112" y="264" opacity="0.75">← 의도하지 않음</text>
-            <text x="482" y="62" opacity="0.75">↑ 마찰이 사용자에게 유리 (○)</text>
-            <text x="482" y="426" opacity="0.75">↓ 설계자에게 유리 (●)</text>
-          </g>
-
-          <g class="t-body" font-size="13" fill="currentColor">
-            <!-- deliberate, user benefits -->
-            <circle cx="742" cy="102" r="5.5" fill="var(--panel)"
-                    stroke="var(--user)" stroke-width="2"/>
-            <text x="728" y="106" text-anchor="end">스히폴 파리</text>
-
-            <circle cx="796" cy="150" r="5.5" fill="var(--panel)"
-                    stroke="var(--user)" stroke-width="2"/>
-            <text x="782" y="154" text-anchor="end">추적 동의 팝업</text>
-
-            <circle cx="640" cy="176" r="5.5" fill="var(--panel)"
-                    stroke="var(--user)" stroke-width="2"/>
-            <text x="626" y="180" text-anchor="end">회의 없는 날</text>
-
-            <circle cx="712" cy="206" r="5.5" fill="var(--panel)"
-                    stroke="var(--user)" stroke-width="2"/>
-            <text x="698" y="210" text-anchor="end">공유 공간</text>
-
-            <!-- deliberate, designer benefits -->
-            <circle cx="806" cy="288" r="5.5" fill="var(--designer)"/>
-            <text x="792" y="292" text-anchor="end">구글 → 애플 기본값</text>
-
-            <circle cx="744" cy="330" r="5.5" fill="var(--designer)"/>
-            <text x="730" y="334" text-anchor="end">추천 · 자동재생</text>
-
-            <circle cx="680" cy="372" r="5.5" fill="var(--designer)"/>
-            <text x="666" y="376" text-anchor="end">캠든 벤치</text>
-
-            <circle cx="796" cy="402" r="5.5" fill="var(--designer)"/>
-            <text x="782" y="406" text-anchor="end">모스키토</text>
-
-            <!-- not designed for this outcome -->
-            <circle cx="300" cy="158" r="5.5" fill="var(--panel)"
-                    stroke="currentColor" stroke-width="1.6" stroke-opacity="0.5"/>
-            <text x="316" y="162">장기기증 기본값</text>
-            <text x="316" y="180" class="t-body" font-size="11.5"
-                  opacity="0.6">서류 양식이 정책이 됐다</text>
-
-            <circle cx="248" cy="330" r="5.5" fill="var(--designer)"/>
-            <text x="264" y="334">개방형 사무실</text>
-            <text x="264" y="352" class="t-body" font-size="11.5"
-                  opacity="0.6">의도와 정반대 · 대면 −70%</text>
-          </g>
-
-          <g class="t-body" font-size="12" fill="currentColor" opacity="0.4">
-            <text x="822" y="82"  text-anchor="end">설계된 배려</text>
-            <text x="822" y="412" text-anchor="end">다크 패턴</text>
-            <text x="120" y="82">우연한 규범</text>
-            <text x="120" y="412">역효과</text>
-          </g>
-
-          <text x="110" y="470" class="t-body" font-size="12"
-                fill="currentColor" opacity="0.5">
-            축 위의 위치는 사례 간 상대 비교용이며, 측정된 좌표가 아니다.
-          </text>
-        </svg>
-      </div>
-      <figcaption>오른쪽 절반은 누군가 그렇게 되도록 설계한 것들이다. 위아래를 가르는 것은 효과의 크기가 아니라 <strong>마찰이 누구에게 유리한가</strong>다. 스히폴의 파리와 모스키토는 작동 원리가 같고 향하는 방향만 다르다.</figcaption>
-    </figure>
-  </section>
-
-<section class="slide slide-case" id="s2">
+<section class="slide slide-case" id="s1">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 250" role="img"
@@ -1237,6 +1253,15 @@
           </p>
         </div>
 
+        <div class="try">
+          <p class="try-label">기본값을 뒤집어 보세요</p>
+          <div class="toggle" id="organToggle" role="group" aria-label="기본값 선택">
+            <button type="button" data-mode="in" aria-pressed="true">신청해야 기증자</button>
+            <button type="button" data-mode="out" aria-pressed="false">신청해야 제외</button>
+          </div>
+          <p class="try-note" id="organNote">독일식. 아무것도 하지 않으면 기증자가 아니다 — <strong>12%</strong></p>
+        </div>
+
         <div class="src">
           <span class="src-item"><span class="kind p">연구</span>
             <a href="https://www.science.org/doi/10.1126/science.1091721" target="_blank" rel="noopener noreferrer">Johnson &amp; Goldstein, <em>Science</em> (2003)</a></span>
@@ -1246,7 +1271,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s3">
+<section class="slide slide-case" id="s2">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1359,7 +1384,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s4">
+<section class="slide slide-case" id="s3">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1443,7 +1468,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s5">
+<section class="slide slide-case" id="s4">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1547,7 +1572,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s6">
+<section class="slide slide-case" id="s5">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1665,7 +1690,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s7">
+<section class="slide slide-case" id="s6">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1767,7 +1792,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s8">
+<section class="slide slide-case" id="s7">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1859,7 +1884,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s9">
+<section class="slide slide-case" id="s8">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -1946,6 +1971,15 @@
           환경은 이렇게 <strong>대상을 골라 마찰을 건다.</strong>
         </p>
 
+        <div class="try">
+          <p class="try-label">들리는지 확인해 보세요</p>
+          <div class="beep">
+            <button type="button" class="btn primary" id="beepBtn">17.4kHz 2초 재생</button>
+            <span class="warn">볼륨을 낮추고 누르세요</span>
+          </div>
+          <p class="try-note" id="beepNote"></p>
+        </div>
+
         <div class="src">
           <span class="src-item"><span class="kind p">연구</span>
             <a href="https://cjc.utppublishing.com/doi/10.22230/cjc.2010v35n3a2261" target="_blank" rel="noopener noreferrer">Canadian Journal of Communication</a></span>
@@ -1955,7 +1989,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s10">
+<section class="slide slide-case" id="s9">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -2034,6 +2068,19 @@
           대부분은 거절했다. 기본값이 바뀐 게 아니라 <strong>기본값이 보이게 됐다.</strong>
         </p>
 
+        <div class="try">
+          <p class="try-label">직접 받아보세요</p>
+          <div class="att" id="attBox">
+            <h4>"뉴스앱"이(가) 다른 회사의 앱과 웹사이트에서 사용자의 활동을 추적하도록 허용하겠습니까?</h4>
+            <p>추적을 허용하면 맞춤형 광고를 제공하는 데 사용됩니다.</p>
+            <div class="att-actions">
+              <button type="button" data-att="no">앱에 추적 금지 요청</button>
+              <button type="button" data-att="yes">허용</button>
+            </div>
+          </div>
+          <p class="try-note" id="attNote"></p>
+        </div>
+
         <div class="src">
           <span class="src-item"><span class="kind p">자료</span>
             <a href="https://www.businessofapps.com/data/att-opt-in-rates/" target="_blank" rel="noopener noreferrer">Business of Apps — ATT 동의율</a></span>
@@ -2043,7 +2090,7 @@
       </div>
     </section>
 
-<section class="slide slide-case" id="s11">
+<section class="slide slide-case" id="s10">
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
@@ -2142,6 +2189,105 @@
       </div>
     </section>
 
+<section class="slide slide-map" id="s11">
+    <p class="section-label">좌표계</p>
+    <h2>열 개를 두 축에 놓으면</h2>
+    <p class="map-note">앞의 사례들을 주제가 묻는 두 질문으로 배치했다. 가로는 <strong>의도적으로 설계된 것인지</strong>, 세로는 <strong>마찰이 누구에게 유리한지</strong>.</p>
+
+    <figure>
+      <div class="figscroll">
+        <svg viewBox="0 0 900 520" role="img" width="900"
+             aria-label="가로축은 의도적으로 설계되었는지, 세로축은 마찰이 누구에게 유리한지를 나타내는 4사분면에 10개 사례를 배치한 산점도.">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <rect x="470" y="240" width="360" height="180"
+                fill="var(--designer-bg)" opacity="0.9"/>
+
+          <g stroke="currentColor" opacity="0.13" stroke-width="1">
+            <line x1="110" y1="150" x2="830" y2="150"/>
+            <line x1="110" y1="330" x2="830" y2="330"/>
+            <line x1="290" y1="60"  x2="290" y2="420"/>
+            <line x1="650" y1="60"  x2="650" y2="420"/>
+          </g>
+
+          <g stroke="currentColor" stroke-width="1.5" opacity="0.8">
+            <line x1="110" y1="240" x2="838" y2="240" marker-end="url(#ah)"/>
+            <line x1="470" y1="430" x2="470" y2="52"  marker-end="url(#ah)"/>
+          </g>
+
+          <g class="t-body" font-size="13" fill="currentColor">
+            <text x="838" y="264" text-anchor="end" opacity="0.75">의도적으로 설계 →</text>
+            <text x="112" y="264" opacity="0.75">← 의도하지 않음</text>
+            <text x="482" y="62" opacity="0.75">↑ 마찰이 사용자에게 유리 (○)</text>
+            <text x="482" y="426" opacity="0.75">↓ 설계자에게 유리 (●)</text>
+          </g>
+
+          <g class="t-body" font-size="13" fill="currentColor">
+            <!-- deliberate, user benefits -->
+            <circle cx="742" cy="102" r="5.5" fill="var(--panel)"
+                    stroke="var(--user)" stroke-width="2"/>
+            <text x="728" y="106" text-anchor="end">스히폴 파리</text>
+
+            <circle cx="796" cy="150" r="5.5" fill="var(--panel)"
+                    stroke="var(--user)" stroke-width="2"/>
+            <text x="782" y="154" text-anchor="end">추적 동의 팝업</text>
+
+            <circle cx="640" cy="176" r="5.5" fill="var(--panel)"
+                    stroke="var(--user)" stroke-width="2"/>
+            <text x="626" y="180" text-anchor="end">회의 없는 날</text>
+
+            <circle cx="712" cy="206" r="5.5" fill="var(--panel)"
+                    stroke="var(--user)" stroke-width="2"/>
+            <text x="698" y="210" text-anchor="end">공유 공간</text>
+
+            <!-- deliberate, designer benefits -->
+            <circle cx="806" cy="288" r="5.5" fill="var(--designer)"/>
+            <text x="792" y="292" text-anchor="end">구글 → 애플 기본값</text>
+
+            <circle cx="744" cy="330" r="5.5" fill="var(--designer)"/>
+            <text x="730" y="334" text-anchor="end">추천 · 자동재생</text>
+
+            <circle cx="680" cy="372" r="5.5" fill="var(--designer)"/>
+            <text x="666" y="376" text-anchor="end">캠든 벤치</text>
+
+            <circle cx="796" cy="402" r="5.5" fill="var(--designer)"/>
+            <text x="782" y="406" text-anchor="end">모스키토</text>
+
+            <!-- not designed for this outcome -->
+            <circle cx="300" cy="158" r="5.5" fill="var(--panel)"
+                    stroke="currentColor" stroke-width="1.6" stroke-opacity="0.5"/>
+            <text x="316" y="162">장기기증 기본값</text>
+            <text x="316" y="180" class="t-body" font-size="11.5"
+                  opacity="0.6">서류 양식이 정책이 됐다</text>
+
+            <circle cx="248" cy="330" r="5.5" fill="var(--designer)"/>
+            <text x="264" y="334">개방형 사무실</text>
+            <text x="264" y="352" class="t-body" font-size="11.5"
+                  opacity="0.6">의도와 정반대 · 대면 −70%</text>
+          </g>
+
+          <g class="t-body" font-size="12" fill="currentColor" opacity="0.4">
+            <text x="822" y="82"  text-anchor="end">설계된 배려</text>
+            <text x="822" y="412" text-anchor="end">다크 패턴</text>
+            <text x="120" y="82">우연한 규범</text>
+            <text x="120" y="412">역효과</text>
+          </g>
+
+          <text x="110" y="470" class="t-body" font-size="12"
+                fill="currentColor" opacity="0.5">
+            축 위의 위치는 사례 간 상대 비교용이며, 측정된 좌표가 아니다.
+          </text>
+        </svg>
+      </div>
+      <figcaption>오른쪽 절반은 누군가 그렇게 되도록 설계한 것들이다. 위아래를 가르는 것은 효과의 크기가 아니라 <strong>마찰이 누구에게 유리한가</strong>다. 스히폴의 파리와 모스키토는 작동 원리가 같고 향하는 방향만 다르다.</figcaption>
+    </figure>
+  </section>
+
 <section class="slide slide-synth" id="s12">
     <p class="section-label">종합</p>
     <h2>그래서, 프로그램인가</h2>
@@ -2225,17 +2371,17 @@
 
 <div class="dots" role="tablist" aria-label="화면 표시기">
       <button type="button" class="dot" data-goto="0" aria-label="1번째 화면: 표지"></button>
-      <button type="button" class="dot" data-goto="1" aria-label="2번째 화면: 좌표계"></button>
-      <button type="button" class="dot" data-goto="2" aria-label="3번째 화면: 장기기증"></button>
-      <button type="button" class="dot" data-goto="3" aria-label="4번째 화면: 구글 기본값"></button>
-      <button type="button" class="dot" data-goto="4" aria-label="5번째 화면: 스히폴 파리"></button>
-      <button type="button" class="dot" data-goto="5" aria-label="6번째 화면: 캠든 벤치"></button>
-      <button type="button" class="dot" data-goto="6" aria-label="7번째 화면: 개방형 사무실"></button>
-      <button type="button" class="dot" data-goto="7" aria-label="8번째 화면: 추천 알고리즘"></button>
-      <button type="button" class="dot" data-goto="8" aria-label="9번째 화면: 회의 없는 날"></button>
-      <button type="button" class="dot" data-goto="9" aria-label="10번째 화면: 모스키토"></button>
-      <button type="button" class="dot" data-goto="10" aria-label="11번째 화면: 추적 동의"></button>
-      <button type="button" class="dot" data-goto="11" aria-label="12번째 화면: 공유 공간"></button>
+      <button type="button" class="dot" data-goto="1" aria-label="2번째 화면: 장기기증"></button>
+      <button type="button" class="dot" data-goto="2" aria-label="3번째 화면: 구글 기본값"></button>
+      <button type="button" class="dot" data-goto="3" aria-label="4번째 화면: 스히폴 파리"></button>
+      <button type="button" class="dot" data-goto="4" aria-label="5번째 화면: 캠든 벤치"></button>
+      <button type="button" class="dot" data-goto="5" aria-label="6번째 화면: 개방형 사무실"></button>
+      <button type="button" class="dot" data-goto="6" aria-label="7번째 화면: 추천 알고리즘"></button>
+      <button type="button" class="dot" data-goto="7" aria-label="8번째 화면: 회의 없는 날"></button>
+      <button type="button" class="dot" data-goto="8" aria-label="9번째 화면: 모스키토"></button>
+      <button type="button" class="dot" data-goto="9" aria-label="10번째 화면: 추적 동의"></button>
+      <button type="button" class="dot" data-goto="10" aria-label="11번째 화면: 공유 공간"></button>
+      <button type="button" class="dot" data-goto="11" aria-label="12번째 화면: 좌표계"></button>
       <button type="button" class="dot" data-goto="12" aria-label="13번째 화면: 종합"></button>
       <button type="button" class="dot" data-goto="13" aria-label="14번째 화면: 주석"></button>
 </div>
@@ -2373,6 +2519,83 @@
     requestAnimationFrame(function () { deck.style.scrollBehavior = prevBehavior; });
   }
 })();
+
+  // ---------- 1. organ donation: flip the default ----------
+  (function () {
+    var wrap = document.getElementById('organToggle');
+    var note = document.getElementById('organNote');
+    if (!wrap || !note) return;
+
+    var COPY = {
+      'in':  '독일식. 아무것도 하지 않으면 기증자가 아니다 — <strong>12%</strong>',
+      'out': '오스트리아식. 아무것도 하지 않으면 기증자가 된다 — <strong>99.98%</strong>'
+    };
+
+    wrap.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-mode]');
+      if (!b) return;
+      var mode = b.dataset.mode;
+      wrap.querySelectorAll('button').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+      note.innerHTML = COPY[mode];
+    });
+  })();
+
+  // ---------- 2. tracking: the prompt, then the statistic ----------
+  (function () {
+    var box = document.getElementById('attBox');
+    var note = document.getElementById('attNote');
+    if (!box || !note) return;
+
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-att]');
+      if (!b) return;
+      var allowed = b.dataset.att === 'yes';
+      box.hidden = true;
+      note.innerHTML = allowed
+        ? '허용을 누르셨습니다. 실제로는 <strong>16~25%</strong>만 이 선택을 했습니다. 그전까지는 묻지 않았고, 사실상 100%가 허용 상태였습니다.'
+        : '거절하셨습니다. <strong>75~84%</strong>가 같은 선택을 했습니다. 그전까지는 묻지 않았고, 사실상 100%가 허용 상태였습니다.';
+    });
+  })();
+
+  // ---------- 3. mosquito: 17.4 kHz, on demand only ----------
+  (function () {
+    var btn = document.getElementById('beepBtn');
+    var note = document.getElementById('beepNote');
+    if (!btn || !note) return;
+
+    btn.addEventListener('click', function () {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) { note.textContent = '이 브라우저에서는 재생할 수 없습니다.'; return; }
+
+      var ctx = new Ctx();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = 17400;
+
+      // fade in and out so the tone does not click
+      var now = ctx.currentTime;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.06, now + 0.15);
+      gain.gain.setValueAtTime(0.06, now + 1.85);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 2);
+
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 2);
+
+      btn.disabled = true;
+      note.textContent = '재생 중…';
+      osc.onended = function () {
+        ctx.close();
+        btn.disabled = false;
+        note.innerHTML = '들렸다면 이 소리가 당신을 향할 수 있다는 뜻입니다. ' +
+          '아무 소리도 나지 않았다면, 같은 자리에 서 있어도 당신에게는 이 환경이 존재하지 않습니다.';
+      };
+    });
+  })();
 </script>
 </body>
 </html>
