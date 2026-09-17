@@ -10,7 +10,7 @@
 <title>기울어진 바닥</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root {
     --ground:      #F0F0F0;
@@ -18,7 +18,7 @@
     --panel:       #FFFFFF;
     --ink:         #1A1A1A;
     --ink-soft:    #565656;
-    --ink-faint:   #858585;
+    --ink-faint:   #696969;
     --rule:        #D2D2D2;
     --rule-soft:   #E4E4E4;
     /* One accent, cool. Deliberately not the warm terracotta-on-cream
@@ -29,8 +29,16 @@
     --user-bg:     #EAEAEA;
     --shadow:      rgba(0, 0, 0, 0.10);
 
-    --f-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
-    --f-body:    "IBM Plex Sans KR", -apple-system, "Malgun Gothic", sans-serif;
+    /* Bricolage covers latin and numerals; hangul falls through to the
+       system face, so name it explicitly rather than leaving it to
+       a generic sans-serif. */
+    --f-display: "Bricolage Grotesque", -apple-system, "Apple SD Gothic Neo",
+                 "Malgun Gothic", "Segoe UI", sans-serif;
+    /* System hangul first. Webfont hangul (IBM Plex Sans KR included)
+       ships weak hinting and breaks up at body sizes on Windows;
+       Malgun Gothic / Apple SD Gothic Neo are hinted for the screen. */
+    --f-body:    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                 "Malgun Gothic", "Segoe UI", "Noto Sans KR", sans-serif;
     --f-mono:    "IBM Plex Mono", ui-monospace, monospace;
 
     --wrap: 1120px;
@@ -46,7 +54,7 @@
       --panel:       #1F1F1F;
       --ink:         #EDEDED;
       --ink-soft:    #ADADAD;
-      --ink-faint:   #757575;
+      --ink-faint:   #949494;
       --rule:        #383838;
       --rule-soft:   #2A2A2A;
       --designer:    #5FB4DA;
@@ -63,7 +71,7 @@
     --panel:       #1F1F1F;
     --ink:         #EDEDED;
     --ink-soft:    #ADADAD;
-    --ink-faint:   #757575;
+    --ink-faint:   #949494;
     --rule:        #383838;
     --rule-soft:   #2A2A2A;
     --designer:    #5FB4DA;
@@ -81,10 +89,15 @@
     background-color: var(--ground);
     color: var(--ink);
     font-family: var(--f-body);
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 1.72;
-    -webkit-font-smoothing: antialiased;
+    /* 400, not 300: Korean at Light weight loses stroke definition on
+       Windows, where the rasteriser thins hangul further than latin. */
+    font-weight: 400;
+    font-size: 16.5px;
+    line-height: 1.78;
+    /* No -webkit-font-smoothing: antialiased here - it thins glyphs a
+       second time and is what broke the text. Let the OS rasterise. */
+    text-rendering: optimizeLegibility;
+    font-synthesis: none;   /* never fake a weight we did not load */
   }
 
   .wrap { max-width: var(--wrap); margin-inline: auto; }
@@ -138,6 +151,7 @@
     margin: 30px 0 0;
     max-width: var(--read);
     font-size: 1.02rem;
+    line-height: 1.9;
     color: var(--ink-soft);
   }
   .lede strong { font-weight: 500; color: var(--ink); }
@@ -176,7 +190,8 @@
   .map-note {
     max-width: var(--read);
     color: var(--ink-soft);
-    font-size: 0.95rem;
+    font-size: 0.96rem;
+    line-height: 1.9;
     margin: 0 0 30px;
   }
 
@@ -185,12 +200,12 @@
   .figscroll { overflow-x: auto; }
 
   figcaption {
-    font-family: var(--f-mono);
-    font-size: 11.5px;
-    line-height: 1.6;
-    color: var(--ink-faint);
-    margin-top: 12px;
-    max-width: 62ch;
+    font-family: var(--f-body);
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin-top: 14px;
+    max-width: none;   /* runs the width of the drawing it describes */
   }
 
   svg { max-width: 100%; height: auto; display: block; }
@@ -237,13 +252,17 @@
     font-family: var(--f-display);
     font-weight: 500;
     font-size: clamp(1.32rem, 3vw, 1.72rem);
-    line-height: 1.16;
+    line-height: 1.24;
     letter-spacing: -0.012em;
     margin: 0 0 20px;
     text-wrap: balance;
   }
+  /* Pull the first line's half-leading off the top so the heading sits
+     level with the figure frame beside it instead of a few px lower. */
+  .slide-case h3 { margin-top: -0.14em; }
 
-  .case p { margin: 0 0 14px; font-size: 0.96rem; }
+  /* Korean needs more leading than latin at the same size. */
+  .case p { margin: 0 0 18px; font-size: 0.97rem; line-height: 1.92; }
   .case p:last-child { margin-bottom: 0; }
   .case strong { font-weight: 500; color: var(--ink); }
 
@@ -304,7 +323,7 @@
     padding-left: 16px;
     margin-top: 18px;
   }
-  .twist p { color: var(--ink-soft); }
+  .twist p { color: var(--ink-soft); line-height: 1.92; }
 
   .src {
     font-family: var(--f-mono);
@@ -374,6 +393,7 @@
   }
   .axis-table th,
   .axis-table td {
+    line-height: 1.75;
     text-align: left;
     padding: 14px 18px 14px 0;
     border-bottom: 1px solid var(--rule-soft);
@@ -409,7 +429,7 @@
     font-family: var(--f-display);
     font-weight: 500;
     font-size: clamp(1.1rem, 2.6vw, 1.42rem);
-    line-height: 1.44;
+    line-height: 1.6;
     letter-spacing: -0.015em;
     text-wrap: balance;
     max-width: 44ch;
@@ -685,12 +705,11 @@
   /* ---------- cover ---------- */
 
   .slide-cover {
-    justify-items: center;
-    align-content: center;   /* the cover is the one centred screen */
+    /* stretch, not center: the block spans the slide and centres its own
+       text, so a wide one-line subtitle cannot pull the column off-axis */
+    justify-items: stretch;
+    align-content: center;
   }
-  .cover-inner { text-align: center; }
-  .cover-sub,
-  .cover-lede { margin-inline: auto; }
   /* Korean line breaking: break between words, never inside one.
      keep-all stops the browser splitting 한글 mid-word, which is the
      default for CJK and reads as broken text in Korean prose. */
@@ -728,7 +747,18 @@
     .nb { white-space: normal; }
   }
 
-  .cover-inner { max-width: 62ch; }
+  .cover-inner {
+    /* No ch cap here: the one-line subtitle is wider than 62ch and would
+       overflow, which is what threw the centring off. Children carry
+       their own measures instead. */
+    width: 100%;
+    text-align: center;
+  }
+  .cover-kicker,
+  .cover-sub,
+  .cover-lede,
+  .cover-hint,
+  .slide-cover h1 { margin-inline: auto; }
 
   .cover-kicker {
     font-family: var(--f-mono);
@@ -740,7 +770,9 @@
   }
   .slide-cover h1 {
     font-family: var(--f-display);
-    font-weight: 300;
+    /* Malgun Gothic has no Light, so 300 would resolve to 400 anyway.
+       Say 400 and let the accent word carry the contrast. */
+    font-weight: 400;
     font-size: clamp(2.2rem, 11vw, 6rem);
     line-height: 1.0;
     /* light weights need less negative tracking than bold ones */
@@ -754,17 +786,18 @@
   .cover-sub {
     font-family: var(--f-display);
     font-weight: 500;
-    font-size: clamp(1.05rem, 2.4vw, 1.6rem);
-    line-height: 1.42;
+    /* sized to fit the full sentence on one line at any width */
+    font-size: clamp(0.82rem, 1.92vw, 1.32rem);
+    line-height: 1.5;
     letter-spacing: -0.012em;
     color: var(--ink-soft);
-    margin: 22px auto 0;
-    max-width: 34ch;
-    text-wrap: balance;
+    margin: 20px auto 0;
+    max-width: none;
+    white-space: nowrap;
   }
   .cover-lede {
-    max-width: 52ch;
-    margin: 26px auto 0;
+    max-width: 40ch;   /* two lines at the sizes below */
+    margin: 24px auto 0;
     font-size: 0.97rem;
     line-height: 1.8;
     color: var(--ink-soft);
@@ -991,11 +1024,9 @@
   <div class="cover-inner">
     <p class="cover-kicker">사례 8건 · 반증 2건 포함</p>
     <h1>기울어진 <em>바닥</em></h1>
-    <p class="cover-sub"><span class="ln">환경은 명령하지 않는다.</span> <span class="ln">한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.</span></p>
-    <p class="cover-lede">넓은 계단은 사람을 앉게 하고, 바닥의 선은 줄을 서게 한다.
-      여기 모은 8개 사례는 모두 아무에게도 아무것도 명령하지 않았다.
-      대신 선택지 사이의 마찰을 조정했다. 그중 둘은 설계자의 의도와 정반대로 작동했고,
-      하나는 사람들이 환경을 거꾸로 프로그래밍한 경우다.</p>
+    <p class="cover-sub">환경은 명령하지 않는다. 한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.</p>
+    <p class="cover-lede">여기 모은 8개 사례는 아무에게도 아무것도 명령하지 않았다.
+      대신 선택지 사이의 마찰을 조정했을 뿐이다.</p>
     <p class="cover-hint"><kbd>→</kbd> 또는 스페이스로 다음 장</p>
   </div>
 </section>
@@ -1185,7 +1216,13 @@
           두 나라는 언어도 문화도 의료 체계도 비슷하다. 다른 것은 서류의 기본 상태뿐이다.
           오스트리아는 "거부하려면 표시하시오", 독일은 "동의하려면 표시하시오".
           <strong>누구도 기증을 강요받지 않았고, 양쪽 다 3초면 바꿀 수 있다.</strong>
-          넛지 문헌이 가장 먼저 꺼내는 사례이기도 하다.
+        </p>
+        <p>
+          그런데 왜 안 바꿀까. 셋이 겹친다. 기본값은 <strong>권장안처럼 읽힌다</strong> —
+          누군가 고민해서 정해놓은 값이라고 믿는 것이다. 장기기증처럼 무겁고
+          드물게 마주하는 질문일수록 <strong>판단을 미루는 쪽</strong>이 편하고,
+          미루면 기본값이 남는다. 게다가 표시를 바꾸는 순간 그것은
+          <strong>내가 내린 결정</strong>이 된다. 가만히 있으면 책임도 발생하지 않는다.
         </p>
 
         <div class="twist">
