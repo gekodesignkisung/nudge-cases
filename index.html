@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="명령하지 않고 행동을 바꾼 환경 8개 사례 - 다이어그램과 수치, 그리고 그중 둘이 실패한 이유.">
-<meta property="og:title" content="기울어진 바닥">
+<meta property="og:title" content="환경은 프로그램인가">
 <meta property="og:description" content="환경은 명령하지 않는다. 한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.">
 <meta property="og:type" content="article">
-<title>기울어진 바닥</title>
+<title>환경은 프로그램인가</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -1015,7 +1015,7 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <button type="button" class="brand" data-goto="0">기울어진 바닥</button>
+    <button type="button" class="brand" data-goto="0">환경은 프로그램인가</button>
 
     <div class="jump">
       <button type="button" class="jump-btn" id="jumpBtn" aria-haspopup="listbox" aria-expanded="false">
@@ -1031,15 +1031,16 @@
         <button type="button" role="option" class="menu-item" data-goto="5"><span class="menu-num">05</span><span>캠든 벤치</span></button>
         <button type="button" role="option" class="menu-item" data-goto="6"><span class="menu-num">06</span><span>욕망의 길</span></button>
         <button type="button" role="option" class="menu-item" data-goto="7"><span class="menu-num">07</span><span>개방형 사무실</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="8"><span class="menu-num">08</span><span>해지 규제</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="9"><span class="menu-num">09</span><span>감시 데이터셋</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="10"><span class="menu-num">10</span><span>종합</span></button>
-        <button type="button" role="option" class="menu-item" data-goto="11"><span class="menu-num">11</span><span>주석</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="8"><span class="menu-num">08</span><span>감시 데이터셋</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="9"><span class="menu-num">09</span><span>추천 알고리즘</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="10"><span class="menu-num">10</span><span>회의 없는 날</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="11"><span class="menu-num">11</span><span>종합</span></button>
+        <button type="button" role="option" class="menu-item" data-goto="12"><span class="menu-num">12</span><span>주석</span></button>
       </div>
     </div>
 
     <div class="pager">
-      <span class="counter"><b id="cur">01</b><span class="sep">/</span><span id="total">12</span></span>
+      <span class="counter"><b id="cur">01</b><span class="sep">/</span><span id="total">13</span></span>
       <button type="button" class="pgbtn" id="prev" aria-label="이전 화면">‹</button>
       <button type="button" class="pgbtn" id="next" aria-label="다음 화면">›</button>
     </div>
@@ -1050,11 +1051,11 @@
 <main id="deck" class="deck">
 <section class="slide slide-cover" id="s0" aria-label="표지">
   <div class="cover-inner">
-    <p class="cover-kicker">사례 8건 · 반증 2건 포함</p>
-    <h1>기울어진 <em>바닥</em></h1>
-    <p class="cover-sub">환경은 명령하지 않는다. 한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.</p>
+    <p class="cover-kicker">사례 9건 · 반증 2건 포함</p>
+    <h1>환경은 <em>프로그램</em>인가</h1>
+    <p class="cover-sub">명령하지 않고, 한쪽 길만 쉽게 만든다. 그래도 프로그램이라 할 수 있을까.</p>
     <p class="cover-lede">넓은 계단은 사람을 앉게 하고, 바닥의 선은 줄을 서게 한다.
-      여기 모은 8개 사례는 모두 아무에게도 아무것도 명령하지 않았다.
+      여기 모은 9개 사례는 모두 아무에게도 아무것도 명령하지 않았다.
       대신 선택지 사이의 마찰을 조정했다. 그중 둘은 설계자의 의도와 정반대로 작동했고,
       하나는 사람들이 환경을 거꾸로 프로그래밍한 경우다.</p>
     <p class="cover-hint"><kbd>→</kbd> 또는 스페이스로 다음 장</p>
@@ -1110,39 +1111,46 @@
           <!-- points -->
           <g class="t-body" font-size="12.5" fill="currentColor">
 
-            <!-- Q1 user + worked -->
-            <circle cx="740" cy="120" r="5.5" fill="var(--panel)" stroke="var(--user)" stroke-width="2"/>
+            <!-- worked as intended, user benefits -->
+            <circle cx="740" cy="120" r="5.5" fill="var(--panel)"
+                    stroke="var(--user)" stroke-width="2"/>
             <text x="726" y="124" text-anchor="end">스히폴 파리</text>
 
-            <circle cx="596" cy="186" r="5.5" fill="var(--panel)" stroke="var(--user)" stroke-width="2"/>
-            <text x="582" y="190" text-anchor="end">Click-to-Cancel 규제</text>
+            <circle cx="620" cy="168" r="5.5" fill="var(--panel)"
+                    stroke="var(--user)" stroke-width="2"/>
+            <text x="606" y="172" text-anchor="end">회의 없는 날</text>
 
-            <!-- Q2 designer + worked -->
+            <!-- worked as intended, designer benefits -->
             <circle cx="782" cy="306" r="5.5" fill="var(--designer)"/>
             <text x="768" y="310" text-anchor="end">구글 → 애플 기본값</text>
 
-            <circle cx="620" cy="374" r="5.5" fill="var(--designer)"/>
-            <text x="606" y="378" text-anchor="end">캠든 벤치</text>
+            <circle cx="712" cy="356" r="5.5" fill="var(--designer)"/>
+            <text x="698" y="360" text-anchor="end">추천 · 자동재생</text>
 
-            <!-- Q3 missed, user-ish -->
-            <circle cx="214" cy="146" r="5.5" fill="var(--panel)" stroke="var(--user)" stroke-width="2"/>
+            <circle cx="602" cy="392" r="5.5" fill="var(--designer)"/>
+            <text x="588" y="396" text-anchor="end">캠든 벤치</text>
+
+            <!-- people rewrote the environment -->
+            <circle cx="214" cy="146" r="5.5" fill="var(--panel)"
+                    stroke="var(--user)" stroke-width="2"/>
             <text x="230" y="150">욕망의 길</text>
-            <text x="230" y="167" class="t-mono"
-                  font-size="10" opacity="0.6">사람 → 환경 (역방향)</text>
+            <text x="230" y="168" class="t-body"
+                  font-size="11" opacity="0.6">사람 → 환경 (역방향)</text>
 
-            <circle cx="336" cy="200" r="5.5" fill="var(--panel)" stroke="currentColor" stroke-width="1.6" stroke-opacity="0.5"/>
+            <circle cx="336" cy="200" r="5.5" fill="var(--panel)"
+                    stroke="currentColor" stroke-width="1.6" stroke-opacity="0.5"/>
             <text x="352" y="204">r/assholedesign</text>
 
-            <!-- Q4 missed, backfired -->
+            <!-- backfired -->
             <circle cx="248" cy="330" r="5.5" fill="var(--designer)"/>
             <text x="264" y="334">개방형 사무실</text>
-            <text x="264" y="351" class="t-mono"
-                  font-size="10" opacity="0.6">대면 −70%</text>
+            <text x="264" y="352" class="t-body"
+                  font-size="11" opacity="0.6">대면 −70%</text>
 
             <circle cx="358" cy="392" r="5.5" fill="var(--designer)"/>
             <text x="374" y="396">장기기증 opt-out</text>
-            <text x="374" y="413" class="t-mono"
-                  font-size="10" opacity="0.6">등록↑ 실제 기증→</text>
+            <text x="374" y="414" class="t-body"
+                  font-size="11" opacity="0.6">등록↑ 실제 기증→</text>
           </g>
 
           <!-- quadrant corner labels -->
@@ -1253,9 +1261,10 @@
           어느 쪽도 기증을 강요하지 않는다.
         </p>
         <p>
-          다만 기본값을 벗어나는 비용이 대칭이 아니다. 오스트리아에서 거부하려면
-          관청에 등록을 해야 하고, 독일에서 동의하려면 카드를 발급받아야 한다.
-          양쪽 모두 <strong>가만히 있는 쪽이 압도적으로 쉽다</strong>.
+          어느 쪽도 강요하지 않는다. 다만 기본값을 벗어나려면 오스트리아에서는
+          관청 등록을, 독일에서는 카드 발급을 해야 한다.
+          <strong>양쪽 모두 가만히 있는 쪽이 압도적으로 쉽고, 그 쉬움의 방향이
+          국가별 기증률을 갈랐다.</strong>
         </p>
 
         <div class="src">
@@ -1362,9 +1371,10 @@
           애플 영업이익의 17.5%다. 바꾸기 쉬운데도 아무도 바꾸지 않는다는 것을 양쪽 다 안다.
         </p>
         <p>
-          메흐타 판사는 2024년 8월 구글을 독점 사업자로 판단했다. 2021년 한 해
-          기본값 확보에 쓴 263억 달러가 근거 중 하나였다. 다만 2025년 시정 명령은
-          지불 자체는 허용하되 <strong>독점 계약을 금지하고 기간을 1년으로 제한</strong>했다.
+          메흐타 판사는 2024년 8월 구글을 독점 사업자로 판단했고, 2021년 한 해
+          기본값 확보에 쓴 263억 달러가 근거 중 하나였다.
+          <strong>바꾸기 쉬운 기본값에 이 정도 가격이 매겨진다는 것은,
+          사람들이 그것을 바꾸지 않는다는 데 시장이 돈을 걸었다는 뜻이다.</strong>
         </p>
 
         <div class="src">
@@ -1769,134 +1779,6 @@
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img"
-               aria-label="가입은 한 번의 클릭이지만 해지는 여러 단계를 거치는 비대칭 경로를 그린 그림. 2026년 규제는 이 두 경로의 길이를 같게 만들 것을 요구한다.">
-            <defs>
-              <marker id="ah7" viewBox="0 0 10 10" refX="9" refY="5"
-                      markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
-              </marker>
-            </defs>
-
-            <!-- signup path -->
-            <text x="16" y="20" class="t-mono"
-                  font-size="10.5" fill="currentColor" opacity="0.6">가입</text>
-            <rect x="16" y="30" width="86" height="30" rx="2"
-                  fill="var(--user)" />
-            <text x="59" y="50" text-anchor="middle" class="t-body"
-                  font-size="12" fill="var(--panel)">시작하기</text>
-            <line x1="106" y1="45" x2="150" y2="45" stroke="currentColor"
-                  stroke-opacity="0.4" stroke-width="1.4" marker-end="url(#ah7)"/>
-            <rect x="154" y="30" width="86" height="30" rx="2" fill="var(--user-bg)"
-                  stroke="var(--user)" stroke-opacity="0.5"/>
-            <text x="197" y="50" text-anchor="middle" class="t-body"
-                  font-size="12" fill="var(--user)">완료</text>
-            <text x="256" y="50" class="t-mono"
-                  font-size="11.5" fill="var(--user)">1 클릭 · 10초</text>
-
-            <!-- cancel path -->
-            <text x="16" y="94" class="t-mono"
-                  font-size="10.5" fill="currentColor" opacity="0.6">해지</text>
-            <g>
-              <rect x="16" y="104" width="62" height="26" rx="2" fill="var(--panel)"
-                    stroke="var(--designer)" stroke-opacity="0.5"/>
-              <text x="47" y="121" text-anchor="middle" class="t-body"
-                    font-size="10.5" fill="currentColor">설정</text>
-
-              <rect x="90" y="104" width="62" height="26" rx="2" fill="var(--panel)"
-                    stroke="var(--designer)" stroke-opacity="0.5"/>
-              <text x="121" y="121" text-anchor="middle" class="t-body"
-                    font-size="10.5" fill="currentColor">계정</text>
-
-              <rect x="164" y="104" width="62" height="26" rx="2" fill="var(--panel)"
-                    stroke="var(--designer)" stroke-opacity="0.5"/>
-              <text x="195" y="121" text-anchor="middle" class="t-body"
-                    font-size="10.5" fill="currentColor">구독관리</text>
-
-              <rect x="238" y="104" width="76" height="26" rx="2" fill="var(--designer-bg)"
-                    stroke="var(--designer)"/>
-              <text x="276" y="121" text-anchor="middle" class="t-body"
-                    font-size="10.5" fill="var(--designer)">"정말요?"</text>
-
-              <rect x="326" y="104" width="94" height="26" rx="2" fill="var(--designer-bg)"
-                    stroke="var(--designer)"/>
-              <text x="373" y="121" text-anchor="middle" class="t-body"
-                    font-size="10.5" fill="var(--designer)">전화 대기</text>
-            </g>
-            <g stroke="var(--designer)" stroke-opacity="0.55" stroke-width="1.2">
-              <line x1="80" y1="117" x2="86" y2="117" marker-end="url(#ah7)"/>
-              <line x1="154" y1="117" x2="160" y2="117" marker-end="url(#ah7)"/>
-              <line x1="228" y1="117" x2="234" y2="117" marker-end="url(#ah7)"/>
-              <line x1="316" y1="117" x2="322" y2="117" marker-end="url(#ah7)"/>
-            </g>
-            <text x="16" y="150" class="t-mono"
-                  font-size="11.5" fill="var(--designer)">5 단계 · 40분</text>
-
-            <!-- the law -->
-            <line x1="16" y1="176" x2="424" y2="176" stroke="currentColor" stroke-opacity="0.18"/>
-            <text x="16" y="200" class="t-mono"
-                  font-size="10.5" fill="currentColor" opacity="0.6">2026.01 · 캘리포니아 CCPA</text>
-
-            <rect x="16" y="212" width="404" height="42" rx="2"
-                  fill="var(--user-bg)" stroke="var(--user)" stroke-opacity="0.5"/>
-            <text x="32" y="232" class="t-body"
-                  font-size="12.5" font-weight="500" fill="var(--user)">
-              해지는 가입만큼 쉬워야 한다
-            </text>
-            <text x="32" y="248" class="t-mono"
-                  font-size="10" fill="currentColor" opacity="0.65">
-              규제 대상은 거짓말이 아니라 두 경로의 클릭 수 차이다
-            </text>
-
-            <text x="16" y="278" class="t-body"
-                  font-size="11.5" fill="currentColor" opacity="0.72">
-              아무도 거짓말하지 않았다. 한쪽 길을 험하게 만들었을 뿐이다.
-            </text>
-          </svg>
-        </figure>
-      </div>
-
-      <div class="case-text">
-        <h3>마찰의 비대칭을 규제하기 시작했다</h3>
-
-        <dl class="nums">
-          <div class="num"><dt>CCPA 규정</dt><dd class="lo">2026.01 시행</dd></div>
-          <div class="num"><dt>FTC 룰</dt><dd>2025 무효화</dd></div>
-          <div class="num"><dt>규제 대상</dt><dd class="hi">단계 수</dd></div>
-        </dl>
-
-        <p>
-          구독 서비스의 가입은 버튼 하나, 해지는 설정 → 계정 → 구독관리 →
-          만류 화면 → 전화 대기. 양쪽 다 분명히 존재하는 경로다.
-        </p>
-        <p>
-          2026년 1월 시행된 캘리포니아 CCPA 규정은 이 구조를 다크 패턴으로 본다.
-          <strong>거부에 필요한 단계가 동의보다 많아서는 안 되고</strong>,
-          두 버튼의 시각적 비중도 같아야 한다.
-        </p>
-        <div class="twist">
-          <p>
-            연방 차원의 FTC Click-to-Cancel 룰은 <strong>2025년 7월 제8연방항소법원이
-            무효화</strong>했다. FTC는 2026년 새 규칙 제정 절차를 시작했고, 그 사이
-            ROSCA 등 기존 권한으로 개별 제재만 이어가고 있다.
-            규제 대상이 거짓말이 아니라 클릭 수의 차이라는 발상은 아직 자리를 잡는 중이다.
-          </p>
-        </div>
-
-        <div class="src">
-          <span class="src-item"><span class="kind p">공식</span>
-            <a href="https://www.ftc.gov/legal-library/browse/rules/negative-option-rule" target="_blank" rel="noopener noreferrer">FTC — Negative Option Rule</a></span>
-          <span class="src-item"><span class="kind s">보도</span>
-            <a href="https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to" target="_blank" rel="noopener noreferrer">Federal Register — 무효화 후 규칙 복원</a></span>
-          <span class="src-item"><span class="kind r">해설</span>
-            <a href="https://www.gtlaw.com/en/insights/2025/9/revised-and-new-ccpa-regulations-set-to-take-effect-on-jan-1-2026-summary-of-near-term-action-items" target="_blank" rel="noopener noreferrer">Greenberg Traurig — CCPA 2026</a></span>
-        </div>
-      </div>
-    </section>
-
-<section class="slide slide-case" id="s9">
-      <div class="case-figure">
-        <figure>
-          <svg viewBox="0 0 440 290" role="img"
                aria-label="레딧 사용자들이 올린 1002개의 게시물이 학술 연구의 데이터셋이 되어 다크 패턴 분류 체계로 정리되는 흐름도.">
             <defs>
               <marker id="ah8" viewBox="0 0 10 10" refX="9" refY="5"
@@ -2019,39 +1901,235 @@
       </div>
     </section>
 
-<section class="slide slide-synth" id="s10">
+<section class="slide slide-case" id="s9">
+      <div class="case-figure">
+        <figure>
+          <svg viewBox="0 0 440 290" role="img"
+               aria-label="검색으로 고른 영상 한 편 뒤에 추천이 자동으로 다음 영상을 이어 붙이는 구조. 시청 시간의 70퍼센트가 이 경로에서 나온다.">
+            <defs>
+              <marker id="ahA" viewBox="0 0 10 10" refX="9" refY="5"
+                      markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+              </marker>
+            </defs>
+
+            <text x="16" y="20" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.6">내가 고른 것</text>
+            <rect x="16" y="30" width="96" height="58" rx="3"
+                  fill="var(--panel)" stroke="var(--user)" stroke-width="1.6"/>
+            <text x="64" y="64" text-anchor="middle" class="t-body"
+                  font-size="12" fill="currentColor">영상 1</text>
+
+            <text x="150" y="20" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.6">환경이 이어 붙인 것</text>
+            <g>
+              <rect x="150" y="30" width="86" height="58" rx="3"
+                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.3"/>
+              <text x="193" y="64" text-anchor="middle" class="t-body"
+                    font-size="12" fill="currentColor">영상 2</text>
+
+              <rect x="248" y="30" width="86" height="58" rx="3"
+                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.3"/>
+              <text x="291" y="64" text-anchor="middle" class="t-body"
+                    font-size="12" fill="currentColor">영상 3</text>
+
+              <rect x="346" y="30" width="78" height="58" rx="3"
+                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.22"/>
+              <text x="385" y="64" text-anchor="middle" class="t-body"
+                    font-size="12" fill="currentColor" opacity="0.6">…</text>
+            </g>
+            <g stroke="currentColor" stroke-opacity="0.45" stroke-width="1.4">
+              <line x1="116" y1="59" x2="144" y2="59" marker-end="url(#ahA)"/>
+              <line x1="240" y1="59" x2="244" y2="59" marker-end="url(#ahA)"/>
+              <line x1="338" y1="59" x2="342" y2="59" marker-end="url(#ahA)"/>
+            </g>
+            <text x="150" y="108" class="t-body" font-size="11.5"
+                  fill="currentColor" opacity="0.65">자동재생 · 다음 영상까지 5초</text>
+
+            <line x1="16" y1="132" x2="424" y2="132"
+                  stroke="currentColor" stroke-opacity="0.18"/>
+
+            <text x="16" y="158" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.6">시청 시간의 출처</text>
+            <rect x="16" y="168" width="408" height="26" fill="var(--user-bg)"/>
+            <rect x="16" y="168" width="286" height="26" fill="var(--designer)"/>
+            <text x="28" y="186" class="t-body" font-size="13"
+                  fill="var(--panel)" font-weight="700">추천 70%</text>
+            <text x="314" y="186" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.7">직접 선택</text>
+
+            <text x="16" y="232" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.72">
+              아무도 "이걸 보라"고 말하지 않는다.
+            </text>
+            <text x="16" y="252" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.72">
+              멈추는 데 행동이 필요할 뿐이다.
+            </text>
+          </svg>
+        </figure>
+      </div>
+
+      <div class="case-text">
+        <h3>고르지 않아도 다음이 온다</h3>
+
+        <dl class="nums">
+          <div class="num"><dt>유튜브 시청시간</dt><dd class="hi">70%</dd></div>
+          <div class="num"><dt>넷플릭스 시청</dt><dd class="hi">80%</dd></div>
+          <div class="num"><dt>내 선택</dt><dd class="lo">첫 편만</dd></div>
+        </dl>
+
+        <p>
+          유튜브 시청 시간의 70%, 넷플릭스 시청의 80%가 추천에서 나온다.
+          이용자가 고르는 것은 사실상 첫 편뿐이고, 그 다음부터는 환경이 이어 붙인다.
+        </p>
+        <p>
+          자동재생은 여기에 시간을 더한다. 다음 영상이 몇 초 뒤 자동으로 시작되므로
+          <strong>보는 데는 아무것도 필요 없고 멈추는 데만 행동이 필요하다.</strong>
+          실제로 넷플릭스에서 자동재생을 끄자 일일 시청 시간과 세션 길이가 유의미하게 줄었다.
+        </p>
+        <p>
+          기본값과 원리는 같지만 한 가지가 다르다. 체크박스는 한 번 정하면 끝인데,
+          <strong>추천은 매번 새로 제안하고 매번 거절을 요구한다.</strong>
+        </p>
+
+        <div class="src">
+          <span class="src-item"><span class="kind p">연구</span>
+            <a href="https://dl.acm.org/doi/10.1145/3710928" target="_blank" rel="noopener noreferrer">ACM CHI — 넷플릭스 자동재생 실험</a></span>
+          <span class="src-item"><span class="kind s">보도</span>
+            <a href="https://qz.com/1178125/youtubes-recommendations-drive-70-of-what-we-watch" target="_blank" rel="noopener noreferrer">Quartz — 유튜브 추천 70%</a></span>
+        </div>
+      </div>
+    </section>
+
+<section class="slide slide-case" id="s10">
+      <div class="case-figure">
+        <figure>
+          <svg viewBox="0 0 440 290" role="img"
+               aria-label="주간 일정에서 하루를 회의 금지로 비웠을 때 생산성과 소통이 오르고 스트레스가 내려간 결과를 막대로 보여주는 그림.">
+            <text x="16" y="20" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.6">주간 일정</text>
+
+            <g>
+              <rect x="16" y="30" width="74" height="62" rx="2"
+                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.25"/>
+              <rect x="96" y="30" width="74" height="62" rx="2"
+                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.25"/>
+              <rect x="176" y="30" width="74" height="62" rx="2"
+                    fill="var(--panel)" stroke="var(--user)" stroke-width="1.8"/>
+              <rect x="256" y="30" width="74" height="62" rx="2"
+                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.25"/>
+              <rect x="336" y="30" width="74" height="62" rx="2"
+                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.25"/>
+            </g>
+            <g class="t-body" font-size="11.5" fill="currentColor" opacity="0.62">
+              <text x="53" y="106" text-anchor="middle">월</text>
+              <text x="133" y="106" text-anchor="middle">화</text>
+              <text x="293" y="106" text-anchor="middle">목</text>
+              <text x="373" y="106" text-anchor="middle">금</text>
+            </g>
+            <text x="213" y="106" text-anchor="middle" class="t-body"
+                  font-size="11.5" fill="var(--user)">수</text>
+            <text x="213" y="66" text-anchor="middle" class="t-body"
+                  font-size="12" fill="var(--user)">회의 없음</text>
+
+            <line x1="16" y1="130" x2="424" y2="130"
+                  stroke="currentColor" stroke-opacity="0.18"/>
+            <text x="16" y="154" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.6">주 1일 도입 시</text>
+
+            <g class="t-body" font-size="12" fill="currentColor">
+              <text x="16" y="178">생산성</text>
+              <rect x="106" y="167" width="126" height="15" fill="var(--user)"/>
+              <text x="240" y="178" fill="var(--user)" font-weight="700">+35%</text>
+
+              <text x="16" y="204">소통</text>
+              <rect x="106" y="193" width="162" height="15" fill="var(--user)" opacity="0.8"/>
+              <text x="276" y="204" fill="var(--user)" font-weight="700">+45%</text>
+
+              <text x="16" y="230">스트레스</text>
+              <rect x="106" y="219" width="94" height="15" fill="var(--designer)"/>
+              <text x="208" y="230" fill="var(--designer)" font-weight="700">−26%</text>
+            </g>
+
+            <text x="16" y="266" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.72">
+              회의를 줄이자고 말하는 대신, 넣을 칸을 없앴다.
+            </text>
+          </svg>
+        </figure>
+      </div>
+
+      <div class="case-text">
+        <h3>규칙 한 줄이 비운 하루</h3>
+
+        <dl class="nums">
+          <div class="num"><dt>조사 기업</dt><dd class="lo">76곳</dd></div>
+          <div class="num"><dt>생산성</dt><dd class="hi">+35%</dd></div>
+          <div class="num"><dt>스트레스</dt><dd>−26%</dd></div>
+        </dl>
+
+        <p>
+          "회의를 줄입시다"라는 권고는 대개 아무것도 바꾸지 못한다.
+          대신 달력에서 하루를 통째로 비우면 회의를 넣을 자리 자체가 사라진다.
+        </p>
+        <p>
+          MIT Sloan이 1,000명 이상 기업 76곳을 조사한 결과, 주 1일 회의 없는 날을
+          도입하자 생산성 35%, 소통 45%가 오르고 스트레스는 26% 내렸다.
+          주 3일이면 마이크로매니지먼트가 68% 줄었다.
+        </p>
+        <p>
+          <strong>물리적 공간만 환경인 것이 아니다.</strong>
+          조직의 규칙은 금지가 아니라 빈칸의 형태로 작동했다.
+        </p>
+
+        <div class="src">
+          <span class="src-item"><span class="kind p">연구</span>
+            <a href="https://sloanreview.mit.edu/article/the-surprising-impact-of-meeting-free-days/" target="_blank" rel="noopener noreferrer">MIT Sloan Management Review (2022)</a></span>
+          <span class="src-item"><span class="kind r">참고</span>
+            <a href="https://asana.com/inside-asana/no-meeting-wednesdays" target="_blank" rel="noopener noreferrer">Asana — No Meeting Wednesdays</a></span>
+        </div>
+      </div>
+    </section>
+
+<section class="slide slide-synth" id="s11">
     <p class="section-label">종합</p>
-    <h2>네 개의 축으로 보면</h2>
+    <h2>그래서, 프로그램인가</h2>
 
     <div class="figscroll">
       <table class="axis-table">
         <thead>
           <tr>
-            <th>축</th>
-            <th>질문</th>
-            <th>가장 뚜렷한 대비</th>
+            <th>프로그램의 조건</th>
+            <th>환경은</th>
+            <th>근거</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>의도성</td>
-            <td>설계된 것인가, 우연인가</td>
-            <td>캠든 벤치 <span class="vs">vs</span> 개방형 사무실 <span class="vs">(의도했으나 역효과)</span></td>
+            <td>명령한다</td>
+            <td>아니다</td>
+            <td>9개 사례 모두 금지도 지시도 없다. 마찰만 조정했다</td>
           </tr>
           <tr>
-            <td>수혜자</td>
-            <td>기울기가 누구를 향하나</td>
-            <td>스히폴 파리 <span class="vs">vs</span> 구글 200억 달러</td>
+            <td>결과가 정해진다</td>
+            <td>아니다</td>
+            <td>같은 설계가 사람마다 다르게 작동한다. 확률만 바꾼다</td>
           </tr>
           <tr>
-            <td>방향</td>
-            <td>환경→사람인가, 사람→환경인가</td>
-            <td>나머지 전부 <span class="vs">vs</span> 욕망의 길 · r/assholedesign</td>
+            <td>의도대로 실행된다</td>
+            <td>아니다</td>
+            <td>개방형 사무실은 대화를 70% 줄였다 <span class="vs">의도와 반대</span></td>
           </tr>
           <tr>
-            <td>실효성</td>
-            <td>정말 행동이 바뀌었나</td>
-            <td>등록률 99.5% <span class="vs">vs</span> 실제 기증률 변화 없음</td>
+            <td>일방향으로 작동한다</td>
+            <td>아니다</td>
+            <td>욕망의 길과 r/assholedesign은 사람이 환경을 고쳐 쓴 경우다</td>
+          </tr>
+          <tr>
+            <td>실제로 행동을 바꾼다</td>
+            <td>그렇다</td>
+            <td>다만 측정이 어렵다. 장기기증은 등록만 늘고 기증은 그대로였다</td>
           </tr>
         </tbody>
       </table>
@@ -2059,23 +2137,21 @@
 
     <div class="closer">
       <p>
-        "환경이 사람을 프로그래밍한다"는 명제가 진짜 시험받는 지점은
-        성공 사례가 아니라 <em>실패 사례</em>다.
-      </p>
-      <p>
-        개방형 사무실과 장기기증 종단 연구, 두 개가 그 자리에 있다.
-        환경은 확실히 행동을 바꾼다. 다만 <em>설계자가 의도한 방향으로</em> 바꾸지는 않는다.
+        환경은 프로그램이 아니라 <em>손실 함수</em>에 가깝다.
+        코드는 무엇이 일어날지 지정하지만, 환경은
+        <em>무엇이 일어나기 쉬운지</em>를 정의할 뿐이다.
       </p>
     </div>
 
-    <p class="lede" style="margin-top:44px">
-      그래서 실질적인 질문은 "우리가 자유로운가"가 아니다. 환경을 만드는 사람은 소수이고 한 번 결정하지만,
-      그 안에서 움직이는 사람은 다수이고 매일 수백 번 결정한다. 한 번의 설계가 수만 번의 선택을 이긴다.
-      <strong>남는 질문은 하나다 — 이 바닥은 누구를 향해 기울어 있는가?</strong>
+    <p class="lede" style="margin-top:36px">
+      그래서 실질적인 질문은 "우리가 자유로운가"가 아니다.
+      환경을 만드는 사람은 소수이고 한 번 결정하지만, 그 안에서 움직이는 사람은
+      다수이고 매일 수백 번 결정한다. 한 번의 설계가 수만 번의 선택을 이긴다.
+      <strong>남는 질문은 하나다 — 이 환경의 마찰은 누구를 향해 낮춰져 있는가?</strong>
     </p>
   </section>
 
-<section class="slide slide-notes" id="s11">
+<section class="slide slide-notes" id="s12">
   <div class="notes-inner">
     <h2>자료에 대하여</h2>
 <div class="notes-body">
@@ -2088,7 +2164,7 @@
       산점도의 좌표는 사례 간 상대 비교를 위한 배치이며 측정값이 아니다.
       장기기증과 스히폴 파리는 널리 인용되지만 각각 종단 연구로 반박되었거나
       원 수치가 검증된 적이 없어, 반증을 함께 표기했다.
-      FTC Click-to-Cancel 룰은 2025년 7월 무효화되어 현재 시행 중이 아니다.
+      
     </p>
   </div>
     <p class="notes-tail">각 수치의 출처는 사례 화면 하단에 링크로 달려 있다.</p>
@@ -2106,10 +2182,11 @@
       <button type="button" class="dot" data-goto="5" aria-label="6번째 화면: 캠든 벤치"></button>
       <button type="button" class="dot" data-goto="6" aria-label="7번째 화면: 욕망의 길"></button>
       <button type="button" class="dot" data-goto="7" aria-label="8번째 화면: 개방형 사무실"></button>
-      <button type="button" class="dot" data-goto="8" aria-label="9번째 화면: 해지 규제"></button>
-      <button type="button" class="dot" data-goto="9" aria-label="10번째 화면: 감시 데이터셋"></button>
-      <button type="button" class="dot" data-goto="10" aria-label="11번째 화면: 종합"></button>
-      <button type="button" class="dot" data-goto="11" aria-label="12번째 화면: 주석"></button>
+      <button type="button" class="dot" data-goto="8" aria-label="9번째 화면: 감시 데이터셋"></button>
+      <button type="button" class="dot" data-goto="9" aria-label="10번째 화면: 추천 알고리즘"></button>
+      <button type="button" class="dot" data-goto="10" aria-label="11번째 화면: 회의 없는 날"></button>
+      <button type="button" class="dot" data-goto="11" aria-label="12번째 화면: 종합"></button>
+      <button type="button" class="dot" data-goto="12" aria-label="13번째 화면: 주석"></button>
 </div>
 
 <script>
