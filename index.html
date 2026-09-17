@@ -796,12 +796,13 @@
     white-space: nowrap;
   }
   .cover-lede {
-    max-width: 40ch;   /* two lines at the sizes below */
+    /* The full lede runs wide - two to three lines depending on width. */
+    max-width: 62ch;
     margin: 24px auto 0;
     font-size: 0.97rem;
-    line-height: 1.8;
+    line-height: 1.85;
     color: var(--ink-soft);
-    text-wrap: pretty;   /* no single-word last line */
+    text-wrap: balance;  /* even the two lines rather than filling the first */
   }
   .cover-hint {
     margin: 34px 0 0;
@@ -1025,8 +1026,10 @@
     <p class="cover-kicker">사례 8건 · 반증 2건 포함</p>
     <h1>기울어진 <em>바닥</em></h1>
     <p class="cover-sub">환경은 명령하지 않는다. 한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.</p>
-    <p class="cover-lede">여기 모은 8개 사례는 아무에게도 아무것도 명령하지 않았다.
-      대신 선택지 사이의 마찰을 조정했을 뿐이다.</p>
+    <p class="cover-lede">넓은 계단은 사람을 앉게 하고, 바닥의 선은 줄을 서게 한다.
+      여기 모은 8개 사례는 모두 아무에게도 아무것도 명령하지 않았다.
+      대신 선택지 사이의 마찰을 조정했다. 그중 둘은 설계자의 의도와 정반대로 작동했고,
+      하나는 사람들이 환경을 거꾸로 프로그래밍한 경우다.</p>
     <p class="cover-hint"><kbd>→</kbd> 또는 스페이스로 다음 장</p>
   </div>
 </section>
