@@ -720,13 +720,12 @@
 
   .slide {
     /* Full viewport tall; the header's worth of space is padding inside
-       the slide. Content starts at the top and reads downward - only the
-       cover centres itself. */
+       the slide, and the content block sits centred in what is left. */
     min-height: 100dvh;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     display: grid;
-    align-content: start;
+    align-content: center;
     max-width: 1320px;
     margin-inline: auto;
     padding: calc(var(--topbar-h) + clamp(16px, 2.4vh, 34px))
@@ -888,10 +887,8 @@
     /* Text 2 : drawing 3. The prose column keeps a readable measure and
        the diagram gets the larger share. */
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-    /* Title and body start at the top of the column and read downward.
-       Centring made the heading float in mid-screen. */
-    align-content: start;
-    align-items: start;
+    align-content: center;
+    align-items: start;   /* columns share a top edge inside the centred block */
     gap: 0 clamp(28px, 4vw, 64px);
   }
 
@@ -998,8 +995,12 @@
     .dot { width: 14px; height: 3px; }
   }
 
-  @media (max-height: 560px) {
-    .slide-case { align-content: start; overflow-y: auto; }
+  /* Centring hides the top of anything taller than the screen, so short
+     viewports fall back to reading from the top. */
+  @media (max-height: 700px) {
+    .slide,
+    .slide-case { align-content: start; }
+    .slide-case { overflow-y: auto; }
   }
 
   @media (prefers-reduced-motion: reduce) {
