@@ -10,7 +10,7 @@
 <title>기울어진 바닥</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root {
     --ground:      #F0F0F0;
@@ -18,7 +18,7 @@
     --panel:       #FFFFFF;
     --ink:         #1A1A1A;
     --ink-soft:    #565656;
-    --ink-faint:   #696969;
+    --ink-faint:   #5A5A5A;
     --rule:        #D2D2D2;
     --rule-soft:   #E4E4E4;
     /* One accent, cool. Deliberately not the warm terracotta-on-cream
@@ -32,14 +32,20 @@
     /* Bricolage covers latin and numerals; hangul falls through to the
        system face, so name it explicitly rather than leaving it to
        a generic sans-serif. */
-    --f-display: "Bricolage Grotesque", "Noto Sans KR", -apple-system,
-                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-    /* Noto Sans KR, actually fetched from Google Fonts - the one host the
-       artifact CSP allows. Naming a face without loading it just falls
-       through to Malgun Gothic, which is what looked coarse. */
-    --f-body:    "Noto Sans KR", -apple-system, BlinkMacSystemFont,
-                 "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --f-display: "Bricolage Grotesque", -apple-system,
+                 "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+    /* Webfont hangul (Noto Sans KR, IBM Plex Sans KR) is hinted for
+       rendering stacks that do subpixel AA; on Windows it comes out ragged
+       at body sizes. The OS faces are hinted for their own rasteriser. */
+    --f-body:    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                 "Malgun Gothic", "맑은 고딕", "Segoe UI", sans-serif;
+    /* Latin/figures only - IBM Plex Mono carries no hangul, so Korean set
+       in it falls through to a monospace fallback and breaks up. */
     --f-mono:    "IBM Plex Mono", ui-monospace, monospace;
+    /* Small UI labels that contain Korean: body face, tracked out a little
+       so they still read as labels rather than prose. */
+    --f-label:   -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                 "Malgun Gothic", "맑은 고딕", "Segoe UI", sans-serif;
 
     --wrap: 1120px;
     /* Korean glyphs are full-width, so a latin 65-68ch measure reads far
@@ -54,7 +60,7 @@
       --panel:       #1F1F1F;
       --ink:         #EDEDED;
       --ink-soft:    #ADADAD;
-      --ink-faint:   #949494;
+      --ink-faint:   #A6A6A6;
       --rule:        #383838;
       --rule-soft:   #2A2A2A;
       --designer:    #5FB4DA;
@@ -71,7 +77,7 @@
     --panel:       #1F1F1F;
     --ink:         #EDEDED;
     --ink-soft:    #ADADAD;
-    --ink-faint:   #949494;
+    --ink-faint:   #A6A6A6;
     --rule:        #383838;
     --rule-soft:   #2A2A2A;
     --designer:    #5FB4DA;
@@ -83,11 +89,12 @@
 
   * { box-sizing: border-box; }
 
-  /* Hold the optical-size axis at a large value. Left free, Bricolage
-     thins its strokes at small sizes and the text looks ragged. */
-  h1, h2, h3, .brand, .num dd, .closer p, .cover-sub,
+  /* Bricolage is an optical-size variable font; left free it thins strokes
+     at small sizes. Turn the axis off rather than setting it through
+     font-variation-settings, which would also reset font-weight to 400. */
+  h1, h2, h3, .brand, .closer p, .cover-sub,
   .axis-table td:first-child {
-    font-variation-settings: "opsz" 40;
+    font-optical-sizing: none;
   }
 
   /* One text-rendering policy for the whole page, SVG labels included.
@@ -107,6 +114,8 @@
   svg text { font-family: var(--f-body); }
   svg .t-body { font-family: var(--f-body); }
   svg .t-mono { font-family: var(--f-mono); }
+  /* Korean labels inside diagrams use the body face. */
+  svg .t-body { font-family: var(--f-body); }
 
   body {
     margin: 0;
@@ -114,9 +123,9 @@
     background-color: var(--ground);
     color: var(--ink);
     font-family: var(--f-body);
-    /* Semibold body: hangul holds its strokes far better than Light or
-       Regular at screen sizes. 500 is loaded, so nothing is synthesised. */
-    font-weight: 500;
+    /* Malgun Gothic has Regular and Bold only; 500 would be synthesised
+       and comes out ragged. Stay on a weight the face actually has. */
+    font-weight: 400;
     font-size: 16px;
     line-height: 1.75;
     /* No -webkit-font-smoothing: antialiased here - it thins glyphs a
@@ -135,10 +144,9 @@
   }
 
   .stamp {
-    font-family: var(--f-mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-family: var(--f-label);
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
     color: var(--ink-faint);
     display: flex;
     flex-wrap: wrap;
@@ -194,10 +202,9 @@
   }
 
   .section-label {
-    font-family: var(--f-mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-family: var(--f-label);
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
     color: var(--ink-faint);
     margin: 0 0 10px;
   }
@@ -326,18 +333,17 @@
     border-left: 1px solid var(--rule-soft);
   }
   .num dt {
-    font-family: var(--f-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-family: var(--f-label);
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
     color: var(--ink-faint);
     margin: 0 0 3px;
   }
   .num dd {
     margin: 0;
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 1.44rem;
+    font-family: var(--f-body);
+    font-weight: 700;
+    font-size: 1.4rem;
     letter-spacing: -0.015em;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
@@ -354,8 +360,8 @@
   .twist p { color: var(--ink-soft); line-height: 1.8; }
 
   .src {
-    font-family: var(--f-mono);
-    font-size: 11px;
+    font-family: var(--f-label);
+    font-size: 12.5px;
     color: var(--ink-faint);
     margin-top: 18px;
     padding-top: 13px;
@@ -381,8 +387,8 @@
     min-width: 42px;
     padding: 1px 5px;
     border-radius: 2px;
-    font-size: 9.5px;
-    letter-spacing: 0.06em;
+    font-size: 12px;
+    letter-spacing: 0.02em;
     text-align: center;
     border: 1px solid;
   }
@@ -428,10 +434,9 @@
     vertical-align: top;
   }
   .axis-table th {
-    font-family: var(--f-mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-family: var(--f-label);
+    font-size: 12px;
+    letter-spacing: 0.02em;
     color: var(--ink-faint);
     font-weight: 500;
     border-bottom-color: var(--rule);
@@ -442,7 +447,7 @@
     letter-spacing: -0.015em;
     white-space: nowrap;
   }
-  .axis-table .vs { color: var(--ink-faint); font-family: var(--f-mono); font-size: 0.82em; }
+  .axis-table .vs { color: var(--ink-faint); font-family: var(--f-label); font-size: 0.82em; }
 
   .closer {
     margin-top: 44px;
@@ -468,8 +473,8 @@
   footer {
     padding-block: 30px 72px;
     margin-top: 0;
-    font-family: var(--f-mono);
-    font-size: 11px;
+    font-family: var(--f-label);
+    font-size: 12.5px;
     color: var(--ink-faint);
     line-height: 1.85;
   }
@@ -592,8 +597,8 @@
     border-radius: 3px;
     cursor: pointer;
     color: var(--ink-soft);
-    font-family: var(--f-mono);
-    font-size: 11.5px;
+    font-family: var(--f-label);
+    font-size: 13px;
   }
   .jump-btn:hover { border-color: var(--rule); color: var(--ink); }
   .jump-btn[aria-expanded="true"] {
@@ -606,7 +611,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .jump-caret { font-size: 9px; opacity: .55; }
+  .jump-caret { font-size: 12px; opacity: .55; }
 
   .menu {
     position: absolute;
@@ -639,7 +644,7 @@
     text-align: left;
     color: var(--ink-soft);
     font-family: var(--f-body);
-    font-size: 12.5px;
+    font-size: 13.5px;
     white-space: nowrap;
   }
   .menu-item:hover { background: var(--ground); color: var(--ink); }
@@ -647,7 +652,7 @@
   .menu-item[aria-selected="true"] .menu-num { color: var(--designer); }
   .menu-num {
     font-family: var(--f-mono);
-    font-size: 10px;
+    font-size: 12px;
     color: var(--ink-faint);
     min-width: 16px;
   }
@@ -660,7 +665,7 @@
   }
   .counter {
     font-family: var(--f-mono);
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--ink-faint);
     font-variant-numeric: tabular-nums;
   }
@@ -790,10 +795,9 @@
   .slide-cover h1 { margin-inline: auto; }
 
   .cover-kicker {
-    font-family: var(--f-mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-family: var(--f-label);
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
     color: var(--designer);
     margin: 0 0 22px;
   }
@@ -833,13 +837,13 @@
   }
   .cover-hint {
     margin: 34px 0 0;
-    font-family: var(--f-mono);
-    font-size: 11px;
+    font-family: var(--f-label);
+    font-size: 12.5px;
     color: var(--ink-faint);
   }
   kbd {
     font-family: var(--f-mono);
-    font-size: 10.5px;
+    font-size: 12px;
     padding: 2px 6px;
     border: 1px solid var(--rule);
     border-radius: 3px;
@@ -921,43 +925,38 @@
   /* ---------- notes ---------- */
 
   .notes-inner { max-width: 74ch; }
-  .notes-body { font-family: var(--f-mono); font-size: 12px; color: var(--ink-faint); line-height: 1.85; }
+  .notes-body { font-family: var(--f-label); font-size: 12px; color: var(--ink-faint); line-height: 1.85; }
   .notes-body p { margin: 0 0 14px; }
   .notes-tail {
     margin-top: 22px;
-    font-family: var(--f-mono);
-    font-size: 11px;
+    font-family: var(--f-label);
+    font-size: 12.5px;
     color: var(--ink-faint);
   }
 
   /* ---------- dots ---------- */
 
+  /* One thin segmented bar instead of twelve circles. */
   .dots {
     position: fixed;
-    left: 0; right: 0; bottom: 16px;
+    left: 50%; bottom: 18px;
+    transform: translateX(-50%);
     z-index: 30;
     display: flex;
-    justify-content: center;
-    gap: 7px;
-    pointer-events: none;
+    gap: 3px;
   }
   .dot {
-    pointer-events: auto;
     appearance: none;
-    width: 7px; height: 7px;
+    width: 22px; height: 3px;
     padding: 0;
-    border: 1px solid var(--ink-faint);
-    border-radius: 50%;
-    background: transparent;
+    border: 0;
+    border-radius: 2px;
+    background: var(--rule);
     cursor: pointer;
-    transition: background .2s, border-color .2s, transform .2s;
+    transition: background .18s;
   }
-  .dot:hover { border-color: var(--ink); }
-  .dot[aria-current="true"] {
-    background: var(--designer);
-    border-color: var(--designer);
-    transform: scale(1.35);
-  }
+  .dot:hover { background: var(--ink-faint); }
+  .dot[aria-current="true"] { background: var(--ink); }
 
   /* ---------- focus ---------- */
 
@@ -995,8 +994,8 @@
     .slide-case svg,
     .slide-map svg { max-height: none; }
     .slide { padding-bottom: 52px; }
-    .dots { gap: 5px; }
-    .dot { width: 6px; height: 6px; }
+    .dots { gap: 2px; }
+    .dot { width: 14px; height: 3px; }
   }
 
   @media (max-height: 560px) {
