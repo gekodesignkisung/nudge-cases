@@ -2967,12 +2967,18 @@
       shots.appendChild(splash);
 
       if (window.gsap) {
-        gsap.fromTo(splash, { attr: { r: 0 }, opacity: 0.95 },
-                            { attr: { r: onTarget ? 5 : 9 }, opacity: 0.45,
-                              duration: 0.3, ease: 'back.out(3)' });
+        // land, sit for a moment, then dry out and leave the scene clean
+        gsap.timeline()
+          .fromTo(splash, { attr: { r: 0 }, opacity: 0.95 },
+                          { attr: { r: onTarget ? 5 : 9 }, opacity: 0.45,
+                            duration: 0.3, ease: 'back.out(3)' })
+          .to(splash, { opacity: 0, attr: { r: onTarget ? 7 : 12 },
+                        duration: 1.5, ease: 'power1.in', delay: 1.1,
+                        onComplete: function () { splash.remove(); } });
       } else {
         splash.setAttribute('r', onTarget ? 5 : 9);
         splash.setAttribute('opacity', 0.45);
+        setTimeout(function () { splash.remove(); }, 2600);
       }
 
       if (onTarget) sfx.hit(); else sfx.miss();
@@ -2986,8 +2992,6 @@
       } else {
         hint.textContent = '겨냥할 것이 있으면 손이 그리로 간다. 안내문은 한 장도 없다.';
       }
-
-      while (shots.childNodes.length > 22) shots.removeChild(shots.firstChild);
     }
 
     target.addEventListener('click', function (e) {
