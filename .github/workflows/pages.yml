@@ -1,12 +1,11 @@
 name: Deploy to GitHub Pages
 
-# The repo is private and Pages is off, so the push trigger is disabled -
-# it would fail on every commit. To publish: make the repo public (or use a
-# plan with private Pages), set Settings > Pages > Source to "GitHub Actions",
-# then restore the `push:` block below.
+# Deploys on every push to main. Needs Settings > Pages > Source set to
+# "GitHub Actions" (and a public repo, or a plan with private Pages);
+# until then the run fails harmlessly.
 on:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="명령하지 않고 행동을 바꾼 환경 8개 사례 - 다이어그램과 수치, 그리고 그중 둘이 실패한 이유.">
+<meta name="description" content="명령하지 않고 행동을 바꾼 환경 10개 사례 - 직접 만져 보는 다이어그램과 수치, 그리고 그중 둘이 반박된 이유.">
 <meta property="og:title" content="환경은 프로그램인가">
 <meta property="og:description" content="환경은 명령하지 않는다. 한쪽 길을 쉽게, 다른 길을 어렵게 만들 뿐이다.">
 <meta property="og:type" content="article">
@@ -840,7 +840,8 @@
   .slide-case figure { margin: 0; }
 
   /* Heading and note sit at the top; the plot takes the space left over. */
-  .slide-map { grid-template-rows: auto auto 1fr; }
+  /* label, heading, note, then the plot takes what is left and centres in it */
+  .slide-map { grid-template-rows: auto auto auto 1fr; }
   .slide-map figure {
     min-height: 0;
     display: grid;
@@ -890,6 +891,9 @@
   /* ---------- synthesis ---------- */
 
   .slide-synth .axis-table { margin-top: 20px; }
+  .slide-synth .axis-table td,
+  .slide-synth .axis-table th { padding: 10px 16px 10px 0; line-height: 1.6; }
+  .slide-synth .axis-table td:first-child { white-space: normal; min-width: 11em; }
   .slide-synth .closer { margin-top: 26px; }
   .slide-synth .lede { margin-top: 24px !important; max-width: var(--read); }
 
@@ -2109,82 +2113,93 @@
       <div class="case-figure">
         <figure>
           <svg viewBox="0 0 440 290" role="img" id="mqSvg"
-               aria-label="같은 자리에 선 두 사람 중 젊은 쪽에게만 고주파음이 들리는 구조. 25세를 경계로 가청 여부가 갈린다. 재생하면 음파가 양쪽으로 퍼지지만 15세에게만 닿고, 40세 쪽으로 간 음파는 가청 한계에서 사라진다.">
-            <text x="16" y="20" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.6">17.4 kHz · 같은 소리, 같은 자리</text>
+               aria-label="상점 입구 앞에 청소년 셋과 어른 둘이 서 있다. 문 위의 장치가 17.4 kHz를 내면 음파가 퍼지고, 청소년들만 귀를 막고 자리를 떠난다. 어른들은 아무것도 알아채지 못한다. 아래 그래프는 나이에 따라 들리는 최고 주파수가 내려가는 곡선이고, 17.4 kHz 선과 약 25세에서 만난다. 나이 슬라이더로 자신의 위치를 볼 수 있다.">
+            <defs>
+              <linearGradient id="mqGlass" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="var(--user)" stop-opacity="0.10"/>
+                <stop offset="1" stop-color="var(--user)" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
 
-            <!-- speaker -->
-            <g transform="translate(212 74)">
-              <rect x="-11" y="-15" width="22" height="30" rx="3"
-                    fill="var(--panel)" stroke="currentColor" stroke-opacity="0.45"/>
-              <circle cx="0" cy="3" r="6" fill="none"
-                      stroke="currentColor" stroke-opacity="0.45"/>
-            </g>
-            <g id="mqWaves" data-live stroke="var(--designer)" fill="none" stroke-width="1.4" opacity="0.75">
-              <path d="M 194 62 Q 182 74 194 86"/>
-              <path d="M 186 54 Q 168 74 186 94"/>
-              <path d="M 230 62 Q 242 74 230 86"/>
-              <path d="M 238 54 Q 256 74 238 94"/>
-            </g>
-            <!-- rings sent out while the tone plays -->
-            <g id="mqRings" data-live stroke="var(--designer)" fill="none" stroke-width="1.6"></g>
+            <text id="mqTitle" x="16" y="18" class="t-mono" font-size="10.5" fill="currentColor" opacity="0.6">2005년 · 웨일스의 상점 입구</text>
+            <text id="mqStatus" x="424" y="18" text-anchor="end" class="t-body" font-size="11" fill="var(--designer)" opacity="0"></text>
 
-            <!-- where hearing stops: the rings heading right fade out here -->
-            <g id="mqLimit" data-live opacity="0">
-              <line x1="292" y1="34" x2="292" y2="156" stroke="currentColor" stroke-opacity="0.35" stroke-dasharray="3 4"/>
-              <text x="292" y="170" text-anchor="middle" class="t-mono" font-size="9.5" fill="currentColor" opacity="0.6">~25세 가청 한계</text>
-            </g>
-
-            <!-- hears it -->
-            <g transform="translate(74 74)">
-              <g id="mqYoung">
-                <circle cx="0" cy="-16" r="13" fill="var(--designer)"/>
-                <path d="M -15 26 Q -15 -1 0 -1 Q 15 -1 15 26 Z" fill="var(--designer)"/>
+            <!-- the shop front -->
+            <g id="mqShop">
+              <rect x="16" y="28" width="408" height="118" fill="var(--panel)" stroke="currentColor" stroke-opacity="0.25"/>
+              <!-- awning -->
+              <g opacity="0.5"><path d="M 16 40 L 424 40 L 424 52 L 16 52 Z" fill="var(--designer)"/></g>
+              <g fill="var(--panel)" opacity="0.5">
+                <rect x="36" y="40" width="20" height="12"/><rect x="76" y="40" width="20" height="12"/><rect x="116" y="40" width="20" height="12"/>
+                <rect x="156" y="40" width="20" height="12"/><rect x="264" y="40" width="20" height="12"/><rect x="304" y="40" width="20" height="12"/>
+                <rect x="344" y="40" width="20" height="12"/><rect x="384" y="40" width="20" height="12"/>
               </g>
-              <!-- the noise getting to them -->
-              <g id="mqNoise" data-live opacity="0" stroke="var(--designer)" stroke-width="1.5" fill="none" stroke-linecap="round">
-                <path d="M -20 -28 L -25 -23 L -20 -18 L -25 -13"/>
-                <path d="M 20 -28 L 25 -23 L 20 -18 L 25 -13"/>
-                <path d="M -9 -38 L -4 -42 L 1 -38 L 6 -42"/>
+              <!-- windows -->
+              <rect x="30" y="62" width="140" height="84" fill="url(#mqGlass)" stroke="currentColor" stroke-opacity="0.25"/>
+              <rect x="270" y="62" width="140" height="84" fill="url(#mqGlass)" stroke="currentColor" stroke-opacity="0.25"/>
+              <!-- door -->
+              <rect x="186" y="66" width="68" height="80" rx="2" fill="var(--ground-deep)" stroke="currentColor" stroke-opacity="0.35"/>
+              <line x1="220" y1="66" x2="220" y2="146" stroke="currentColor" stroke-opacity="0.2"/>
+              <circle cx="214" cy="108" r="1.6" fill="currentColor" opacity="0.5"/>
+              <circle cx="226" cy="108" r="1.6" fill="currentColor" opacity="0.5"/>
+              <!-- the device, above the door -->
+              <g id="mqDevice" transform="translate(220 58)">
+                <rect x="-9" y="-5" width="18" height="10" rx="2" fill="var(--ground-deep)" stroke="currentColor" stroke-opacity="0.5"/>
+                <circle id="mqLed" cx="5" cy="0" r="1.6" fill="var(--designer)" opacity="0.4"/>
+              </g>
+              <!-- pavement -->
+              <line x1="16" y1="146" x2="424" y2="146" stroke="currentColor" stroke-opacity="0.35"/>
+              <g opacity="0.05"><rect x="16" y="146" width="408" height="10" fill="currentColor"/></g>
+            </g>
+
+            <!-- sound, when it plays -->
+            <g id="mqRings" data-live fill="none" stroke="var(--designer)" stroke-width="1.4"></g>
+
+            <!-- the people: built by script -->
+            <g id="mqPeople" data-live></g>
+
+            <!-- age against hearing -->
+            <text x="16" y="178" class="t-body" font-size="11" fill="currentColor" opacity="0.6">나이별 들리는 최고음 (대략, 개인차 큼)</text>
+            <g id="mqChart" data-live>
+              <!-- axes -->
+              <line x1="46" y1="272" x2="424" y2="272" stroke="currentColor" stroke-opacity="0.25"/>
+              <g class="t-mono" font-size="9" fill="currentColor" opacity="0.5">
+                <text x="46" y="284" text-anchor="middle">10세</text>
+                <text x="172" y="284" text-anchor="middle">30세</text>
+                <text x="298" y="284" text-anchor="middle">50세</text>
+                <text x="424" y="284" text-anchor="middle">70세</text>
+                <text x="40" y="196" text-anchor="end">20k</text>
+                <text x="40" y="272" text-anchor="end">10k</text>
+              </g>
+              <!-- the device's line -->
+              <line id="mqDevLine" x1="46" y1="212" x2="424" y2="212" stroke="var(--designer)" stroke-width="1.2" stroke-dasharray="4 3"/>
+              <text x="424" y="208" text-anchor="end" class="t-mono" font-size="9" fill="var(--designer)">17.4 kHz</text>
+              <!-- the curve -->
+              <path id="mqCurve" d="" fill="none" stroke="currentColor" stroke-opacity="0.7" stroke-width="1.8" stroke-linejoin="round"/>
+              <!-- where they cross -->
+              <line id="mqCross" x1="140" y1="212" x2="140" y2="272" stroke="var(--designer)" stroke-opacity="0.5" stroke-dasharray="2 3"/>
+              <text x="140" y="264" text-anchor="middle" class="t-mono" font-size="9" fill="var(--designer)">~25세</text>
+              <!-- you -->
+              <g id="mqMarker">
+                <line id="mqMarkerDrop" x1="0" y1="0" x2="0" y2="0" stroke="currentColor" stroke-opacity="0.35"/>
+                <circle id="mqMarkerDot" cx="0" cy="0" r="5" fill="var(--ink)" stroke="var(--panel)" stroke-width="1.5"/>
+                <text id="mqMarkerTxt" x="0" y="0" class="t-body" font-size="10.5" font-weight="700" fill="var(--ink)"></text>
               </g>
             </g>
-            <text id="mqYoungAge" x="74" y="130" text-anchor="middle" class="t-body"
-                  font-size="12.5" fill="var(--designer)">15세</text>
-            <text x="74" y="150" text-anchor="middle" class="t-body"
-                  font-size="12" fill="currentColor" opacity="0.72">참기 힘든 소음</text>
-
-            <!-- cannot hear it -->
-            <g transform="translate(360 74)">
-             <g id="mqOld" opacity="0.4">
-              <circle cx="0" cy="-16" r="13" fill="none"
-                      stroke="currentColor" stroke-width="1.6"/>
-              <path d="M -15 26 Q -15 -1 0 -1 Q 15 -1 15 26 Z" fill="none"
-                    stroke="currentColor" stroke-width="1.6"/>
-             </g>
-            </g>
-            <text x="360" y="130" text-anchor="middle" class="t-body"
-                  font-size="12.5" fill="currentColor" opacity="0.6">40세</text>
-            <text x="360" y="150" text-anchor="middle" class="t-body"
-                  font-size="12" fill="currentColor" opacity="0.6">아무 소리도 안 들림</text>
-
-            <line x1="16" y1="176" x2="424" y2="176"
-                  stroke="currentColor" stroke-opacity="0.18"/>
-
-            <text x="16" y="202" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.6">같은 목적의 다른 장치</text>
-            <g class="t-body" font-size="12" fill="currentColor" opacity="0.8">
-              <text x="16" y="226">분홍 조명 — 여드름이 도드라져 보인다</text>
-              <text x="16" y="248">배리 매닐로우 — 취향으로 쫓아낸다</text>
-            </g>
-            <text x="16" y="276" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.72">
-              금지 표지판도 경비원도 없다. 그냥 불쾌해질 뿐이다.
-            </text>
           </svg>
           <div class="fig-controls fig-controls-block">
-            <span class="try-label">들리는지 확인해 보세요</span>
-            <div class="beep">
+            <div class="bench-row">
+              <span class="try-label">나이</span>
+              <label class="range">
+                <input type="range" id="mqAge" min="10" max="70" value="30" step="1" aria-label="나이">
+                <b id="mqAgeTxt">30세</b>
+              </label>
+            </div>
+            <div class="bench-row">
+              <span class="try-label">들리는지 확인해 보세요</span>
+              <button type="button" class="btn" id="beepRef">1kHz 확인음</button>
               <button type="button" class="btn primary" id="beepBtn">17.4kHz 2초 재생</button>
+              <button type="button" class="btn" id="beepSweep">8→20kHz 스위프</button>
               <span class="warn">볼륨을 낮추고 누르세요</span>
             </div>
             <div class="beep beep-ask" id="beepAsk" hidden>
@@ -2237,56 +2252,71 @@
 <section class="slide slide-case" id="s9" data-cat="default">
       <div class="case-figure">
         <figure>
-          <svg viewBox="0 0 440 290" role="img"
-               aria-label="추적을 묻지 않던 시절과 팝업으로 묻기 시작한 뒤의 동의율 비교. 같은 데이터인데 동의율이 크게 갈린다.">
-            <text x="16" y="20" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.6">2021년 4월 · iOS 14.5</text>
+          <svg viewBox="0 0 440 290" role="img" id="attSvg"
+               aria-label="왼쪽 휴대폰 속 앱에서 오른쪽의 광고 네트워크, 데이터 브로커, 분석 SDK로 데이터 패킷이 소리 없이 흘러간다. iOS 14.5 팝업이 화면 아래에서 올라오면 흐름이 멈추고, 아래 100명의 사용자 점이 한 명씩 답한다. 79명이 거절하고 21명이 허용하면 흐름은 5분의 1로 줄고, 메타의 손실 카운터가 100억 달러까지 오른다.">
+            <text id="attEra" x="16" y="20" class="t-mono" font-size="10.5" fill="currentColor" opacity="0.6">2021년 4월 이전 · 묻지 않음</text>
+            <text id="attShare" x="424" y="20" text-anchor="end" class="t-body" font-size="11.5" fill="var(--user)" font-weight="700">추적 켜짐 100%</text>
 
-            <!-- before -->
-            <rect x="16" y="32" width="186" height="96" rx="4"
-                  fill="var(--panel)" stroke="currentColor" stroke-opacity="0.3"/>
-            <text x="109" y="72" text-anchor="middle" class="t-body"
-                  font-size="12.5" fill="currentColor" opacity="0.6">묻지 않음</text>
-            <text x="109" y="96" text-anchor="middle" class="t-body"
-                  font-size="12" fill="currentColor" opacity="0.5">기본적으로 추적</text>
+            <!-- the phone -->
+            <g id="attPhone" data-live>
+              <rect x="16" y="30" width="118" height="228" rx="14" fill="var(--ground-deep)" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.5"/>
+              <rect x="22" y="36" width="106" height="216" rx="9" fill="var(--panel)"/>
+              <rect x="60" y="40" width="30" height="4" rx="2" fill="currentColor" opacity="0.25"/>
+              <!-- the app -->
+              <rect x="30" y="52" width="18" height="18" rx="4" fill="var(--designer)"/>
+              <text x="54" y="65" class="t-body" font-size="10" fill="currentColor">뉴스앱</text>
+              <g fill="currentColor" opacity="0.14">
+                <rect x="30" y="80" width="90" height="34" rx="3"/>
+                <rect x="30" y="120" width="70" height="5" rx="2"/>
+                <rect x="30" y="130" width="86" height="5" rx="2"/>
+                <rect x="30" y="140" width="60" height="5" rx="2"/>
+                <rect x="30" y="156" width="90" height="34" rx="3"/>
+                <rect x="30" y="196" width="76" height="5" rx="2"/>
+                <rect x="30" y="206" width="84" height="5" rx="2"/>
+              </g>
+              <!-- the sheet that asks -->
+              <g id="attSheet" transform="translate(0 230)">
+                <rect x="22" y="128" width="106" height="124" rx="9" fill="var(--panel-hi)" stroke="currentColor" stroke-opacity="0.35"/>
+                <text x="75" y="150" text-anchor="middle" class="t-body" font-size="8.5" font-weight="700" fill="currentColor">"뉴스앱"이 다른 회사의</text>
+                <text x="75" y="161" text-anchor="middle" class="t-body" font-size="8.5" font-weight="700" fill="currentColor">앱과 웹사이트에서 활동을</text>
+                <text x="75" y="172" text-anchor="middle" class="t-body" font-size="8.5" font-weight="700" fill="currentColor">추적하도록 허용하겠습니까?</text>
+                <text x="75" y="188" text-anchor="middle" class="t-body" font-size="7.5" fill="currentColor" opacity="0.6">맞춤형 광고에 사용됩니다.</text>
+                <line x1="22" y1="200" x2="128" y2="200" stroke="currentColor" stroke-opacity="0.2"/>
+                <text x="75" y="217" text-anchor="middle" class="t-body" font-size="9.5" fill="var(--user)">앱에 추적 금지 요청</text>
+                <line x1="22" y1="226" x2="128" y2="226" stroke="currentColor" stroke-opacity="0.2"/>
+                <text x="75" y="243" text-anchor="middle" class="t-body" font-size="9.5" fill="var(--user)">허용</text>
+                <!-- a fingertip that taps -->
+                <circle id="attFinger" cx="75" cy="217" r="7" fill="var(--ink)" opacity="0"/>
+              </g>
+            </g>
 
-            <!-- after: the dialog -->
-            <rect x="238" y="32" width="186" height="96" rx="4"
-                  fill="var(--panel)" stroke="var(--user)" stroke-width="1.6"/>
-            <text x="331" y="56" text-anchor="middle" class="t-body"
-                  font-size="12" fill="currentColor">추적을 허용하시겠습니까?</text>
-            <rect x="252" y="68" width="158" height="22" rx="4"
-                  fill="var(--ground-deep)" stroke="currentColor" stroke-opacity="0.3"/>
-            <text x="331" y="83" text-anchor="middle" class="t-body"
-                  font-size="11.5" fill="currentColor">추적하지 않음</text>
-            <rect x="252" y="96" width="158" height="22" rx="4"
-                  fill="var(--ground-deep)" stroke="currentColor" stroke-opacity="0.3"/>
-            <text x="331" y="111" text-anchor="middle" class="t-body"
-                  font-size="11.5" fill="currentColor">허용</text>
+            <!-- where the data goes -->
+            <g id="attTargets" class="t-body" font-size="10" fill="currentColor">
+              <circle cx="392" cy="56" r="11" fill="var(--panel-hi)" stroke="var(--designer)" stroke-opacity="0.8"/>
+              <text x="378" y="60" text-anchor="end" opacity="0.7">광고 네트워크</text>
+              <circle cx="392" cy="104" r="11" fill="var(--panel-hi)" stroke="var(--designer)" stroke-opacity="0.8"/>
+              <text x="378" y="108" text-anchor="end" opacity="0.7">데이터 브로커</text>
+              <circle cx="392" cy="152" r="11" fill="var(--panel-hi)" stroke="var(--designer)" stroke-opacity="0.8"/>
+              <text x="378" y="156" text-anchor="end" opacity="0.7">분석 SDK</text>
+            </g>
+            <!-- packets travel here -->
+            <g id="attFlow" data-live></g>
 
-            <line x1="16" y1="152" x2="424" y2="152"
-                  stroke="currentColor" stroke-opacity="0.18"/>
+            <!-- a hundred people, answering -->
+            <text x="160" y="186" class="t-body" font-size="10.5" fill="currentColor" opacity="0.6">사용자 100명</text>
+            <text id="attTally" x="424" y="186" text-anchor="end" class="t-body" font-size="10.5" fill="currentColor" opacity="0.7"></text>
+            <g id="attPeople" data-live></g>
 
-            <text x="16" y="178" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.6">추적 동의율</text>
-            <rect x="16" y="188" width="408" height="26" fill="var(--user-bg)"/>
-            <rect x="16" y="188" width="86" height="26" fill="var(--designer)"/>
-            <text x="28" y="206" class="t-body" font-size="13"
-                  fill="var(--panel)" font-weight="700">16~25%</text>
-            <text x="416" y="206" text-anchor="end" class="t-body"
-                  font-size="12" fill="currentColor" opacity="0.65">나머지는 거절</text>
-
-            <text x="16" y="248" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.72">
-              데이터도 기술도 그대로다. 묻는 행위만 추가됐다.
-            </text>
-            <text x="16" y="270" class="t-body" font-size="12.5"
-                  fill="var(--designer)" font-weight="700">
-              메타의 그해 손실 추정 100억 달러
-            </text>
+            <!-- the bill -->
+            <text x="160" y="269" class="t-body" font-size="11" fill="currentColor" opacity="0.6">메타의 그해 손실 추정</text>
+            <text id="attMoney" x="424" y="269" text-anchor="end" class="t-mono" font-size="15" font-weight="700" fill="var(--designer)">$0</text>
+            <text id="attLine" x="160" y="287" class="t-body" font-size="11.5" fill="currentColor" opacity="0.72">데이터는 소리 없이 흘러간다.</text>
           </svg>
           <div class="fig-controls fig-controls-block">
-            <span class="try-label">직접 받아보세요</span>
+            <div class="bench-row">
+              <span class="try-label">직접 받아보세요</span>
+              <button type="button" class="btn" id="attReplay">처음부터 다시</button>
+            </div>
             <div class="att" id="attBox">
             <h4>"뉴스앱"이(가) 다른 회사의 앱과 웹사이트에서 사용자의 활동을 추적하도록 허용하겠습니까?</h4>
             <p>추적을 허용하면 맞춤형 광고를 제공하는 데 사용됩니다.</p>
@@ -2337,65 +2367,94 @@
 <section class="slide slide-case" id="s10" data-cat="space">
       <div class="case-figure">
         <figure>
-          <svg viewBox="0 0 440 290" role="img"
-               aria-label="신호등과 표지판과 차선이 있던 교차로에서 그것들을 모두 제거한 뒤 사고가 연 8.3건에서 1건으로 줄어든 비교.">
-            <g class="t-body" font-size="12" fill="currentColor" opacity="0.6">
-              <text x="16" y="20">BEFORE · 규칙이 있는 교차로</text>
-              <text x="242" y="20">AFTER · 규칙을 걷어낸 교차로</text>
+          <svg viewBox="0 0 440 290" role="img" id="ssSvg"
+               aria-label="위에서 내려다본 교차로. 규칙 모드에서는 신호등과 차선이 있고 차들이 초록불에 속도를 내며 지나가 가끔 충돌이 난다. 규칙을 걷어내면 신호등과 차선과 표지판이 사라지고 차와 사람이 서로를 보며 속도를 늦추고 번갈아 지나간다. 아래에 연간 사고 건수 8.3건 대 1건과 속도 −40%가 표시된다.">
+            <defs>
+              <clipPath id="ssClip"><rect x="16" y="28" width="408" height="150"/></clipPath>
+              <radialGradient id="ssGaze" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="var(--user)" stop-opacity="0.35"/>
+                <stop offset="1" stop-color="var(--user)" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <text id="ssMode" x="16" y="20" class="t-mono" font-size="10.5" fill="currentColor" opacity="0.6">규칙이 있는 교차로 · Drachten, 2001년 이전</text>
+            <text id="ssSpeed" x="424" y="20" text-anchor="end" class="t-body" font-size="11" fill="currentColor" opacity="0.7">평균 속도 100%</text>
+
+            <g clip-path="url(#ssClip)">
+              <!-- ground and roads -->
+              <rect x="16" y="28" width="408" height="150" fill="var(--panel)"/>
+              <rect x="16" y="78" width="408" height="50" fill="var(--ground-deep)"/>
+              <rect x="195" y="28" width="50" height="150" fill="var(--ground-deep)"/>
+              <!-- the rules: lane lines, stop lines, kerbs, signals, signs -->
+              <g id="ssRules" data-live>
+                <g stroke="var(--panel-hi)" stroke-width="1.6" stroke-dasharray="7 7">
+                  <line x1="16" y1="103" x2="190" y2="103"/><line x1="250" y1="103" x2="424" y2="103"/>
+                  <line x1="220" y1="28" x2="220" y2="72"/><line x1="220" y1="134" x2="220" y2="178"/>
+                </g>
+                <g stroke="var(--ink)" stroke-opacity="0.7" stroke-width="2.2">
+                  <line x1="186" y1="80" x2="186" y2="126"/><line x1="254" y1="80" x2="254" y2="126"/>
+                  <line x1="197" y1="72" x2="243" y2="72"/><line x1="197" y1="134" x2="243" y2="134"/>
+                </g>
+                <!-- kerbs -->
+                <g stroke="var(--ink-faint)" stroke-width="1.4" fill="none">
+                  <path d="M 16 78 H 195 V 28"/><path d="M 245 28 V 78 H 424"/>
+                  <path d="M 16 128 H 195 V 178"/><path d="M 245 178 V 128 H 424"/>
+                </g>
+                <!-- signals: two heads, one per axis -->
+                <g id="ssSigEW" transform="translate(176 62)">
+                  <rect x="-5" y="-14" width="10" height="28" rx="2" fill="#14181D" stroke="currentColor" stroke-opacity="0.4"/>
+                  <circle id="ssEwRed" cx="0" cy="-7" r="3" fill="#FF6B5A" opacity="0.25"/>
+                  <circle id="ssEwGreen" cx="0" cy="7" r="3" fill="#A3E635" opacity="1"/>
+                </g>
+                <g id="ssSigNS" transform="translate(264 144)">
+                  <rect x="-5" y="-14" width="10" height="28" rx="2" fill="#14181D" stroke="currentColor" stroke-opacity="0.4"/>
+                  <circle id="ssNsRed" cx="0" cy="-7" r="3" fill="#FF6B5A" opacity="1"/>
+                  <circle id="ssNsGreen" cx="0" cy="7" r="3" fill="#A3E635" opacity="0.25"/>
+                </g>
+                <!-- signs -->
+                <g fill="var(--designer)">
+                  <polygon points="170,140 178,154 162,154"/>
+                  <rect x="266" y="56" width="10" height="10" transform="rotate(45 271 61)"/>
+                </g>
+              </g>
+
+              <!-- shared space: the same square, but one surface -->
+              <g id="ssPlaza" data-live opacity="0">
+                <rect x="16" y="28" width="408" height="150" fill="var(--panel)"/>
+                <rect x="16" y="78" width="408" height="50" fill="var(--panel-hi)"/>
+                <rect x="195" y="28" width="50" height="150" fill="var(--panel-hi)"/>
+                <rect x="170" y="54" width="100" height="98" rx="50" fill="var(--panel-hi)"/>
+                <circle cx="220" cy="103" r="14" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.4"/>
+                <text x="220" y="107" text-anchor="middle" class="t-body" font-size="9" fill="currentColor" opacity="0.5">광장</text>
+              </g>
+
+              <!-- moving things -->
+              <g id="ssActors" data-live></g>
+              <g id="ssFx" data-live></g>
             </g>
 
-            <!-- before -->
-            <rect x="16" y="30" width="186" height="104" fill="var(--ground-deep)"/>
-            <g stroke="var(--panel)" stroke-width="2.4">
-              <line x1="16" y1="82" x2="202" y2="82"/>
-              <line x1="109" y1="30" x2="109" y2="134"/>
+            <!-- the numbers -->
+            <line x1="16" y1="192" x2="424" y2="192" stroke="currentColor" stroke-opacity="0.18"/>
+            <text x="16" y="214" class="t-body" font-size="11.5" fill="currentColor" opacity="0.6">연간 사고 · 이 화면에서 지금까지</text>
+            <text id="ssCrashTxt" x="424" y="214" text-anchor="end" class="t-body" font-size="11.5" fill="var(--designer)" font-weight="700">충돌 0</text>
+            <g id="ssBars" data-live>
+              <text x="16" y="238" class="t-mono" font-size="10" fill="currentColor" opacity="0.6">규칙</text>
+              <rect x="56" y="228" width="240" height="14" fill="var(--designer)" opacity="0.9"/>
+              <text x="304" y="239" class="t-body" font-size="12" fill="var(--designer)" font-weight="700">8.3건</text>
+              <text x="16" y="260" class="t-mono" font-size="10" fill="currentColor" opacity="0.6">제거</text>
+              <rect id="ssBarAfter" x="56" y="250" width="240" height="14" fill="var(--user)" opacity="0.9"/>
+              <text id="ssBarAfterTxt" x="304" y="261" class="t-body" font-size="12" fill="var(--user)" font-weight="700">8.3건</text>
             </g>
-            <g stroke="var(--panel)" stroke-width="1.4" stroke-dasharray="6 6" opacity="0.9">
-              <line x1="16" y1="70" x2="202" y2="70"/>
-              <line x1="16" y1="94" x2="202" y2="94"/>
-            </g>
-            <g fill="var(--designer)">
-              <rect x="72" y="44" width="9" height="20" rx="1.5"/>
-              <rect x="138" y="100" width="9" height="20" rx="1.5"/>
-              <circle cx="60" cy="100" r="7"/>
-              <circle cx="158" cy="52" r="7"/>
-            </g>
-
-            <!-- after -->
-            <rect x="242" y="30" width="182" height="104" fill="var(--ground-deep)"/>
-            <circle cx="333" cy="82" r="26" fill="none"
-                    stroke="var(--panel)" stroke-width="2"/>
-            <g fill="var(--user)" opacity="0.85">
-              <circle cx="290" cy="60" r="6"/>
-              <circle cx="376" cy="104" r="6"/>
-              <circle cx="300" cy="108" r="6"/>
-              <circle cx="368" cy="56" r="6"/>
-            </g>
-            <text x="333" y="86" text-anchor="middle" class="t-body"
-                  font-size="11" fill="var(--panel)">눈맞춤</text>
-
-            <g class="t-body" font-size="11.5" fill="currentColor" opacity="0.62">
-              <text x="16" y="152">신호등 · 표지판 · 차선 · 연석</text>
-              <text x="242" y="152">전부 제거</text>
-            </g>
-
-            <line x1="16" y1="172" x2="424" y2="172"
-                  stroke="currentColor" stroke-opacity="0.18"/>
-
-            <text x="16" y="198" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.6">연간 사고 건수 · 네덜란드 Drachten</text>
-            <rect x="16" y="208" width="240" height="22" fill="var(--designer)"/>
-            <text x="28" y="224" class="t-body" font-size="12.5"
-                  fill="var(--panel)" font-weight="700">8.3건</text>
-            <rect x="16" y="236" width="29" height="22" fill="var(--user)"/>
-            <text x="56" y="252" class="t-body" font-size="12.5"
-                  fill="var(--user)" font-weight="700">1건</text>
-
-            <text x="16" y="280" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.72">
-              규칙을 지우자 사람들이 서로를 보기 시작했다.
-            </text>
+            <text id="ssLine" x="16" y="284" class="t-body" font-size="12" fill="currentColor" opacity="0.72">초록불이면 앞을 보지 않는다. 규칙만 지키면 된다.</text>
           </svg>
+          <div class="fig-controls">
+            <span class="try-label">교차로</span>
+            <div class="toggle" id="ssToggle" role="group" aria-label="교차로 선택">
+              <button type="button" data-mode="rules" aria-pressed="true">규칙 있음</button>
+              <button type="button" data-mode="shared" aria-pressed="false">전부 제거</button>
+            </div>
+            <span class="warn" id="ssHint">차와 사람이 어떻게 지나가는지 보세요</span>
+          </div>
         </figure>
       </div>
 
@@ -2549,27 +2608,37 @@
           <tr>
             <td>명령한다</td>
             <td>아니다</td>
-            <td>10개 사례 모두 금지도 지시도 없다. 마찰만 조정했다</td>
+            <td>10개 사례 어디에도 금지문이 없다. 벤치는 표지판 0장, 소변기는 파리 한 마리, 회의 없는 날은 달력의 빈칸 하나</td>
           </tr>
           <tr>
             <td>결과가 정해진다</td>
             <td>아니다</td>
-            <td>같은 설계가 사람마다 다르게 작동한다. 확률만 바꾼다</td>
+            <td>같은 파리를 두고도 명중은 사람마다 다르고, 같은 팝업 앞에서도 21%는 허용을 눌렀다. 환경은 확률을 옮길 뿐이다</td>
           </tr>
           <tr>
             <td>의도대로 실행된다</td>
             <td>아니다</td>
-            <td>개방형 사무실은 대화를 70% 줄였다 <span class="vs">의도와 정반대</span></td>
+            <td>벽을 없애 대화를 늘리려던 개방형 사무실은 대화를 70% 줄였다 <span class="vs">의도와 정반대</span>. 캠든 벤치는 잠을 없애지 못하고 다음 블록으로 옮겼다</td>
           </tr>
           <tr>
             <td>규칙을 더할수록 강해진다</td>
             <td>아니다</td>
-            <td>공유 공간은 규칙을 <strong>지워서</strong> 사고를 8분의 1로 줄였다</td>
+            <td>공유 공간은 표지판을 <strong>지워서</strong> 사고를 연 8.3건에서 1건으로 줄였다. 회의 없는 날은 규칙 한 줄로 거절이라는 행위 자체를 없앴다</td>
+          </tr>
+          <tr>
+            <td>대상을 고른다</td>
+            <td>그렇다</td>
+            <td>모스키토 알람은 같은 자리에서 25세 이하에게만 존재한다. 어른에게 그 환경은 없는 것과 같다</td>
+          </tr>
+          <tr>
+            <td>멈추는 데만 힘이 든다</td>
+            <td>그렇다</td>
+            <td>자동재생은 계속 보는 데 아무것도 요구하지 않았고, 멈추는 데만 버튼이 필요했다. 기본 검색엔진을 바꾸는 데는 세 번의 탭이 든다</td>
           </tr>
           <tr>
             <td>실제로 행동을 바꾼다</td>
             <td>그렇다</td>
-            <td>추적 동의는 묻기만 했는데 동의율이 100%에서 20%대로 내려갔다</td>
+            <td>서식의 방향 하나로 장기기증 12% 대 99.98%. 묻기만 했는데 추적 동의 100%에서 16~25%로, 100억 달러</td>
           </tr>
         </tbody>
       </table>
@@ -4267,6 +4336,328 @@
     paintBars();
   })();
 
+  // ---------- shared space: take the rules away and watch them look at each other ----------
+  (function () {
+    var svg = document.getElementById('ssSvg');
+    var toggle = document.getElementById('ssToggle');
+    if (!svg || !toggle) return;
+
+    var NS = 'http://www.w3.org/2000/svg';
+    var G = window.gsap || null;
+    var reduced = window.matchMedia &&
+                  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var anim = G && !reduced;
+
+    var rules = document.getElementById('ssRules');
+    var plaza = document.getElementById('ssPlaza');
+    var actors = document.getElementById('ssActors');
+    var fx = document.getElementById('ssFx');
+    var modeTxt = document.getElementById('ssMode');
+    var speedTxt = document.getElementById('ssSpeed');
+    var crashTxt = document.getElementById('ssCrashTxt');
+    var barAfter = document.getElementById('ssBarAfter');
+    var barAfterTxt = document.getElementById('ssBarAfterTxt');
+    var line = document.getElementById('ssLine');
+    var hint = document.getElementById('ssHint');
+    var sig = { ewRed: document.getElementById('ssEwRed'), ewGreen: document.getElementById('ssEwGreen'),
+                nsRed: document.getElementById('ssNsRed'), nsGreen: document.getElementById('ssNsGreen') };
+
+    var C = { x: 220, y: 103 };          // the middle of the crossing
+    var shared = false, running = false, raf = null, lastTs = 0;
+    var crashes = 0, phaseEW = true, phaseT = 0;
+    var cars = [], peds = [], spawnT = 0;
+    var boxOwner = null;                 // shared mode: the car that is crossing right now
+
+    function el(name, attrs, parent) {
+      var e = document.createElementNS(NS, name);
+      for (var a in attrs) e.setAttribute(a, attrs[a]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    // ---- actors. Cars run on one of four lanes; people cross on foot.
+    //      lane: 0 west->east (y 90), 1 east->west (y 116), 2 north->south (x 208), 3 south->north (x 232)
+    var LANES = [
+      { axis: 'x', dir: 1,  fixed: 90,  from: -20, to: 460 },
+      { axis: 'x', dir: -1, fixed: 116, from: 460, to: -20 },
+      { axis: 'y', dir: 1,  fixed: 208, from: 10,  to: 195 },
+      { axis: 'y', dir: -1, fixed: 232, from: 195, to: 10 }
+    ];
+    var CAR_COLOURS = ['#A8B3BD', '#6C7883', '#F2F5F7', '#8E97A0'];
+    function spawnCar(lane) {
+      var L = LANES[lane];
+      var g = el('g', {}, actors);
+      var horiz = L.axis === 'x';
+      var body = el('rect', { x: horiz ? -9 : -5, y: horiz ? -5 : -9, width: horiz ? 18 : 10, height: horiz ? 10 : 18, rx: 2,
+                   fill: CAR_COLOURS[Math.floor(Math.random() * CAR_COLOURS.length)] }, g);
+      el('rect', { x: horiz ? (L.dir > 0 ? 2 : -6) : -3, y: horiz ? -3 : (L.dir > 0 ? 2 : -6), width: horiz ? 4 : 6, height: horiz ? 6 : 4,
+                   fill: '#0B0D10', opacity: 0.6 }, g);
+      var gaze = el('circle', { r: 16, fill: 'url(#ssGaze)', opacity: 0 }, g);
+      var c = { g: g, body: body, gaze: gaze, lane: lane, s: L.from, v: 0, vmax: shared ? 56 : 95,
+                waited: false, wrecked: false, wreckT: 0, rot: 0, id: Math.random() };
+      cars.push(c);
+      return c;
+    }
+    function spawnPed() {
+      // crosses the east-west road from the south or the north, on the east side
+      var fromTop = Math.random() < 0.5;
+      var g = el('g', {}, actors);
+      el('circle', { r: 3.2, fill: 'var(--user)' }, g);
+      var gaze = el('circle', { r: 12, fill: 'url(#ssGaze)', opacity: 0 }, g);
+      var p = { g: g, gaze: gaze, x: 300 + Math.random() * 60, y: fromTop ? 40 : 166, dir: fromTop ? 1 : -1, v: 0, vmax: 22 };
+      peds.push(p);
+      return p;
+    }
+    function pos(c) {
+      var L = LANES[c.lane];
+      return L.axis === 'x' ? { x: c.s, y: L.fixed } : { x: L.fixed, y: c.s };
+    }
+    function place(c) {
+      var q = pos(c);
+      c.g.setAttribute('transform', 'translate(' + q.x.toFixed(1) + ' ' + q.y.toFixed(1) + ')' + (c.rot ? ' rotate(' + c.rot + ')' : ''));
+    }
+
+    // a wrecked car: red, knocked askew, a crack across it; it sits for a
+    // moment and is then towed away
+    function wreck(c) {
+      if (c.wrecked) return;
+      c.wrecked = true; c.wreckT = 0; c.v = 0;
+      c.rot = (Math.random() < 0.5 ? -1 : 1) * (10 + Math.random() * 14);
+      c.body.setAttribute('fill', '#FF6B5A');
+      c.gaze.setAttribute('opacity', 0);
+      var horiz = LANES[c.lane].axis === 'x';
+      el('path', { d: horiz ? 'M -6 -4 L -2 0 L -4 3 L 1 5' : 'M -4 -6 L 0 -2 L 3 -4 L 5 1',
+                   fill: 'none', stroke: '#0B0D10', 'stroke-width': 1.2, 'stroke-linecap': 'round' }, c.g);
+      if (anim) G.fromTo(c.body, { attr: { opacity: 0.2 } }, { attr: { opacity: 1 }, duration: 0.12, repeat: 5, yoyo: true });
+    }
+    function inBox(q) { return Math.abs(q.x - C.x) < 34 && Math.abs(q.y - C.y) < 34; }
+    function approaching(c) {
+      // distance (along travel) to the stop line, positive while still before it
+      var L = LANES[c.lane], q = pos(c);
+      var d = L.axis === 'x' ? (C.x - q.x) * L.dir : (C.y - q.y) * L.dir;
+      return d;
+    }
+
+    // ---- traffic lights, only in rules mode
+    function setLights() {
+      sig.ewGreen.setAttribute('opacity', phaseEW ? 1 : 0.25);
+      sig.ewRed.setAttribute('opacity', phaseEW ? 0.25 : 1);
+      sig.nsGreen.setAttribute('opacity', phaseEW ? 0.25 : 1);
+      sig.nsRed.setAttribute('opacity', phaseEW ? 1 : 0.25);
+    }
+
+    // ---- the step
+    function step(dt, now) {
+      // spawn
+      spawnT -= dt;
+      if (spawnT <= 0) {
+        spawnCar(Math.floor(Math.random() * 4));
+        if (Math.random() < 0.5) spawnPed();
+        spawnT = shared ? 1.3 + Math.random() * 0.6 : 0.7 + Math.random() * 0.4;
+      }
+      // lights
+      if (!shared) {
+        phaseT += dt;
+        if (phaseT > 3.2) { phaseT = 0; phaseEW = !phaseEW; setLights(); }
+      }
+
+      // cars
+      for (var i = cars.length - 1; i >= 0; i--) {
+        var c = cars[i], L = LANES[c.lane], q = pos(c), d = approaching(c);
+        if (c.wrecked) {
+          c.wreckT += dt;
+          if (c.wreckT > 2.2) {
+            (function (car) {
+              if (anim) G.to(car.g, { attr: { opacity: 0 }, duration: 0.5, onComplete: function () { car.g.remove(); } });
+              else car.g.remove();
+            })(c);
+            cars.splice(i, 1);
+            if (boxOwner === c) boxOwner = null;
+          }
+          continue;
+        }
+        var want = c.vmax;
+        var ewLane = L.axis === 'x';
+        if (!shared) {
+          // green: go, without looking. red: stop at the line.
+          var green = ewLane ? phaseEW : !phaseEW;
+          if (!green && d > 0 && d < 46) want = d < 40 ? 0 : 30;
+        } else {
+          // no rules: slow on approach, look, and let whoever is in the box go first
+          if (d > 0 && d < 70) {
+            want = 34;
+            // the middle belongs to one car at a time: look, and if someone on
+            // the other road is crossing, wait at the edge until they are through
+            var someoneIn = boxOwner && boxOwner !== c && LANES[boxOwner.lane].axis !== L.axis;
+            for (var k = 0; k < peds.length; k++) {
+              if (Math.abs(peds[k].y - C.y) < 30 && Math.abs(peds[k].x - q.x) < 40) { someoneIn = true; break; }
+            }
+            if (someoneIn && d < 40 && d > 16) { want = 0; c.waited = true; }
+            if (!someoneIn && d < 18 && !boxOwner) boxOwner = c;
+            c.gaze.setAttribute('opacity', d < 60 ? 0.9 : 0);
+          } else {
+            c.gaze.setAttribute('opacity', 0);
+          }
+        }
+        // a car right ahead in the same lane
+        for (var m = 0; m < cars.length; m++) {
+          var o = cars[m];
+          if (o === c || o.lane !== c.lane) continue;
+          var gap = (o.s - c.s) * L.dir;
+          if (gap > 0 && gap < 26) { want = Math.min(want, o.v * 0.8); if (gap < 20) want = 0; }
+        }
+        // pedestrians ahead on the east-west road, in shared mode drivers yield
+        if (shared && ewLane) {
+          for (var k2 = 0; k2 < peds.length; k2++) {
+            var pd = peds[k2];
+            var ahead = (pd.x - q.x) * L.dir;
+            if (ahead > 0 && ahead < 34 && Math.abs(pd.y - L.fixed) < 16) { want = 0; c.waited = true; }
+          }
+        }
+        c.v += (want - c.v) * Math.min(1, dt * (want < c.v ? 6 : 2.5));
+        c.s += c.v * dt * L.dir;
+        place(c);
+        if (boxOwner === c && approaching(c) < -30) boxOwner = null;
+        if ((L.dir > 0 && c.s > L.to) || (L.dir < 0 && c.s < L.to)) { if (boxOwner === c) boxOwner = null; c.g.remove(); cars.splice(i, 1); }
+      }
+
+      // pedestrians: in rules mode they cross when the cars are stopped, and
+      // sometimes when they are not; in shared mode they look and step out
+      for (var n = peds.length - 1; n >= 0; n--) {
+        var p = peds[n];
+        var onRoad = p.y > 76 && p.y < 130;
+        var want2 = p.vmax;
+        if (!onRoad && Math.abs(p.y - (p.dir > 0 ? 74 : 132)) < 4) {
+          // at the kerb: decide
+          var carNear = false;
+          for (var i2 = 0; i2 < cars.length; i2++) {
+            var qc = pos(cars[i2]);
+            if (LANES[cars[i2].lane].axis === 'x' && Math.abs(qc.x - p.x) < (shared ? 70 : 40) && cars[i2].v > 10) carNear = true;
+          }
+          if (shared) { want2 = carNear ? 0 : p.vmax; p.gaze.setAttribute('opacity', carNear ? 0.9 : 0); }
+          else { want2 = (carNear && Math.random() < 0.985) ? 0 : p.vmax; }
+        } else {
+          p.gaze.setAttribute('opacity', 0);
+        }
+        p.v += (want2 - p.v) * Math.min(1, dt * 5);
+        p.y += p.v * dt * p.dir;
+        p.g.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')');
+        if (p.y < 30 || p.y > 176) { p.g.remove(); peds.splice(n, 1); }
+      }
+
+      // collisions: cars crossing the box at once, or a car meeting a person on the road
+      for (var a = 0; a < cars.length; a++) {
+        if (cars[a].wrecked) continue;
+        var qa = pos(cars[a]);
+        for (var b = a + 1; b < cars.length; b++) {
+          if (cars[b].wrecked) continue;
+          var qb = pos(cars[b]);
+          if (LANES[cars[a].lane].axis !== LANES[cars[b].lane].axis &&
+              Math.abs(qa.x - qb.x) < 14 && Math.abs(qa.y - qb.y) < 14) {
+            crash(qa.x, qa.y);
+            cars[a].s -= LANES[cars[a].lane].dir * 5; cars[b].s -= LANES[cars[b].lane].dir * 5;
+            wreck(cars[a]); wreck(cars[b]); place(cars[a]); place(cars[b]);
+          }
+        }
+        for (var e = 0; e < peds.length; e++) {
+          var pe = peds[e];
+          if (Math.abs(qa.x - pe.x) < 12 && Math.abs(qa.y - pe.y) < 9) {
+            crash(pe.x, pe.y); wreck(cars[a]); place(cars[a]);
+            // the person is knocked down: red, flat, then gone
+            pe.g.querySelector('circle').setAttribute('fill', '#FF6B5A');
+            pe.g.setAttribute('transform', 'translate(' + pe.x.toFixed(1) + ' ' + pe.y.toFixed(1) + ') scale(1.6 0.6)');
+            (function (ped) { setTimeout(function () { ped.g.remove(); }, 1800); })(pe);
+            peds.splice(e, 1); e--;
+          }
+        }
+      }
+    }
+
+    var lastCrash = 0;
+    function crash(x, y) {
+      var now = performance.now();
+      crashes += 1;
+      crashTxt.textContent = '충돌 ' + crashes;
+      var burst = el('g', { transform: 'translate(' + x + ' ' + y + ')' }, fx);
+      for (var i = 0; i < 6; i++) {
+        var a = i * Math.PI / 3;
+        el('line', { x1: 0, y1: 0, x2: Math.cos(a) * 10, y2: Math.sin(a) * 10, stroke: '#FF6B5A', 'stroke-width': 2, 'stroke-linecap': 'round' }, burst);
+      }
+      if (anim) G.fromTo(burst, { attr: { opacity: 1 }, scale: 0.4, transformOrigin: 'center' },
+                                 { attr: { opacity: 0 }, scale: 1.6, duration: 0.6, ease: 'power2.out', onComplete: function () { burst.remove(); } });
+      else setTimeout(function () { burst.remove(); }, 600);
+      if (now - lastCrash > 300) { sfx.miss(); lastCrash = now; }
+      if (!shared) line.textContent = '초록불이면 앞을 보지 않는다. ' + crashes + '번째 충돌.';
+      else line.textContent = '눈을 마주쳤는데도 부딪혔다. ' + crashes + '번째 — 드문 일이다.';
+    }
+
+    function frame(ts) {
+      var now = ts / 1000;
+      var dt = lastTs ? Math.min(0.05, now - lastTs) : 0;
+      lastTs = now;
+      if (dt) step(dt, now);
+      if (running) raf = requestAnimationFrame(frame); else { raf = null; lastTs = 0; }
+    }
+    function start() { if (!running) { running = true; raf = requestAnimationFrame(frame); } }
+    function stop() { running = false; }
+
+    function clearActors() {
+      boxOwner = null;
+      cars.forEach(function (c) { c.g.remove(); }); cars = [];
+      peds.forEach(function (p) { p.g.remove(); }); peds = [];
+    }
+
+    // ---- switching the intersection
+    function setMode(isShared) {
+      shared = isShared;
+      Array.prototype.forEach.call(toggle.querySelectorAll('button'), function (b) {
+        b.setAttribute('aria-pressed', (b.getAttribute('data-mode') === 'shared') === isShared ? 'true' : 'false');
+      });
+      cars.forEach(function (c) { c.vmax = isShared ? 56 : 95; });
+      crashes = 0; crashTxt.textContent = '충돌 0';
+      modeTxt.textContent = isShared ? '규칙을 걷어낸 교차로 · Drachten, 2001년 이후' : '규칙이 있는 교차로 · Drachten, 2001년 이전';
+      speedTxt.textContent = isShared ? '평균 속도 −40%' : '평균 속도 100%';
+      line.textContent = isShared ? '신호가 없으니 사람의 눈을 봐야 한다. 서로 보이는 곳에서 속도가 떨어진다.'
+                                  : '초록불이면 앞을 보지 않는다. 규칙만 지키면 된다.';
+      hint.textContent = isShared ? '흐린 원은 서로를 보는 시선입니다' : '충돌을 세어 본 뒤, 전부 제거를 눌러 보세요';
+      var w = isShared ? 29 : 240;
+      if (anim) {
+        G.to(rules, { attr: { opacity: isShared ? 0 : 1 }, duration: 0.6 });
+        G.to(plaza, { attr: { opacity: isShared ? 1 : 0 }, duration: 0.6 });
+        G.to(barAfter, { attr: { width: w }, duration: 0.8, ease: 'power2.out', delay: 0.3 });
+        G.to(barAfterTxt, { attr: { x: w + 64 }, duration: 0.8, ease: 'power2.out', delay: 0.3 });
+      } else {
+        rules.setAttribute('opacity', isShared ? 0 : 1);
+        plaza.setAttribute('opacity', isShared ? 1 : 0);
+        barAfter.setAttribute('width', w); barAfterTxt.setAttribute('x', w + 64);
+      }
+      barAfterTxt.textContent = isShared ? '1건' : '8.3건';
+    }
+
+    toggle.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-mode]');
+      if (!b) return;
+      cancelDemo();
+      setMode(b.getAttribute('data-mode') === 'shared');
+    });
+
+    // the rules stay up until the reader takes them down
+    function demo() {}
+    function cancelDemo() {}
+
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { start(); }
+          else { stop(); clearActors(); }
+        });
+      }, { threshold: 0.5 }).observe(svg);
+    } else start();
+
+    setLights();
+    setMode(false);
+  })();
+
   // ---------- open office: bring the partitions down yourself ----------
   (function () {
     var toggle = document.getElementById('officeToggle');
@@ -4534,21 +4925,233 @@
     update();
   })();
 
-  // ---------- 2. tracking: the prompt, then the statistic ----------
+  // ---------- 2. tracking: the data flows until someone asks ----------
   (function () {
+    var svg = document.getElementById('attSvg');
     var box = document.getElementById('attBox');
     var note = document.getElementById('attNote');
-    if (!box || !note) return;
+    var replay = document.getElementById('attReplay');
+    if (!svg || !box || !note) return;
 
+    var NS = 'http://www.w3.org/2000/svg';
+    var G = window.gsap || null;
+    var reduced = window.matchMedia &&
+                  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var anim = G && !reduced;
+
+    var era = document.getElementById('attEra');
+    var share = document.getElementById('attShare');
+    var sheet = document.getElementById('attSheet');
+    var finger = document.getElementById('attFinger');
+    var flow = document.getElementById('attFlow');
+    var peopleG = document.getElementById('attPeople');
+    var tally = document.getElementById('attTally');
+    var money = document.getElementById('attMoney');
+    var line = document.getElementById('attLine');
+
+    var SRC = { x: 134, y: 110 };
+    var TARGETS = [{ x: 381, y: 56 }, { x: 381, y: 104 }, { x: 381, y: 152 }];
+    var N = 100, ALLOW = 21;                 // 21% say yes: inside the 16-25% that was measured
+    var consent = 1;                          // share of people still being tracked
+    var flowing = false, emitTimer = null, visible = false;
+
+    function el(name, attrs, parent) {
+      var e = document.createElementNS(NS, name);
+      for (var a in attrs) e.setAttribute(a, attrs[a]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    // ---- the crowd: 20 x 5 dots
+    var people = [];
+    for (var i = 0; i < N; i++) {
+      var cx = 166 + (i % 20) * 13.4, cy = 195 + Math.floor(i / 20) * 10;
+      var c = el('circle', { cx: cx, cy: cy, r: 4, fill: 'var(--user)', opacity: 0.9 }, peopleG);
+      people.push({ el: c, x: cx, y: cy, answer: null });
+    }
+    // the reader is one of the hundred from the very start - tracked, like everyone,
+    // because that is the default; the ring marks them, and a label says so
+    var mine = people[88];                 // bottom row, so the label can sit under it
+    var youRing = el('circle', { cx: mine.x, cy: mine.y, r: 7.5, fill: 'none', stroke: 'var(--ink)', 'stroke-width': 1.5, opacity: 1 }, peopleG);
+    var youTag = el('text', { x: mine.x, y: mine.y + 12, 'text-anchor': 'middle', class: 't-body', 'font-size': 8.5, fill: 'var(--ink)', opacity: 0.9 }, peopleG);
+    youTag.textContent = '당신 · 기본값 허용';
+    var mineAnswered = false;
+
+    // ---- packets: one every so often, more often the more people are tracked
+    function packet() {
+      var t = TARGETS[Math.floor(Math.random() * TARGETS.length)];
+      var d = el('circle', { cx: SRC.x, cy: SRC.y, r: 2.2, fill: 'var(--designer)', opacity: 0.9 }, flow);
+      var p = { u: 0 }, cx = (SRC.x + t.x) / 2 + 20, cy = (SRC.y + t.y) / 2 - 30 + Math.random() * 20;
+      G.to(p, { u: 1, duration: 0.9 + Math.random() * 0.3, ease: 'none',
+        onUpdate: function () {
+          var u = p.u;
+          d.setAttribute('cx', ((1 - u) * (1 - u) * SRC.x + 2 * (1 - u) * u * cx + u * u * t.x).toFixed(1));
+          d.setAttribute('cy', ((1 - u) * (1 - u) * SRC.y + 2 * (1 - u) * u * cy + u * u * t.y).toFixed(1));
+        },
+        onComplete: function () { d.remove(); } });
+    }
+    function emit() {
+      if (!flowing || !visible) { emitTimer = null; return; }
+      packet();
+      // at 100% one every 0.09s; at 21% one every ~0.45s
+      var gap = 0.09 / Math.max(0.2, consent);
+      emitTimer = G.delayedCall(gap, emit);
+    }
+    function setFlow(on) {
+      flowing = on;
+      if (on && !emitTimer && anim) emit();
+    }
+
+    function paintShare() {
+      share.textContent = '추적 켜짐 ' + Math.round(consent * 100) + '%';
+      share.setAttribute('fill', consent < 0.5 ? 'var(--designer)' : 'var(--user)');
+    }
+
+    // ---- the whole sequence, as a timeline
+    var tl = null, answered = 0, done = false;
+    function resetScene() {
+      if (tl) tl.kill();
+      if (emitTimer) { emitTimer.kill(); emitTimer = null; }
+      while (flow.firstChild) flow.removeChild(flow.firstChild);
+      people.forEach(function (p) {
+        p.answer = null;
+        p.el.setAttribute('fill', 'var(--user)');
+        p.el.setAttribute('stroke', 'none');
+        p.el.setAttribute('opacity', 0.9);
+        p.el.setAttribute('r', 4);
+      });
+      mineAnswered = false;
+      youTag.textContent = '당신 · 기본값 허용';
+      answered = 0; done = false; consent = 1;
+      sheet.setAttribute('transform', 'translate(0 230)');
+      finger.setAttribute('opacity', 0);
+      era.textContent = '2021년 4월 이전 · 묻지 않음';
+      tally.textContent = '';
+      money.textContent = '$0';
+      line.textContent = '데이터는 소리 없이 흘러간다.';
+      note.textContent = '';
+      box.hidden = false;
+      paintShare();
+    }
+
+    // ---- idle: the default state. Everyone is tracked, data flows, nobody has asked.
+    // It stays this way until the reader answers the prompt below.
+    function idle() {
+      resetScene();
+      line.textContent = '데이터는 소리 없이 흘러간다. 아래에서 답하기 전까지는 계속.';
+      if (anim) setFlow(true);
+    }
+
+    // ---- the reader answered: now the question reaches everyone
+    function ask(readerAllowed) {
+      if (!anim) {
+        people.forEach(function (p, i) { if (p !== mine) answerOne(p, i < ALLOW); });
+        consent = ALLOW / 100; paintShare();
+        sheet.setAttribute('transform', 'translate(0 0)');
+        era.textContent = 'iOS 14.5 · 묻기 시작';
+        money.textContent = '$10B';
+        line.textContent = '데이터도 기술도 그대로다. 묻는 행위만 추가됐다.';
+        done = true;
+        return;
+      }
+      if (tl) tl.kill();
+      tl = G.timeline();
+      // the sheet comes up on the phone, the flow stops
+      tl.call(function () { era.textContent = 'iOS 14.5 · 팝업 등장'; line.textContent = '팝업 하나. 데이터도 기술도 그대로다.'; setFlow(false); });
+      tl.to(sheet, { attr: { transform: 'translate(0 0)' }, duration: 0.55, ease: 'power3.out' });
+      tl.to({}, { duration: 0.5 });
+      // the reader's own tap first, then the other ninety-nine, fast
+      var order = shuffle(people.filter(function (p) { return p !== mine; }));
+      var allowSet = {};
+      shuffle(order.slice()).slice(0, readerAllowed ? ALLOW - 1 : ALLOW).forEach(function (p) { allowSet[p.x + ',' + p.y] = true; });
+      var t0 = tl.duration();
+      tl.call(function () {
+        tapFinger(readerAllowed);
+        answered = 1;
+        tally.textContent = readerAllowed ? '허용 1 · 당신' : '거절 1 · 당신';
+        if (!readerAllowed) { consent = 1 - 1 / N; paintShare(); }
+      }, null, t0);
+      order.forEach(function (p, i) {
+        tl.call(function () {
+          var yes = !!allowSet[p.x + ',' + p.y];
+          answerOne(p, yes);
+          tapFinger(yes);
+          answered += 1;
+          var rej = people.filter(function (q) { return q.answer === false; }).length;
+          tally.textContent = '거절 ' + rej + ' · 허용 ' + (answered - rej) + ' · 당신 포함';
+          consent = 1 - rej / N;
+          paintShare();
+        }, null, t0 + 0.5 + i * 0.028);
+      });
+      tl.to({}, { duration: t0 + 0.5 + order.length * 0.028 + 0.3 - tl.duration() });
+      // what is left flows on, thinly; the bill comes due
+      tl.call(function () { setFlow(true); line.textContent = '79%의 데이터가 더는 흐르지 않는다.'; });
+      var bill = { v: 0 };
+      tl.to(bill, { v: 10, duration: 1.8, ease: 'power2.out', onUpdate: function () {
+        money.textContent = '$' + bill.v.toFixed(1) + 'B';
+      } });
+      tl.call(function () { money.textContent = '$10B'; line.textContent = '묻기 시작했을 뿐인데 100억 달러.'; done = true; });
+    }
+
+    function answerOne(p, yes) {
+      p.answer = yes;
+      if (yes) {
+        p.el.setAttribute('fill', 'var(--user)');
+        p.el.setAttribute('opacity', 1);
+      } else {
+        p.el.setAttribute('fill', 'none');
+        p.el.setAttribute('stroke', 'currentColor');
+        p.el.setAttribute('stroke-opacity', 0.45);
+        p.el.setAttribute('opacity', 1);
+      }
+      if (anim) G.fromTo(p.el, { attr: { r: 6.5 } }, { attr: { r: 4 }, duration: 0.3, ease: 'power2.out' });
+    }
+    var fingerBusy = false;
+    function tapFinger(yes) {
+      if (fingerBusy || !anim) return;
+      fingerBusy = true;
+      finger.setAttribute('cy', yes ? 243 : 217);
+      G.timeline({ onComplete: function () { fingerBusy = false; } })
+        .fromTo(finger, { attr: { opacity: 0, r: 9 } }, { attr: { opacity: 0.35, r: 6 }, duration: 0.08 })
+        .to(finger, { attr: { opacity: 0, r: 9 }, duration: 0.14 });
+    }
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+      return a;
+    }
+
+    // ---- the reader's own answer joins the crowd
     box.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-att]');
-      if (!b) return;
+      if (!b || mineAnswered) return;
       var allowed = b.dataset.att === 'yes';
       box.hidden = true;
+      mineAnswered = true;
+      answerOne(mine, allowed);
+      youTag.textContent = allowed ? '당신 · 허용' : '당신 · 거절';
+      if (anim) G.fromTo(youRing, { attr: { r: 14 } }, { attr: { r: 7.5 }, duration: 0.5, ease: 'back.out(2)' });
       note.innerHTML = allowed
         ? '허용을 누르셨습니다. 실제로는 <strong>16~25%</strong>만 이 선택을 했습니다. 그전까지는 묻지 않았고, 사실상 100%가 허용 상태였습니다.'
         : '거절하셨습니다. <strong>75~84%</strong>가 같은 선택을 했습니다. 그전까지는 묻지 않았고, 사실상 100%가 허용 상태였습니다.';
+      ask(allowed);
     });
+    if (replay) replay.addEventListener('click', idle);
+
+    // ---- runs when seen; stops flowing when not
+    var started = false;
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          visible = en.isIntersecting;
+          if (visible) {
+            if (!started) { started = true; idle(); }
+            else if (flowing && !emitTimer) emit();
+          } else if (emitTimer) { emitTimer.kill(); emitTimer = null; }
+        });
+      }, { threshold: 0.5 }).observe(svg);
+    } else { visible = true; idle(); }
+
+    resetScene();
   })();
 
   // ---------- 3. mosquito: 17.4 kHz, on demand only ----------
@@ -4557,7 +5160,8 @@
     var note = document.getElementById('beepNote');
     var ask = document.getElementById('beepAsk');
     var svg = document.getElementById('mqSvg');
-    if (!btn || !note || !svg) return;
+    var ageIn = document.getElementById('mqAge');
+    if (!btn || !note || !svg || !ageIn) return;
 
     var G = window.gsap || null;
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -4565,132 +5169,275 @@
     var NS = 'http://www.w3.org/2000/svg';
     var SECONDS = 2;
 
-    var waves = document.getElementById('mqWaves');
     var rings = document.getElementById('mqRings');
-    var limit = document.getElementById('mqLimit');
-    var young = document.getElementById('mqYoung');
-    var noise = document.getElementById('mqNoise');
-    var youngAge = document.getElementById('mqYoungAge');
-    var old = document.getElementById('mqOld');
+    var peopleG = document.getElementById('mqPeople');
+    var led = document.getElementById('mqLed');
+    var status = document.getElementById('mqStatus');
+    var ageTxt = document.getElementById('mqAgeTxt');
+    var curve = document.getElementById('mqCurve');
+    var marker = { drop: document.getElementById('mqMarkerDrop'), dot: document.getElementById('mqMarkerDot'), txt: document.getElementById('mqMarkerTxt') };
 
-    // ---- idle: the speaker's arcs breathe while the slide is on screen
-    var idle = null;
-    if (anim) {
-      idle = G.timeline({ repeat: -1, paused: true })
-        .fromTo(waves.children, { opacity: 0.35 }, { opacity: 1, duration: 0.5, stagger: { each: 0.18, from: 'center' }, ease: 'sine.inOut' })
-        .to(waves.children, { opacity: 0.35, duration: 0.7, stagger: { each: 0.18, from: 'center' }, ease: 'sine.inOut' });
-      if (window.IntersectionObserver) {
-        new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) { if (en.isIntersecting) idle.play(); else idle.pause(); });
-        }, { threshold: 0.4 }).observe(svg);
+    function el(name, attrs, parent) {
+      var e = document.createElementNS(NS, name);
+      for (var a in attrs) e.setAttribute(a, attrs[a]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    // ---- hearing against age: a rough presbycusis curve, kHz at each age
+    var CURVE = [[10, 20], [15, 19.5], [20, 18.8], [25, 17.4], [30, 16.5], [35, 15.7],
+                 [40, 14.8], [45, 14], [50, 13], [55, 12], [60, 11], [65, 10.3], [70, 9.7]];
+    var DEVICE = 17.4;
+    function ax(age) { return 46 + (age - 10) / 60 * 378; }
+    function fy(k) { return 272 - (k - 10) / 10 * 76; }
+    function hearingAt(age) {
+      for (var i = 1; i < CURVE.length; i++) {
+        if (age <= CURVE[i][0]) {
+          var a = CURVE[i - 1], b = CURVE[i], u = (age - a[0]) / (b[0] - a[0]);
+          return a[1] + (b[1] - a[1]) * u;
+        }
       }
+      return CURVE[CURVE.length - 1][1];
+    }
+    curve.setAttribute('d', CURVE.map(function (p, i) { return (i ? 'L ' : 'M ') + ax(p[0]).toFixed(1) + ' ' + fy(p[1]).toFixed(1); }).join(' '));
+
+    // ---- the people on the pavement
+    function figure(x, teen, tone) {
+      var g = el('g', { transform: 'translate(' + x + ' 146)' }, peopleG);
+      var body = el('g', {}, g);
+      var h = teen ? 24 : 32, r = teen ? 5.5 : 6.5;
+      el('path', { d: 'M ' + (-7) + ' 0 L ' + (-7) + ' ' + (-h + 6) + ' Q ' + (-7) + ' ' + (-h) + ' 0 ' + (-h) + ' Q 7 ' + (-h) + ' 7 ' + (-h + 6) + ' L 7 0 Z',
+                   fill: tone, opacity: teen ? 1 : 0.55 }, body);
+      el('circle', { cx: 0, cy: -h - r - 1, r: r, fill: tone, opacity: teen ? 1 : 0.55 }, body);
+      // hands over ears, hidden until the sound arrives
+      var ears = el('g', { opacity: 0, stroke: tone, 'stroke-width': 2, 'stroke-linecap': 'round', fill: 'none' }, g);
+      el('path', { d: 'M ' + (-r - 3) + ' ' + (-h - r - 1) + ' q -3 -4 0 -8' }, ears);
+      el('path', { d: 'M ' + (r + 3) + ' ' + (-h - r - 1) + ' q 3 -4 0 -8' }, ears);
+      var mark = el('text', { x: 0, y: -h - r - 10, 'text-anchor': 'middle', class: 't-body', 'font-size': 10, fill: tone, opacity: 0 }, g);
+      return { g: g, body: body, ears: ears, mark: mark, x: x, teen: teen, home: x };
+    }
+    var teens = [figure(128, true, 'var(--designer)'), figure(160, true, 'var(--designer)'), figure(292, true, 'var(--designer)')];
+    var adults = [figure(64, false, 'currentColor'), figure(380, false, 'currentColor')];
+    // you: teen or adult depending on the slider, standing by the right window
+    var youTeen = figure(330, true, 'var(--user)');
+    var youAdult = figure(330, false, 'var(--user)');
+    var youTag = el('text', { x: 330, y: 167, 'text-anchor': 'middle', class: 't-body', 'font-size': 9.5, fill: 'var(--user)' }, peopleG);
+    youTag.textContent = '당신';
+
+    // ---- age: marker on the curve, and which figure you are
+    var age = 30;
+    function setAge(a, fromUser) {
+      age = a;
+      ageTxt.textContent = a + '세';
+      var k = hearingAt(a), hears = k >= DEVICE;
+      var x = ax(a), y = fy(k);
+      marker.dot.setAttribute('cx', x); marker.dot.setAttribute('cy', y);
+      marker.dot.setAttribute('fill', hears ? 'var(--designer)' : 'var(--ink)');
+      marker.drop.setAttribute('x1', x); marker.drop.setAttribute('x2', x);
+      marker.drop.setAttribute('y1', y); marker.drop.setAttribute('y2', 272);
+      marker.txt.textContent = a + '세 · ~' + k.toFixed(1) + 'kHz · ' + (hears ? '들린다' : '안 들린다');
+      marker.txt.setAttribute('fill', hears ? 'var(--designer)' : 'var(--ink)');
+      var tx = x < 250 ? x + 9 : x - 9;
+      marker.txt.setAttribute('x', tx);
+      marker.txt.setAttribute('text-anchor', x < 250 ? 'start' : 'end');
+      marker.txt.setAttribute('y', y - 8);
+      youTeen.g.setAttribute('opacity', hears ? 1 : 0);
+      youAdult.g.setAttribute('opacity', hears ? 0 : 1);
+      youTag.textContent = hears ? '당신 · 들린다' : '당신 · 안 들린다';
+      youTag.setAttribute('fill', hears ? 'var(--designer)' : 'var(--user)');
+    }
+    ageIn.addEventListener('input', function () { setAge(+ageIn.value, true); });
+    setAge(30);
+
+    // ---- one ring of sound from the device
+    function ring() {
+      var c = el('circle', { cx: 220, cy: 58, r: 4, opacity: 0.9 }, rings);
+      G.to(c, { attr: { r: 210, opacity: 0 }, duration: 1.4, ease: 'power1.out', onComplete: function () { c.remove(); } });
     }
 
-    // ---- one ring leaving the speaker: to the left it reaches the 15-year-old,
-    //      to the right it dies out at the hearing limit before the 40-year-old
-    function ring(dir) {
-      var g = document.createElementNS(NS, 'g');
-      var path = document.createElementNS(NS, 'path');
-      path.setAttribute('d', dir < 0 ? 'M 194 58 Q 178 74 194 90' : 'M 230 58 Q 246 74 230 90');
-      g.appendChild(path);
-      rings.appendChild(g);
-      var dist = dir < 0 ? -104 : 62;
-      G.fromTo(g, { x: 0, scaleY: 1, opacity: 0.95, svgOrigin: (dir < 0 ? '190' : '234') + ' 74' },
-        { x: dist, scaleY: 1.9, opacity: dir < 0 ? 0.25 : 0, duration: dir < 0 ? 0.75 : 0.6, ease: 'power1.out',
-          onComplete: function () { g.remove(); } });
-    }
-
+    // ---- what happens when the tone plays
     var playTl = null;
+    function flinch(f, t, tl) {
+      tl.to(f.ears, { attr: { opacity: 1 }, duration: 0.12 }, t);
+      tl.fromTo(f.body, { x: 0 }, { x: 1.8, duration: 0.05, yoyo: true, repeat: 9, ease: 'none' }, t);
+      tl.to(f.body, { x: 0, duration: 0.05 }, t + 0.5);
+    }
+    function leave(f, t, tl, dir) {
+      // walks off, bobbing, then is gone
+      var to = dir < 0 ? -30 : 470;
+      tl.to(f.g, { attr: { transform: 'translate(' + to + ' 146)' }, duration: 1.4, ease: 'power1.in' }, t);
+      tl.fromTo(f.body, { y: 0 }, { y: -2.5, duration: 0.14, yoyo: true, repeat: 9, ease: 'sine.inOut' }, t);
+      tl.to(f.ears, { attr: { opacity: 0 }, duration: 0.3 }, t + 1.0);
+    }
+    function resetPeople() {
+      teens.concat([youTeen]).forEach(function (f) {
+        f.g.setAttribute('transform', 'translate(' + f.home + ' 146)');
+        f.ears.setAttribute('opacity', 0);
+        G && G.set(f.body, { x: 0, y: 0 });
+      });
+      adults.concat([youAdult]).forEach(function (f) { f.mark.setAttribute('opacity', 0); });
+    }
     function playMotion() {
       if (!anim) return;
-      if (idle) idle.pause();
-      playTl = G.timeline({ onComplete: function () { if (idle) idle.play(); } });
-      for (var t = 0; t < SECONDS - 0.2; t += 0.22) {
-        playTl.call(ring, [-1], t).call(ring, [1], t);
-      }
-      playTl.to(limit, { opacity: 1, duration: 0.3 }, 0.3)
-            .to(limit, { opacity: 0, duration: 0.5 }, SECONDS + 0.6);
-      // the 15-year-old flinches once the rings arrive
-      playTl.to(noise, { opacity: 1, duration: 0.15 }, 0.6)
-            .fromTo(young, { x: 0 }, { x: 2.2, duration: 0.05, yoyo: true, repeat: 25, ease: 'none' }, 0.6)
-            .fromTo(noise, { scale: 0.9, svgOrigin: '0 -24' }, { scale: 1.12, svgOrigin: '0 -24', duration: 0.12, yoyo: true, repeat: 11, ease: 'sine.inOut' }, 0.6)
-            .to(young, { x: 0, duration: 0.1 }, SECONDS + 0.05)
-            .to(noise, { opacity: 0, duration: 0.3 }, SECONDS + 0.05);
+      resetPeople();
+      playTl = G.timeline();
+      var youHears = hearingAt(age) >= DEVICE;
+      // the LED and the rings for two seconds
+      playTl.to(led, { attr: { opacity: 1 }, duration: 0.1 }, 0);
+      for (var t = 0; t < SECONDS; t += 0.2) playTl.call(ring, null, t);
+      playTl.to(led, { attr: { opacity: 0.4 }, duration: 0.3 }, SECONDS);
+      // teens hear it at once; adults never do
+      teens.forEach(function (f, i) { flinch(f, 0.35 + i * 0.08, playTl); });
+      if (youHears) flinch(youTeen, 0.5, playTl);
+      adults.forEach(function (f, i) {
+        playTl.call(function () { f.mark.textContent = '…'; }, null, 0.9 + i * 0.3);
+        playTl.to(f.mark, { attr: { opacity: 0.7 }, duration: 0.2 }, 0.9 + i * 0.3);
+        playTl.to(f.mark, { attr: { opacity: 0 }, duration: 0.3 }, 2.6 + i * 0.3);
+      });
+      // then they leave, one by one, the way the shopkeeper wanted
+      leave(teens[0], 1.1, playTl, -1);
+      leave(teens[1], 1.35, playTl, -1);
+      leave(teens[2], 1.6, playTl, 1);
+      if (youHears) leave(youTeen, 1.85, playTl, 1);
+      playTl.call(function () {
+        status.textContent = youHears ? '떠남: 청소년 3 + 당신 · 남음: 어른 2'
+                                      : '떠남: 청소년 3 · 남음: 어른 2 + 당신';
+      }, null, 2.2);
+      playTl.to(status, { attr: { opacity: 1 }, duration: 0.3 }, 2.2);
+      // and a while later, the corner is empty
+      playTl.to({}, { duration: 1.2 });
     }
 
-    // ---- afterwards: which one are you?
-    function highlight(heard) {
-      if (!anim) {
-        old.setAttribute('opacity', heard ? 0.4 : 1);
-        return;
-      }
-      G.killTweensOf([young, old, youngAge]);
-      if (heard) {
-        G.to(old, { opacity: 0.4, duration: 0.3 });
-        G.fromTo(young, { scale: 1, svgOrigin: '0 20' }, { scale: 1.12, svgOrigin: '0 20', duration: 0.25, yoyo: true, repeat: 1, ease: 'power2.out' });
-      } else {
-        G.fromTo(old, { opacity: 0.4 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
-      }
-    }
-
+    // ---- afterwards: which one are you? move the slider to match
     if (ask) {
       ask.addEventListener('click', function (e) {
         var b = e.target.closest('button[data-heard]');
         if (!b) return;
         var heard = b.dataset.heard === 'yes';
         ask.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-        highlight(heard);
+        var hearsNow = hearingAt(age) >= DEVICE;
+        if (heard !== hearsNow) {
+          var target = heard ? 20 : 35;
+          if (anim) {
+            var v = { a: age };
+            G.to(v, { a: target, duration: 0.6, ease: 'power2.inOut', onUpdate: function () { ageIn.value = Math.round(v.a); setAge(Math.round(v.a)); } });
+          } else { ageIn.value = target; setAge(target); }
+        }
         note.innerHTML = heard
-          ? '들렸다면 <strong>15세 쪽</strong>입니다. 이 소리는 당신을 향할 수 있습니다.'
-          : '안 들렸다면 <strong>40세 쪽</strong>입니다. 같은 자리에 서 있어도 당신에게는 이 환경이 존재하지 않습니다.';
+          ? '들렸다면 곡선의 <strong>25세 왼쪽</strong>입니다. 이 소리는 당신을 향할 수 있습니다.'
+          : '안 들렸다면 곡선의 <strong>25세 오른쪽</strong>입니다. 같은 자리에 서 있어도 당신에게는 이 환경이 존재하지 않습니다.';
       });
     }
 
-    btn.addEventListener('click', function () {
+    // ---- one tone player for all three buttons. The sound is real: a sine
+    //      wave from the Web Audio API, faded in and out so it does not click.
+    var refBtn = document.getElementById('beepRef');
+    var sweepBtn = document.getElementById('beepSweep');
+    var playing = false;
+    function tone(opts) {
       var Ctx = window.AudioContext || window.webkitAudioContext;
-      if (!Ctx) { note.textContent = '이 브라우저에서는 재생할 수 없습니다.'; return; }
-
+      if (!Ctx) { note.textContent = '이 브라우저에서는 재생할 수 없습니다.'; return false; }
+      if (playing) return false;
+      playing = true;
       var ctx = new Ctx();
       var osc = ctx.createOscillator();
       var gain = ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.value = 17400;
-
-      // fade in and out so the tone does not click
-      var now = ctx.currentTime;
+      var now = ctx.currentTime, T = opts.seconds;
+      osc.frequency.setValueAtTime(opts.from, now);
+      if (opts.to && opts.to !== opts.from) osc.frequency.exponentialRampToValueAtTime(opts.to, now + T);
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.06, now + 0.15);
-      gain.gain.setValueAtTime(0.06, now + 1.85);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + SECONDS);
-
+      gain.gain.exponentialRampToValueAtTime(opts.level, now + 0.12);
+      gain.gain.setValueAtTime(opts.level, now + T - 0.15);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + T);
       osc.connect(gain).connect(ctx.destination);
       osc.start(now);
-      osc.stop(now + SECONDS);
+      osc.stop(now + T);
 
-      btn.disabled = true;
-      if (ask) ask.hidden = true;
-      note.textContent = '';
-      playMotion();
-
-      // the button counts down the two seconds
+      [btn, refBtn, sweepBtn].forEach(function (x) { if (x) x.disabled = true; });
       var started = performance.now();
       var timer = setInterval(function () {
-        var left = Math.max(0, SECONDS - (performance.now() - started) / 1000);
-        btn.textContent = '재생 중 ' + left.toFixed(1) + '초';
-      }, 100);
-
+        var u = Math.min(1, (performance.now() - started) / 1000 / T);
+        if (opts.tick) opts.tick(u);
+      }, 50);
       osc.onended = function () {
         clearInterval(timer);
         ctx.close();
-        btn.disabled = false;
-        btn.textContent = '다시 재생';
-        if (ask) {
-          ask.hidden = false;
-          ask.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
-        }
-        note.textContent = '';
+        playing = false;
+        [btn, refBtn, sweepBtn].forEach(function (x) { if (x) x.disabled = false; });
+        if (opts.end) opts.end();
       };
+      // if the device cannot even represent the frequency, say so
+      if (ctx.sampleRate / 2 < (opts.to || opts.from)) {
+        note.textContent = '이 기기의 샘플레이트(' + ctx.sampleRate + 'Hz)로는 ' + Math.round((opts.to || opts.from) / 1000) + 'kHz를 낼 수 없습니다.';
+      }
+      return true;
+    }
+
+    // 1 kHz: everyone hears this one. If not, it is the volume or the speaker.
+    if (refBtn) refBtn.addEventListener('click', function () {
+      note.textContent = '';
+      tone({ from: 1000, seconds: 0.8, level: 0.08, end: function () {
+        note.textContent = '이 소리가 들렸다면 스피커와 볼륨은 정상입니다. 이제 17.4kHz를 눌러 보세요.';
+      } });
     });
+
+    // 17.4 kHz: the real device. Adults hear silence, and so do many small speakers.
+    btn.addEventListener('click', function () {
+      if (ask) ask.hidden = true;
+      note.textContent = '';
+      status.setAttribute('opacity', 0);
+      var ok = tone({ from: 17400, seconds: SECONDS, level: 0.12,
+        tick: function (u) { btn.textContent = '재생 중 ' + (SECONDS * (1 - u)).toFixed(1) + '초'; },
+        end: function () {
+          btn.textContent = '다시 재생';
+          if (ask) {
+            ask.hidden = false;
+            ask.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+          }
+          note.innerHTML = '안 들렸다면 셋 중 하나입니다. <strong>25세 이상</strong>이거나, 스피커가 17kHz를 못 내거나(노트북·블루투스에 흔함), 볼륨이 낮거나. 스위프로 어디서 사라지는지 들어보세요.';
+        } });
+      if (ok) playMotion();
+    });
+
+    // 8 -> 20 kHz over six seconds: the tone climbs until it vanishes for you,
+    // and the marker on the curve climbs with it. Where it goes silent is where you sit.
+    if (sweepBtn) sweepBtn.addEventListener('click', function () {
+      if (ask) ask.hidden = true;
+      note.textContent = '올라가는 소리가 사라지는 순간을 기억하세요.';
+      var F0 = 8000, F1 = 20000, T = 6;
+      function ageFor(k) {   // the age whose limit is this frequency
+        if (k >= CURVE[0][1]) return CURVE[0][0];
+        for (var i = 1; i < CURVE.length; i++) {
+          if (k >= CURVE[i][1]) {
+            var a = CURVE[i - 1], b = CURVE[i];
+            return a[0] + (b[0] - a[0]) * (a[1] - k) / (a[1] - b[1]);
+          }
+        }
+        return CURVE[CURVE.length - 1][0];
+      }
+      tone({ from: F0, to: F1, seconds: T, level: 0.1,
+        tick: function (u) {
+          var f = F0 * Math.pow(F1 / F0, u);
+          sweepBtn.textContent = (f / 1000).toFixed(1) + ' kHz';
+          var a = Math.round(ageFor(f / 1000));
+          ageIn.value = a; setAge(a);
+          marker.txt.textContent = (f / 1000).toFixed(1) + 'kHz · 여기서 사라지면 ~' + a + '세';
+        },
+        end: function () {
+          sweepBtn.textContent = '8→20kHz 스위프';
+          note.innerHTML = '사라진 지점의 나이가 곡선 위 당신의 자리입니다. 슬라이더로 맞춰 보세요. 20kHz 근처까지 들렸다면 <strong>스피커가 좋고 귀가 젊은</strong> 겁니다.';
+        } });
+    });
+
+    // when the slide is left, the pavement is repopulated for next time
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) { if (playTl) playTl.kill(); resetPeople(); status.setAttribute('opacity', 0); }
+        });
+      }, { threshold: 0.3 }).observe(svg);
+    }
   })();
 </script>
 </body>
