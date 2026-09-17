@@ -2615,7 +2615,6 @@
     slides[startAt].scrollIntoView({ block: 'start' });
     requestAnimationFrame(function () { deck.style.scrollBehavior = prevBehavior; });
   }
-})();
 
   // ---------- motion: reveal each slide's parts in reading order ----------
   (function () {
@@ -2679,6 +2678,7 @@
     play(slides[startAt] || slides[0]);
 
   })();
+})();
 
   // ---------- 1. organ donation: flip the default, the drawing follows ----------
   (function () {
