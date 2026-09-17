@@ -1027,6 +1027,30 @@
   }
   .toggle button + button { border-left: 1px solid var(--rule); }
 
+  .fig-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    padding-top: 13px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .fig-controls .try-label { margin: 0; }
+
+  /* stacked variant, for controls that print a result under themselves */
+  .fig-controls-block { display: block; }
+  .fig-controls-block .try-label { display: block; margin-bottom: 10px; }
+  .fig-controls-block .try-note { margin-top: 12px; }
+  .fig-controls-block .att { margin-top: 0; }
+
+  #organPerson,
+  #organBar { transition: transform .45s cubic-bezier(.4,0,.2,1), width .45s cubic-bezier(.4,0,.2,1), fill .45s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #organPerson, #organBar { transition: none; }
+  }
+
   .try-note {
     margin: 12px 0 0;
     font-size: 13px;
@@ -1186,45 +1210,47 @@
 <section class="slide slide-case" id="s1">
       <div class="case-figure">
         <figure>
-          <svg viewBox="0 0 440 250" role="img"
-               aria-label="아무것도 하지 않은 사람이 독일에서는 기증 대상에서 제외되고 오스트리아에서는 기증자가 된다. 유효 동의율은 12퍼센트와 99.98퍼센트다.">
-            <text x="220" y="26" text-anchor="middle" class="t-body"
+          <svg viewBox="0 0 440 250" role="img" id="organSvg"
+               aria-label="기본값을 바꾸면 아무것도 하지 않은 사람이 기증자가 되거나 되지 않는다. 유효 동의율은 12퍼센트와 99.98퍼센트 사이를 오간다.">
+            <text x="220" y="24" text-anchor="middle" class="t-body"
                   font-size="13" fill="currentColor" opacity="0.72">아무것도 하지 않은 사람</text>
-            <circle cx="220" cy="54" r="11" fill="currentColor" opacity="0.45"/>
 
-            <g stroke="currentColor" stroke-opacity="0.32" stroke-width="1.4" fill="none">
-              <path d="M 209 64 L 124 94"/>
-              <path d="M 231 64 L 316 94"/>
+            <!-- the two destinations -->
+            <text x="112" y="120" text-anchor="middle" class="t-body"
+                  font-size="12" fill="currentColor" opacity="0.55">기증자 아님</text>
+            <text x="328" y="120" text-anchor="middle" class="t-body"
+                  font-size="12" fill="currentColor" opacity="0.55">기증자</text>
+
+            <line x1="112" y1="98" x2="112" y2="104" stroke="currentColor" stroke-opacity="0.3"/>
+            <line x1="328" y1="98" x2="328" y2="104" stroke="currentColor" stroke-opacity="0.3"/>
+            <line x1="112" y1="101" x2="328" y2="101" stroke="currentColor"
+                  stroke-opacity="0.18" stroke-dasharray="3 4"/>
+
+            <!-- the person, moved by script -->
+            <g id="organPerson" transform="translate(112 66)">
+              <circle cx="0" cy="0" r="12" fill="currentColor" opacity="0.5"/>
             </g>
 
-            <text x="124" y="114" text-anchor="middle" class="t-body"
-                  font-size="12" fill="currentColor" opacity="0.6">독일</text>
-            <text x="124" y="138" text-anchor="middle" class="t-body"
-                  font-size="15" fill="currentColor">기증자 아님</text>
-
-            <text x="316" y="114" text-anchor="middle" class="t-body"
-                  font-size="12" fill="var(--user)" opacity="0.85">오스트리아</text>
-            <text x="316" y="138" text-anchor="middle" class="t-body"
-                  font-size="15" fill="var(--user)" font-weight="700">기증자</text>
-
-            <line x1="16" y1="166" x2="424" y2="166" stroke="currentColor" stroke-opacity="0.18"/>
-
-            <text x="16" y="190" class="t-body" font-size="11.5"
+            <line x1="16" y1="150" x2="424" y2="150" stroke="currentColor" stroke-opacity="0.18"/>
+            <text x="16" y="174" class="t-body" font-size="11.5"
                   fill="currentColor" opacity="0.6">유효 동의율 · Science 2003</text>
 
-            <text x="16" y="214" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.7">독일</text>
-            <rect x="92" y="202" width="332" height="16" fill="var(--user-bg)"/>
-            <rect x="92" y="202" width="40" height="16" fill="var(--ink-faint)"/>
-            <text x="142" y="215" class="t-body" font-size="12.5"
+            <!-- the bar, resized by script -->
+            <rect x="16" y="186" width="408" height="22" fill="var(--user-bg)"/>
+            <rect id="organBar" x="16" y="186" width="49" height="22" fill="var(--ink-faint)"/>
+            <text id="organPct" x="75" y="202" class="t-body" font-size="13"
                   fill="currentColor" font-weight="700">12%</text>
 
-            <text x="16" y="240" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.7">오스트리아</text>
-            <rect x="92" y="228" width="332" height="16" fill="var(--user)"/>
-            <text x="102" y="241" class="t-body" font-size="12.5"
-                  fill="var(--panel)" font-weight="700">99.98%</text>
+            <text id="organCaption" x="16" y="238" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.72">독일 · 동의를 등록한 사람만 기증자가 된다</text>
           </svg>
+          <div class="fig-controls">
+            <span class="try-label">기본값</span>
+            <div class="toggle" id="organToggle" role="group" aria-label="기본값 선택">
+              <button type="button" data-mode="in" aria-pressed="true">동의를 등록</button>
+              <button type="button" data-mode="out" aria-pressed="false">거부를 등록</button>
+            </div>
+          </div>
         </figure>
       </div>
 
@@ -1237,29 +1263,24 @@
         </dl>
 
         <p>
-          이웃한 두 나라, 비슷한 언어와 의료 체계.
-          독일은 <strong>신청해야 기증자가 되고</strong>, 오스트리아는
-          <strong>신청해야 빠진다.</strong> 서류의 방향 하나가 반대다.
+          국경 하나를 사이에 둔 두 나라. 언어도 의료 체계도 비슷하고,
+          장기기증을 바라보는 여론 조사 결과마저 큰 차이가 없다.
+          다른 것은 서류의 방향 하나다. 독일은 <strong>동의를 등록해야</strong> 기증자가 되고,
+          오스트리아는 <strong>거부를 등록해야</strong> 빠진다.
         </p>
         <p>
-          아무것도 하지 않은 사람이 한쪽에서는 제외되고 다른 쪽에서는 포함된다.
-          그 결과가 12% 대 99.98%다.
+          그래서 아무것도 하지 않은 사람이 한쪽에서는 명부 밖에, 다른 쪽에서는 명부 안에 남는다.
+          Johnson &amp; Goldstein이 <em>Science</em>에 실은 수치는 <strong>12% 대 99.98%</strong>.
+          기본값을 벗어나는 데 드는 노력은 양쪽 다 서류 한 장이고, 그 한 장을 내는 사람이
+          양쪽 다 극소수다.
         </p>
         <div class="twist">
           <p>
-            <strong>다만 이것은 명부의 숫자다.</strong> 실제로 opt-out으로 바꾼
-            5개국에서 기증 건수는 늘지 않았다. 마지막 결정은 병원에서 유가족이 하고,
+            <strong>다만 이것은 명부의 숫자다.</strong> 실제로 opt-out으로 바꾼 5개국에서
+            기증 건수는 늘지 않았다. 서류에 이름이 올라도 마지막 결정은 병원에서 유가족이 하고,
             갑작스러운 죽음 앞에서 가족이 거절하는 비율은 그대로였기 때문이다.
+            기본값이 바꾼 것은 행동이 아니라 <strong>기록</strong>이었다.
           </p>
-        </div>
-
-        <div class="try">
-          <p class="try-label">기본값을 뒤집어 보세요</p>
-          <div class="toggle" id="organToggle" role="group" aria-label="기본값 선택">
-            <button type="button" data-mode="in" aria-pressed="true">신청해야 기증자</button>
-            <button type="button" data-mode="out" aria-pressed="false">신청해야 제외</button>
-          </div>
-          <p class="try-note" id="organNote">독일식. 아무것도 하지 않으면 기증자가 아니다 — <strong>12%</strong></p>
         </div>
 
         <div class="src">
@@ -1942,6 +1963,14 @@
               금지 표지판도 경비원도 없다. 그냥 불쾌해질 뿐이다.
             </text>
           </svg>
+          <div class="fig-controls fig-controls-block">
+            <span class="try-label">들리는지 확인해 보세요</span>
+            <div class="beep">
+            <button type="button" class="btn primary" id="beepBtn">17.4kHz 2초 재생</button>
+            <span class="warn">볼륨을 낮추고 누르세요</span>
+          </div>
+          <p class="try-note" id="beepNote"></p>
+          </div>
         </figure>
       </div>
 
@@ -1971,16 +2000,7 @@
           환경은 이렇게 <strong>대상을 골라 마찰을 건다.</strong>
         </p>
 
-        <div class="try">
-          <p class="try-label">들리는지 확인해 보세요</p>
-          <div class="beep">
-            <button type="button" class="btn primary" id="beepBtn">17.4kHz 2초 재생</button>
-            <span class="warn">볼륨을 낮추고 누르세요</span>
-          </div>
-          <p class="try-note" id="beepNote"></p>
-        </div>
-
-        <div class="src">
+                <div class="src">
           <span class="src-item"><span class="kind p">연구</span>
             <a href="https://cjc.utppublishing.com/doi/10.22230/cjc.2010v35n3a2261" target="_blank" rel="noopener noreferrer">Canadian Journal of Communication</a></span>
           <span class="src-item"><span class="kind r">참고</span>
@@ -2040,6 +2060,18 @@
               메타의 그해 손실 추정 100억 달러
             </text>
           </svg>
+          <div class="fig-controls fig-controls-block">
+            <span class="try-label">직접 받아보세요</span>
+            <div class="att" id="attBox">
+            <h4>"뉴스앱"이(가) 다른 회사의 앱과 웹사이트에서 사용자의 활동을 추적하도록 허용하겠습니까?</h4>
+            <p>추적을 허용하면 맞춤형 광고를 제공하는 데 사용됩니다.</p>
+            <div class="att-actions">
+              <button type="button" data-att="no">앱에 추적 금지 요청</button>
+              <button type="button" data-att="yes">허용</button>
+            </div>
+          </div>
+          <p class="try-note" id="attNote"></p>
+          </div>
         </figure>
       </div>
 
@@ -2068,20 +2100,7 @@
           대부분은 거절했다. 기본값이 바뀐 게 아니라 <strong>기본값이 보이게 됐다.</strong>
         </p>
 
-        <div class="try">
-          <p class="try-label">직접 받아보세요</p>
-          <div class="att" id="attBox">
-            <h4>"뉴스앱"이(가) 다른 회사의 앱과 웹사이트에서 사용자의 활동을 추적하도록 허용하겠습니까?</h4>
-            <p>추적을 허용하면 맞춤형 광고를 제공하는 데 사용됩니다.</p>
-            <div class="att-actions">
-              <button type="button" data-att="no">앱에 추적 금지 요청</button>
-              <button type="button" data-att="yes">허용</button>
-            </div>
-          </div>
-          <p class="try-note" id="attNote"></p>
-        </div>
-
-        <div class="src">
+                <div class="src">
           <span class="src-item"><span class="kind p">자료</span>
             <a href="https://www.businessofapps.com/data/att-opt-in-rates/" target="_blank" rel="noopener noreferrer">Business of Apps — ATT 동의율</a></span>
           <span class="src-item"><span class="kind s">보도</span>
@@ -2520,26 +2539,47 @@
   }
 })();
 
-  // ---------- 1. organ donation: flip the default ----------
+  // ---------- 1. organ donation: flip the default, the drawing follows ----------
   (function () {
     var wrap = document.getElementById('organToggle');
-    var note = document.getElementById('organNote');
-    if (!wrap || !note) return;
+    var person = document.getElementById('organPerson');
+    var bar = document.getElementById('organBar');
+    var pct = document.getElementById('organPct');
+    var cap = document.getElementById('organCaption');
+    if (!wrap || !person) return;
 
-    var COPY = {
-      'in':  '독일식. 아무것도 하지 않으면 기증자가 아니다 — <strong>12%</strong>',
-      'out': '오스트리아식. 아무것도 하지 않으면 기증자가 된다 — <strong>99.98%</strong>'
+    var TRACK = 408, X0 = 16;
+    var STATE = {
+      'in':  { x: 112, pct: 12,    fill: 'var(--ink-faint)',
+               cap: '독일 · 동의를 등록한 사람만 기증자가 된다' },
+      'out': { x: 328, pct: 99.98, fill: 'var(--user)',
+               cap: '오스트리아 · 거부를 등록한 사람만 빠진다' }
     };
+
+    function apply(mode) {
+      var st = STATE[mode];
+      person.setAttribute('transform', 'translate(' + st.x + ' 66)');
+      bar.setAttribute('width', Math.max(4, Math.round(TRACK * st.pct / 100)));
+      bar.setAttribute('fill', st.fill);
+      // keep the label outside the bar when it is short, inside when long
+      var w = Math.round(TRACK * st.pct / 100);
+      var inside = w > 120;
+      pct.setAttribute('x', inside ? X0 + 12 : X0 + w + 10);
+      pct.setAttribute('fill', inside ? 'var(--panel)' : 'currentColor');
+      pct.textContent = st.pct + '%';
+      cap.textContent = st.cap;
+    }
 
     wrap.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-mode]');
       if (!b) return;
-      var mode = b.dataset.mode;
       wrap.querySelectorAll('button').forEach(function (x) {
         x.setAttribute('aria-pressed', String(x === b));
       });
-      note.innerHTML = COPY[mode];
+      apply(b.dataset.mode);
     });
+
+    apply('in');
   })();
 
   // ---------- 2. tracking: the prompt, then the statistic ----------
