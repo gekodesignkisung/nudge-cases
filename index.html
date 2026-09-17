@@ -1486,49 +1486,47 @@
 <section class="slide slide-case" id="s3" data-cat="object">
       <div class="case-figure">
         <figure>
-          <svg viewBox="0 0 440 290" role="img"
-               aria-label="소변기 내부에 새겨진 파리 그림이 조준점 역할을 하여 흘림을 80퍼센트 줄였다는 그림. 오른쪽에는 그 80퍼센트라는 수치가 검증된 적 없다는 경고가 붙어 있다.">
+          <svg viewBox="0 0 440 300" role="img" id="flySvg"
+               aria-label="파리가 새겨진 소변기. 클릭하면 그 지점으로 줄기가 날아가고, 배수구에서 멀수록 흘림 게이지가 올라간다."
+               style="cursor: crosshair;">
+            <!-- floor -->
+            <rect x="0" y="216" width="440" height="24" fill="var(--ground-deep)" opacity="0.55"/>
+            <line x1="0" y1="216" x2="440" y2="216" stroke="currentColor" stroke-opacity="0.15"/>
+
             <!-- urinal -->
-            <path d="M 60 34 L 168 34 Q 176 34 175 44 L 166 150 Q 164 182 114 182 Q 64 182 62 150 L 53 44 Q 52 34 60 34 Z"
-                  fill="var(--panel)" stroke="currentColor" stroke-opacity="0.32" stroke-width="1.5"/>
-            <ellipse cx="114" cy="158" rx="15" ry="6"
-                     fill="var(--ground-deep)" stroke="currentColor" stroke-opacity="0.22"/>
+            <path d="M 150 30 L 290 30 Q 300 30 299 42 L 288 172 Q 286 212 220 212 Q 154 212 152 172 L 141 42 Q 140 30 150 30 Z"
+                  fill="var(--panel-hi)" stroke="currentColor" stroke-opacity="0.32" stroke-width="1.5"/>
+            <ellipse cx="220" cy="186" rx="19" ry="7"
+                     fill="var(--ground-deep)" stroke="currentColor" stroke-opacity="0.25"/>
 
-            <!-- the fly -->
-            <g transform="translate(97 128)">
-              <ellipse cx="0" cy="0" rx="4.6" ry="7" fill="currentColor" opacity="0.82"/>
-              <ellipse cx="-6.4" cy="-3.4" rx="6" ry="3.2" fill="currentColor"
-                       opacity="0.42" transform="rotate(-28)"/>
-              <ellipse cx="6.4" cy="-3.4" rx="6" ry="3.2" fill="currentColor"
-                       opacity="0.42" transform="rotate(28)"/>
-              <circle cx="0" cy="-8" r="2.6" fill="currentColor" opacity="0.82"/>
+            <!-- the fly is simply there -->
+            <g transform="translate(220 160)">
+              <ellipse cx="0" cy="0" rx="5" ry="7.6" fill="currentColor" opacity="0.9"/>
+              <ellipse cx="-7" cy="-3.7" rx="6.5" ry="3.4" fill="currentColor"
+                       opacity="0.5" transform="rotate(-28)"/>
+              <ellipse cx="7" cy="-3.7" rx="6.5" ry="3.4" fill="currentColor"
+                       opacity="0.5" transform="rotate(28)"/>
+              <circle cx="0" cy="-8.6" r="2.8" fill="currentColor" opacity="0.9"/>
             </g>
-            <circle cx="97" cy="128" r="17" fill="none" stroke="var(--user)"
-                    stroke-width="1.2" stroke-dasharray="3 3"/>
-            <line x1="114" y1="128" x2="164" y2="112" stroke="var(--user)" stroke-width="1"/>
-            <text x="170" y="110" class="t-mono"
-                  font-size="10" fill="var(--user)">조준점</text>
-            <text x="170" y="124" class="t-body"
-                  font-size="11" fill="currentColor" opacity="0.6">"조준하시오" 대신</text>
-            <text x="170" y="138" class="t-body"
-                  font-size="11" fill="currentColor" opacity="0.6">조준할 대상을 줬다</text>
 
-            <!-- results -->
-            <text x="53" y="216" class="t-mono"
-                  font-size="10" fill="currentColor" opacity="0.6">흘림 감소</text>
-            <rect x="53" y="224" width="240" height="20" fill="var(--user-bg)"/>
-            <rect x="53" y="224" width="192" height="20" fill="var(--user)"/>
-            <text x="63" y="239" class="t-mono"
-                  font-size="12" font-weight="500" fill="var(--panel)">80%</text>
-            <text x="302" y="239" class="t-mono"
-                  font-size="10.5" fill="var(--designer)">※ 미검증</text>
+            <!-- stream + splashes are drawn here -->
+            <g id="flyStream"></g>
+            <g id="flyShots"></g>
 
-            <text x="53" y="272" class="t-body"
-                  font-size="11.5" fill="currentColor" opacity="0.72">
-              도입 당사자 본인이 "매우 경험적인 수치"라고 인정했다.
-            </text>
+            <!-- hit layer sits above the scene so nothing swallows the click -->
+            <rect id="flyTarget" x="0" y="0" width="440" height="240" fill="transparent"/>
+
+            <text x="16" y="264" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.6">흘림</text>
+            <rect x="72" y="252" width="286" height="18" fill="var(--user-bg)" rx="2"/>
+            <rect id="flySpill" x="72" y="252" width="143" height="18" fill="var(--warn)" rx="2"/>
+            <text id="flySpillTxt" x="368" y="266" class="t-body"
+                  font-size="12.5" fill="currentColor" font-weight="700">50%</text>
+
+            <text id="flyHint" x="16" y="290" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.68">아무 데나 클릭해 보세요</text>
           </svg>
-        </figure>
+          </figure>
       </div>
 
       <div class="case-text">
@@ -1792,69 +1790,79 @@
 <section class="slide slide-case" id="s6" data-cat="algo">
       <div class="case-figure">
         <figure>
-          <svg viewBox="0 0 440 290" role="img"
-               aria-label="검색으로 고른 영상 한 편 뒤에 추천이 자동으로 다음 영상을 이어 붙이는 구조. 시청 시간의 70퍼센트가 이 경로에서 나온다.">
-            <defs>
-              <marker id="ahA" viewBox="0 0 10 10" refX="9" refY="5"
-                      markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
-              </marker>
-            </defs>
-
+          <svg viewBox="0 0 440 280" role="img" id="algoSvg"
+               aria-label="직접 고른 첫 영상 뒤로 추천이 자동으로 다음 영상을 이어 붙인다. 시청 시간의 70퍼센트가 이 경로에서 나온다.">
             <text x="16" y="20" class="t-body" font-size="12"
                   fill="currentColor" opacity="0.6">내가 고른 것</text>
-            <rect x="16" y="30" width="96" height="58" rx="3"
-                  fill="var(--panel)" stroke="var(--user)" stroke-width="1.6"/>
-            <text x="64" y="64" text-anchor="middle" class="t-body"
-                  font-size="12" fill="currentColor">영상 1</text>
-
             <text x="150" y="20" class="t-body" font-size="12"
                   fill="currentColor" opacity="0.6">환경이 이어 붙인 것</text>
-            <g>
-              <rect x="150" y="30" width="86" height="58" rx="3"
-                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.3"/>
-              <text x="193" y="64" text-anchor="middle" class="t-body"
-                    font-size="12" fill="currentColor">영상 2</text>
 
-              <rect x="248" y="30" width="86" height="58" rx="3"
-                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.3"/>
-              <text x="291" y="64" text-anchor="middle" class="t-body"
-                    font-size="12" fill="currentColor">영상 3</text>
+            <rect x="16" y="30" width="104" height="60" rx="4"
+                  fill="var(--panel-hi)" stroke="var(--accent)" stroke-width="1.8"/>
+            <text x="68" y="66" text-anchor="middle" class="t-body"
+                  font-size="12.5" fill="currentColor">영상 1</text>
 
-              <rect x="346" y="30" width="78" height="58" rx="3"
-                    fill="var(--designer-bg)" stroke="currentColor" stroke-opacity="0.22"/>
-              <text x="385" y="64" text-anchor="middle" class="t-body"
-                    font-size="12" fill="currentColor" opacity="0.6">…</text>
+            <g id="algoQueue">
+              <g class="algo-item" data-n="1" opacity="0.18">
+                <rect x="150" y="30" width="86" height="60" rx="4"
+                      fill="var(--panel-hi)" stroke="currentColor" stroke-opacity="0.25"/>
+                <text x="193" y="66" text-anchor="middle" class="t-body"
+                      font-size="12.5" fill="currentColor">영상 2</text>
+              </g>
+              <g class="algo-item" data-n="2" opacity="0.18">
+                <rect x="248" y="30" width="86" height="60" rx="4"
+                      fill="var(--panel-hi)" stroke="currentColor" stroke-opacity="0.25"/>
+                <text x="291" y="66" text-anchor="middle" class="t-body"
+                      font-size="12.5" fill="currentColor">영상 3</text>
+              </g>
+              <g class="algo-item" data-n="3" opacity="0.18">
+                <rect x="346" y="30" width="78" height="60" rx="4"
+                      fill="var(--panel-hi)" stroke="currentColor" stroke-opacity="0.25"/>
+                <text x="385" y="66" text-anchor="middle" class="t-body"
+                      font-size="12.5" fill="currentColor">영상 4</text>
+              </g>
             </g>
-            <g stroke="currentColor" stroke-opacity="0.45" stroke-width="1.4">
-              <line x1="116" y1="59" x2="144" y2="59" marker-end="url(#ahA)"/>
-              <line x1="240" y1="59" x2="244" y2="59" marker-end="url(#ahA)"/>
-              <line x1="338" y1="59" x2="342" y2="59" marker-end="url(#ahA)"/>
-            </g>
-            <text x="150" y="108" class="t-body" font-size="11.5"
-                  fill="currentColor" opacity="0.65">자동재생 · 다음 영상까지 5초</text>
 
-            <line x1="16" y1="132" x2="424" y2="132"
-                  stroke="currentColor" stroke-opacity="0.18"/>
+            <!-- the countdown ring that starts the next one -->
+            <g id="algoTimer" opacity="0">
+              <circle cx="135" cy="60" r="11" fill="none"
+                      stroke="currentColor" stroke-opacity="0.25" stroke-width="2.5"/>
+              <circle id="algoRing" cx="135" cy="60" r="11" fill="none"
+                      stroke="var(--accent)" stroke-width="2.5"
+                      stroke-linecap="round" transform="rotate(-90 135 60)"
+                      stroke-dasharray="69.1" stroke-dashoffset="69.1"/>
+            </g>
+
+            <text x="150" y="110" class="t-body" font-size="11.5"
+                  fill="currentColor" opacity="0.6">자동재생 · 다음 영상까지 몇 초</text>
+
+            <line x1="16" y1="134" x2="424" y2="134" stroke="currentColor" stroke-opacity="0.18"/>
 
             <text x="16" y="158" class="t-body" font-size="12"
                   fill="currentColor" opacity="0.6">시청 시간의 출처</text>
             <rect x="16" y="168" width="408" height="26" fill="var(--user-bg)"/>
-            <rect x="16" y="168" width="286" height="26" fill="var(--designer)"/>
-            <text x="28" y="186" class="t-body" font-size="13"
-                  fill="var(--panel)" font-weight="700">추천 70%</text>
-            <text x="314" y="186" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.7">직접 선택</text>
+            <rect id="algoBar" x="16" y="168" width="0" height="26" fill="var(--accent)"/>
+            <text id="algoBarPct" x="28" y="186" class="t-body" font-size="13"
+                  fill="#0B0D10" font-weight="700" opacity="0">추천 70%</text>
+            <text x="416" y="186" text-anchor="end" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.55">직접 선택</text>
 
-            <text x="16" y="232" class="t-body" font-size="12"
+            <text id="algoCount" x="16" y="226" class="t-body" font-size="13"
+                  fill="var(--accent)" font-weight="700" opacity="0">자동으로 재생된 영상 0편</text>
+            <text x="16" y="254" class="t-body" font-size="12"
                   fill="currentColor" opacity="0.72">
-              아무도 "이걸 보라"고 말하지 않는다.
+              계속 보는 데는 아무것도 필요 없다.
             </text>
-            <text x="16" y="252" class="t-body" font-size="12"
+            <text x="16" y="272" class="t-body" font-size="12"
                   fill="currentColor" opacity="0.72">
-              멈추는 데 행동이 필요할 뿐이다.
+              멈추는 데만 행동이 필요할 뿐이다.
             </text>
           </svg>
+          <div class="fig-controls">
+            <button type="button" class="btn primary" id="algoPlay">자동재생 시작</button>
+            <button type="button" class="btn" id="algoStop" disabled>멈추기</button>
+            <span class="warn" id="algoHint">멈추려면 버튼을 눌러야 합니다</span>
+          </div>
         </figure>
       </div>
 
@@ -2721,6 +2729,275 @@
     });
 
     apply('in');
+  })();
+
+  // ---------- small sound helper: created on first use only ----------
+  var sfx = (function () {
+    var ctx = null;
+    function ac() {
+      var C = window.AudioContext || window.webkitAudioContext;
+      if (!C) return null;
+      if (!ctx) ctx = new C();
+      return ctx;
+    }
+    // resume() is async and the context starts suspended until a gesture,
+    // so run the sound after it has actually started.
+    function when(fn) {
+      var c = ac(); if (!c) return;
+      if (c.state === 'suspended') { c.resume().then(function () { fn(c); }); }
+      else fn(c);
+    }
+    return {
+      // short wet blip for a hit
+      hit: function () { when(function (c) {
+        var o = c.createOscillator(), g = c.createGain(), t = c.currentTime;
+        o.type = 'sine';
+        o.frequency.setValueAtTime(680, t);
+        o.frequency.exponentialRampToValueAtTime(260, t + 0.11);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.11, t + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.17);
+        o.connect(g).connect(c.destination);
+        o.start(t); o.stop(t + 0.18);
+      }); },
+      // dull splat for a miss
+      miss: function () { when(function (c) {
+        var t = c.currentTime, len = Math.floor(c.sampleRate * 0.16);
+        var buf = c.createBuffer(1, len, c.sampleRate);
+        var d = buf.getChannelData(0);
+        for (var i = 0; i < len; i++) {
+          d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.2);
+        }
+        var src = c.createBufferSource(); src.buffer = buf;
+        var f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 900;
+        var g = c.createGain(); g.gain.value = 0.16;
+        src.connect(f).connect(g).connect(c.destination);
+        src.start(t);
+      }); },
+      // soft tick for the autoplay chain
+      tick: function () { when(function (c) {
+        var o = c.createOscillator(), g = c.createGain(), t = c.currentTime;
+        o.type = 'triangle';
+        o.frequency.value = 1180;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.05, t + 0.008);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+        o.connect(g).connect(c.destination);
+        o.start(t); o.stop(t + 0.1);
+      }); }
+    };
+  })();
+
+  // ---------- recommendation feed: press play, it runs itself ----------
+  (function () {
+    var play = document.getElementById('algoPlay');
+    var stop = document.getElementById('algoStop');
+    var hint = document.getElementById('algoHint');
+    var timer = document.getElementById('algoTimer');
+    var ring = document.getElementById('algoRing');
+    var bar = document.getElementById('algoBar');
+    var barPct = document.getElementById('algoBarPct');
+    var count = document.getElementById('algoCount');
+    var items = document.querySelectorAll('.algo-item');
+    if (!play) return;
+
+    var RING = 69.1, STEP = 1400;
+    var n = 0, t1 = null, t2 = null, running = false;
+
+    function reset() {
+      n = 0;
+      items.forEach(function (g) { g.setAttribute('opacity', '0.18'); });
+      ring.setAttribute('stroke-dashoffset', RING);
+      timer.setAttribute('opacity', '0');
+      bar.setAttribute('width', '0');
+      barPct.setAttribute('opacity', '0');
+      count.setAttribute('opacity', '0');
+    }
+
+    function tick() {
+      if (!running) return;
+      var g = items[n % items.length];
+      var pos = 135 + (n % items.length) * 98;
+
+      timer.setAttribute('transform', 'translate(' + (pos - 135) + ' 0)');
+      timer.setAttribute('opacity', '1');
+      ring.setAttribute('stroke-dashoffset', RING);
+
+      // count down, then start the next video
+      var start = performance.now();
+      (function spin(now) {
+        if (!running) return;
+        var k = Math.min(1, (now - start) / (STEP * 0.7));
+        ring.setAttribute('stroke-dashoffset', RING * (1 - k));
+        if (k < 1) requestAnimationFrame(spin);
+      })(start);
+
+      t1 = setTimeout(function () {
+        if (!running) return;
+        g.setAttribute('opacity', '1');
+        n += 1;
+        count.setAttribute('opacity', '1');
+        count.textContent = '자동으로 재생된 영상 ' + n + '편';
+        sfx.tick();
+        var w = Math.min(408, Math.round(408 * Math.min(n / 4, 1) * 0.7));
+        bar.setAttribute('width', w);
+        if (w > 90) barPct.setAttribute('opacity', '1');
+        if (n >= 4) {
+          items.forEach(function (x) { x.setAttribute('opacity', '0.18'); });
+          n = 0;
+        }
+        t2 = setTimeout(tick, 220);
+      }, STEP * 0.7);
+    }
+
+    play.addEventListener('click', function () {
+      if (running) return;
+      running = true;
+      reset();
+      play.disabled = true;
+      stop.disabled = false;
+      hint.textContent = '멈추려면 버튼을 눌러야 합니다 — 계속 보는 데는 아무것도 필요 없습니다';
+      tick();
+    });
+
+    stop.addEventListener('click', function () {
+      running = false;
+      clearTimeout(t1); clearTimeout(t2);
+      timer.setAttribute('opacity', '0');
+      play.disabled = false;
+      stop.disabled = true;
+      hint.textContent = '멈추는 데에만 행동이 필요했습니다';
+    });
+  })();
+
+  // ---------- Schiphol: a stream arcs to where you clicked ----------
+  (function () {
+    var svg = document.getElementById('flySvg');
+    var target = document.getElementById('flyTarget');
+    var stream = document.getElementById('flyStream');
+    var shots = document.getElementById('flyShots');
+    var spill = document.getElementById('flySpill');
+    var spillTxt = document.getElementById('flySpillTxt');
+    var hint = document.getElementById('flyHint');
+    if (!svg || !target) return;
+
+    var NS = 'http://www.w3.org/2000/svg';
+    var FLY = { x: 220, y: 160 };
+    var SRC = { x: 220, y: 58 };
+    var TRACK = 286, level = 50, shotCount = 0;
+
+    function paint() {
+      spill.setAttribute('width', Math.max(3, Math.round(TRACK * level / 100)));
+      spillTxt.textContent = Math.round(level) + '%';
+      spill.setAttribute('fill', level > 55 ? 'var(--warn)'
+                               : level > 25 ? 'var(--c-space)'
+                               : 'var(--accent)');
+    }
+
+    function toLocal(evt) {
+      var pt = svg.createSVGPoint();
+      pt.x = evt.clientX; pt.y = evt.clientY;
+      return pt.matrixTransform(svg.getScreenCTM().inverse());
+    }
+
+    // Solve a parabola that starts at SRC and passes through (tx, ty).
+    // Horizontal speed is constant; vertical gets a constant downward pull.
+    function arc(tx, ty) {
+      var dx = tx - SRC.x, dy = ty - SRC.y;
+      var g = 900;                 // downward pull, units per T^2
+      // Leave with a small upward kick, then let gravity decide the rest:
+      // solve 0.5*g*T^2 + vy0*T = dy for T, with vy0 fixed and modest.
+      var vy0 = -70;
+      var disc = vy0 * vy0 + 2 * g * dy;
+      var T = disc > 0 ? (-vy0 + Math.sqrt(disc)) / g : 0.5;
+      var vx = dx / T;
+      return function (u) {          // u runs 0..1
+        var t = u * T;
+        return { x: SRC.x + vx * t, y: SRC.y + vy0 * t + 0.5 * g * t * t };
+      };
+    }
+
+    function shoot(tx, ty, onTarget) {
+      var f = arc(tx, ty);
+      var colour = onTarget ? 'var(--accent)' : 'var(--warn)';
+
+      // a short trail of droplets, each launched a beat after the last
+      var DROPS = 7;
+      for (var k = 0; k < DROPS; k++) {
+        (function (k) {
+          var d = document.createElementNS(NS, 'circle');
+          d.setAttribute('r', 2.6 - k * 0.15);
+          d.setAttribute('fill', colour);
+          d.setAttribute('opacity', 0.9 - k * 0.07);
+          d.setAttribute('cx', SRC.x);
+          d.setAttribute('cy', SRC.y);
+          stream.appendChild(d);
+
+          var state = { t: 0 };
+          var delay = k * 0.035;
+
+          if (window.gsap) {
+            gsap.to(state, {
+              t: 1, duration: 0.42, delay: delay, ease: 'none',
+              onUpdate: function () {
+                var q = f(state.t);
+                d.setAttribute('cx', q.x);
+                d.setAttribute('cy', q.y);
+              },
+              onComplete: function () {
+                d.remove();
+                if (k === 0) land(tx, ty, onTarget, colour);
+              }
+            });
+          } else {
+            d.setAttribute('cx', tx); d.setAttribute('cy', ty);
+            setTimeout(function () { d.remove(); }, 400);
+            if (k === 0) land(tx, ty, onTarget, colour);
+          }
+        })(k);
+      }
+    }
+
+    function land(tx, ty, onTarget, colour) {
+      var splash = document.createElementNS(NS, 'circle');
+      splash.setAttribute('cx', tx);
+      splash.setAttribute('cy', ty);
+      splash.setAttribute('r', 0);
+      splash.setAttribute('fill', colour);
+      shots.appendChild(splash);
+
+      if (window.gsap) {
+        gsap.fromTo(splash, { attr: { r: 0 }, opacity: 0.95 },
+                            { attr: { r: onTarget ? 5 : 9 }, opacity: 0.45,
+                              duration: 0.3, ease: 'back.out(3)' });
+      } else {
+        splash.setAttribute('r', onTarget ? 5 : 9);
+        splash.setAttribute('opacity', 0.45);
+      }
+
+      if (onTarget) sfx.hit(); else sfx.miss();
+
+      level = Math.max(0, Math.min(100, level + (onTarget ? -10 : +12)));
+      paint();
+
+      if (shotCount < 4) {
+        hint.textContent = onTarget ? '파리 근처 — 흘림이 줄었다'
+                                    : '빗나감 — 흘림이 늘었다';
+      } else {
+        hint.textContent = '겨냥할 것이 있으면 손이 그리로 간다. 안내문은 한 장도 없다.';
+      }
+
+      while (shots.childNodes.length > 22) shots.removeChild(shots.firstChild);
+    }
+
+    target.addEventListener('click', function (e) {
+      var q = toLocal(e);
+      var onTarget = Math.hypot(q.x - FLY.x, q.y - FLY.y) < 40;
+      shotCount += 1;
+      shoot(q.x, q.y, onTarget);
+    });
+
+    paint();
   })();
 
   // ---------- 2. tracking: the prompt, then the statistic ----------
