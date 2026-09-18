@@ -901,7 +901,14 @@
   .slide-synth .axis-table th { padding: 10px 16px 10px 0; line-height: 1.6; }
   .slide-synth .axis-table td:first-child { white-space: normal; min-width: 11em; }
   .slide-synth .closer { margin-top: 26px; }
-  .slide-synth .lede { margin-top: 24px !important; max-width: var(--read); }
+  /* The closing question reads as a single wide line of argument, not as a
+     narrow column - it is the last thing on the slide. */
+  .slide-synth .lede {
+    margin-top: 28px !important;
+    max-width: none;
+    font-size: 1.06rem;
+    line-height: 1.85;
+  }
 
   /* ---------- notes ---------- */
 
