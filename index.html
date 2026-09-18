@@ -2728,6 +2728,18 @@
 </div>
 
 <script>
+  // ---------- stage gate: only the visible slide runs ----------
+  // Each interaction lives in its own IIFE. Rather than teach every one of
+  // them to stop, gate the two things that leak across slides: sound, and
+  // the rAF loops that keep drawing after the reader has moved on.
+  var stage = {
+    current: null,
+    // is this node inside the slide the reader is looking at?
+    holds: function (node) {
+      return !!(this.current && node && this.current.contains(node));
+    }
+  };
+
 (function () {
   'use strict';
 
@@ -2749,6 +2761,7 @@
 
   function paint(i) {
     index = i;
+    stage.current = slides[i];
     cur.textContent = pad(i);
     bar.style.width = ((i + 1) / slides.length * 100) + '%';
     prev.disabled = (i === 0);
@@ -2988,6 +3001,9 @@
   // ---------- small sound helper: created on first use only ----------
   var sfx = (function () {
     var ctx = null;
+    // Sounds are fired from click handlers and rAF loops alike. Both belong
+    // to a slide, and a slide that is not on screen must stay silent.
+    function muted(node) { return node ? !stage.holds(node) : false; }
     function ac() {
       var C = window.AudioContext || window.webkitAudioContext;
       if (!C) return null;
@@ -3003,7 +3019,7 @@
     }
     return {
       // short wet blip for a hit
-      hit: function () { when(function (c) {
+      hit: function (owner) { if (muted(owner)) return; when(function (c) {
         var o = c.createOscillator(), g = c.createGain(), t = c.currentTime;
         o.type = 'sine';
         o.frequency.setValueAtTime(680, t);
@@ -3015,7 +3031,7 @@
         o.start(t); o.stop(t + 0.18);
       }); },
       // dull splat for a miss
-      miss: function () { when(function (c) {
+      miss: function (owner) { if (muted(owner)) return; when(function (c) {
         var t = c.currentTime, len = Math.floor(c.sampleRate * 0.16);
         var buf = c.createBuffer(1, len, c.sampleRate);
         var d = buf.getChannelData(0);
@@ -3029,7 +3045,7 @@
         src.start(t);
       }); },
       // the fly goes down: a buzz that sags in pitch, then a thump
-      die: function () { when(function (c) {
+      die: function (owner) { if (muted(owner)) return; when(function (c) {
         var t = c.currentTime;
         var o = c.createOscillator(), g = c.createGain();
         o.type = 'sawtooth';
@@ -3051,7 +3067,7 @@
         src.start(t + 0.68);
       }); },
       // game over: three falling tones
-      over: function () { when(function (c) {
+      over: function (owner) { if (muted(owner)) return; when(function (c) {
         var t = c.currentTime, notes = [392, 311, 233];
         notes.forEach(function (hz, i) {
           var o = c.createOscillator(), g = c.createGain(), at = t + i * 0.22;
@@ -3065,7 +3081,7 @@
         });
       }); },
       // soft tick for the autoplay chain
-      tick: function () { when(function (c) {
+      tick: function (owner) { if (muted(owner)) return; when(function (c) {
         var o = c.createOscillator(), g = c.createGain(), t = c.currentTime;
         o.type = 'triangle';
         o.frequency.value = 1180;
@@ -3223,7 +3239,7 @@
       if (!running) return;
       var next = cards.shift();
       n += 1;
-      sfx.tick();
+      sfx.tick(svg);
       paint();
       line.textContent = n < 3 ? '당신은 아무것도 누르지 않았다.'
                        : n < 6 ? '계속 보는 데는 아무것도 필요 없다.'
@@ -3497,7 +3513,7 @@
     function sound(now, hit) {
       if (now - lastSfx < 0.32) return;
       lastSfx = now;
-      if (hit) sfx.hit(); else sfx.miss();
+      if (hit) sfx.hit(svg); else sfx.miss(svg);
     }
 
     // Three outcomes. On the fly: hit rate up. In the bowl: nothing.
@@ -3686,7 +3702,7 @@
       on = false; ended = 'win';
       fly.dead = true; fly.fall = 0; fly.spin = 0;
       banner('Win!', '#0EA5B7');
-      sfx.die();
+      sfx.die(svg);
       showEnd();
     }
 
@@ -3694,7 +3710,7 @@
     function gameOver() {
       on = false; ended = 'over';
       banner('게임 오버!', '#D7263D');
-      sfx.over();
+      sfx.over(svg);
       showEnd();
     }
 
@@ -4491,7 +4507,10 @@
         for (var b = a + 1; b < cars.length; b++) {
           if (cars[b].wrecked) continue;
           var qb = pos(cars[b]);
-          if (LANES[cars[a].lane].axis !== LANES[cars[b].lane].axis &&
+          // Shared mode: the box is claimed one car at a time and everyone
+          // is watching, so a crossing pair never meets. That is the finding.
+          if (!shared &&
+              LANES[cars[a].lane].axis !== LANES[cars[b].lane].axis &&
               Math.abs(qa.x - qb.x) < 14 && Math.abs(qa.y - qb.y) < 14) {
             crash(qa.x, qa.y);
             cars[a].s -= LANES[cars[a].lane].dir * 5; cars[b].s -= LANES[cars[b].lane].dir * 5;
@@ -4500,7 +4519,7 @@
         }
         for (var e = 0; e < peds.length; e++) {
           var pe = peds[e];
-          if (Math.abs(qa.x - pe.x) < 12 && Math.abs(qa.y - pe.y) < 9) {
+          if (!shared && Math.abs(qa.x - pe.x) < 12 && Math.abs(qa.y - pe.y) < 9) {
             crash(pe.x, pe.y); wreck(cars[a]); place(cars[a]);
             // the person is knocked down: red, flat, then gone
             pe.g.querySelector('circle').setAttribute('fill', '#FF6B5A');
@@ -4525,9 +4544,8 @@
       if (anim) G.fromTo(burst, { attr: { opacity: 1 }, scale: 0.4, transformOrigin: 'center' },
                                  { attr: { opacity: 0 }, scale: 1.6, duration: 0.6, ease: 'power2.out', onComplete: function () { burst.remove(); } });
       else setTimeout(function () { burst.remove(); }, 600);
-      if (now - lastCrash > 300) { sfx.miss(); lastCrash = now; }
-      if (!shared) line.textContent = '초록불이면 앞을 보지 않는다. ' + crashes + '번째 충돌.';
-      else line.textContent = '눈을 마주쳤는데도 부딪혔다. ' + crashes + '번째 — 드문 일이다.';
+      if (now - lastCrash > 300) { sfx.miss(svg); lastCrash = now; }
+      line.textContent = '초록불이면 앞을 보지 않는다. ' + crashes + '번째 충돌.';
     }
 
     function frame(ts) {
@@ -4553,7 +4571,8 @@
         b.setAttribute('aria-pressed', (b.getAttribute('data-mode') === 'shared') === isShared ? 'true' : 'false');
       });
       cars.forEach(function (c) { c.vmax = isShared ? 56 : 95; });
-      crashes = 0; crashTxt.textContent = '충돌 0';
+      crashes = 0;
+      crashTxt.textContent = isShared ? '충돌 0 · 서로 양보한다' : '충돌 0';
       modeTxt.textContent = isShared ? '규칙을 걷어낸 교차로 · Drachten, 2001년 이후' : '규칙이 있는 교차로 · Drachten, 2001년 이전';
       speedTxt.textContent = isShared ? '평균 속도 −40%' : '평균 속도 100%';
       line.textContent = isShared ? '신호가 없으니 사람의 눈을 봐야 한다. 서로 보이는 곳에서 속도가 떨어진다.'
