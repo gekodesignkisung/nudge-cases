@@ -1296,40 +1296,73 @@
 <section class="slide slide-case" id="s1" data-cat="default">
       <div class="case-figure">
         <figure>
-          <svg viewBox="0 0 440 292" role="img" id="organSvg"
-               aria-label="100명이 두 진영으로 나뉜다. 독일식 기본값에서는 12명만 기증자가 되고, 오스트리아식에서는 99.98명이 기증자가 된다.">
-            <text x="16" y="20" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.6">100명 중 기증자가 되는 사람</text>
+          <svg viewBox="0 0 440 300" role="img" id="organSvg"
+               aria-label="독일과 오스트리아의 장기기증 서류를 나란히 비교한다. 문장 하나가 반대이고, 유효 동의율은 12퍼센트와 99.98퍼센트다.">
 
-            <!-- counts sit over their own group, moved by script -->
-            <text x="22" y="52" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.5" id="organLabelOut">기증자 아님 88명</text>
-            <text x="418" y="52" text-anchor="end" class="t-body" font-size="12"
-                  fill="var(--accent)" font-weight="700" id="organLabelIn">기증자 12명</text>
+            <!-- ── Germany ───────────────────────────── -->
+            <g id="formDE">
+              <rect x="16" y="16" width="192" height="168" rx="4"
+                    fill="var(--panel)" stroke="currentColor" stroke-opacity="0.22"/>
+              <text x="32" y="42" class="t-body" font-size="11.5"
+                    fill="currentColor" opacity="0.5">독일</text>
+              <line x1="32" y1="54" x2="140" y2="54" stroke="currentColor" stroke-opacity="0.16"/>
+              <line x1="32" y1="66" x2="118" y2="66" stroke="currentColor" stroke-opacity="0.16"/>
 
-            <!-- the crowd, built by script -->
-            <g id="organCrowd"></g>
+              <!-- the one sentence that differs -->
+              <rect x="32" y="84" width="16" height="16" rx="2"
+                    fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.5"/>
+              <text x="58" y="97" class="t-body" font-size="12.5"
+                    fill="currentColor">기증에 동의합니다</text>
+              <text x="32" y="122" class="t-body" font-size="11.5"
+                    fill="currentColor" opacity="0.55">동의하려면 표시하시오</text>
 
-            <line x1="16" y1="186" x2="424" y2="186" stroke="currentColor" stroke-opacity="0.18"/>
+              <line x1="32" y1="140" x2="192" y2="140" stroke="currentColor" stroke-opacity="0.12"/>
+              <text x="32" y="162" class="t-body" font-size="12"
+                    fill="currentColor" opacity="0.72">비워두면 → 기증자 아님</text>
+            </g>
 
-            <text x="16" y="210" class="t-body" font-size="11.5"
+            <!-- ── Austria ───────────────────────────── -->
+            <g id="formAT">
+              <rect x="232" y="16" width="192" height="168" rx="4"
+                    fill="var(--panel)" stroke="currentColor" stroke-opacity="0.22"/>
+              <text x="248" y="42" class="t-body" font-size="11.5"
+                    fill="currentColor" opacity="0.5">오스트리아</text>
+              <line x1="248" y1="54" x2="356" y2="54" stroke="currentColor" stroke-opacity="0.16"/>
+              <line x1="248" y1="66" x2="334" y2="66" stroke="currentColor" stroke-opacity="0.16"/>
+
+              <rect x="248" y="84" width="16" height="16" rx="2"
+                    fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.5"/>
+              <text x="274" y="97" class="t-body" font-size="12.5"
+                    fill="currentColor">기증을 거부합니다</text>
+              <text x="248" y="122" class="t-body" font-size="11.5"
+                    fill="currentColor" opacity="0.55">거부하려면 표시하시오</text>
+
+              <line x1="248" y1="140" x2="408" y2="140" stroke="currentColor" stroke-opacity="0.12"/>
+              <text x="248" y="162" class="t-body" font-size="12"
+                    fill="currentColor" opacity="0.72">비워두면 → 기증자</text>
+            </g>
+
+            <!-- highlight ring, moved by script -->
+            <rect id="formRing" x="16" y="16" width="192" height="168" rx="4"
+                  fill="none" stroke="var(--accent)" stroke-width="2"/>
+
+            <!-- ── result ───────────────────────────── -->
+            <text x="16" y="216" class="t-body" font-size="11.5"
                   fill="currentColor" opacity="0.6">유효 동의율 · Science 2003</text>
 
-            <rect x="16" y="220" width="408" height="22" rx="2" fill="var(--user-bg)"/>
-            <rect id="organBar" x="16" y="220" width="49" height="22" rx="2" fill="var(--ink-faint)"/>
-            <text id="organPct" x="75" y="236" class="t-body" font-size="13"
+            <rect x="16" y="226" width="408" height="24" rx="2" fill="var(--user-bg)"/>
+            <rect id="organBar" x="16" y="226" width="49" height="24" rx="2" fill="var(--ink-faint)"/>
+            <text id="organPct" x="75" y="243" class="t-body" font-size="13.5"
                   fill="currentColor" font-weight="700">12%</text>
 
-            <text id="organCaption" x="16" y="268" class="t-body" font-size="12.5"
-                  fill="currentColor" opacity="0.8">독일 · 동의를 등록한 사람만 기증자가 된다</text>
-            <text id="organSub" x="16" y="286" class="t-body" font-size="11.5"
-                  fill="currentColor" opacity="0.5">아무것도 하지 않으면 명부 밖에 남는다</text>
+            <text id="organCaption" x="16" y="276" class="t-body" font-size="12.5"
+                  fill="currentColor" opacity="0.8">빈칸으로 두는 사람이 대다수다. 독일에서는 그것이 거절이 된다.</text>
           </svg>
           <div class="fig-controls">
-            <span class="try-label">기본값</span>
-            <div class="toggle" id="organToggle" role="group" aria-label="기본값 선택">
-              <button type="button" data-mode="in" aria-pressed="true">독일 · 동의를 등록</button>
-              <button type="button" data-mode="out" aria-pressed="false">오스트리아 · 거부를 등록</button>
+            <span class="try-label">서류</span>
+            <div class="toggle" id="organToggle" role="group" aria-label="서류 선택">
+              <button type="button" data-mode="in" aria-pressed="true">독일</button>
+              <button type="button" data-mode="out" aria-pressed="false">오스트리아</button>
             </div>
           </div>
           </figure>
@@ -2895,116 +2928,49 @@
   })();
 })();
 
-  // ---------- 1. organ donation: the default moves the crowd ----------
+  // ---------- 1. organ donation: the two forms, side by side ----------
   (function () {
     var wrap = document.getElementById('organToggle');
-    var crowd = document.getElementById('organCrowd');
+    var ring = document.getElementById('formRing');
+    var de = document.getElementById('formDE');
+    var at = document.getElementById('formAT');
     var bar = document.getElementById('organBar');
     var pct = document.getElementById('organPct');
     var cap = document.getElementById('organCaption');
-    var sub = document.getElementById('organSub');
-    if (!wrap || !crowd) return;
+    if (!wrap || !ring) return;
 
-    var NS = 'http://www.w3.org/2000/svg';
-    var COLS = 20, ROWS = 5, N = COLS * ROWS;
     var TRACK = 408, X0 = 16;
-
-    // two blocks, one per side: donors on the right, the rest on the left
-    var GAP = 22;
-    var CELL = 15.5, R = 4.8;
-    var TOP = 64;
-
-    var dots = [];
-    for (var n = 0; n < N; n++) {
-      var c = document.createElementNS(NS, 'circle');
-      c.setAttribute('r', R);
-      c.setAttribute('fill', 'currentColor');
-      c.setAttribute('opacity', '0.28');
-      crowd.appendChild(c);
-      dots.push(c);
-    }
-
-    // where person n sits when `donors` of them are on the donor side
-    function seat(n, donors) {
-      var isDonor = n < donors;
-      var idx = isDonor ? n : n - donors;
-      var total = isDonor ? donors : N - donors;
-
-      // when nobody is left behind, keep the block on the donor side so it
-      // never sits under the "not a donor" heading
-      if (total === N) {
-        var col = idx % COLS, row = Math.floor(idx / COLS);
-        var w = (COLS - 1) * CELL;
-        return { x: 418 - w + col * CELL, y: TOP + row * CELL, donor: isDonor };
-      }
-
-      // the big group gets a wide grid so it never runs past the divider;
-      // the small one stays compact enough to read as a minority
-      var cols = total > 40 ? 15 : Math.min(8, Math.max(2, Math.ceil(Math.sqrt(total * 1.6))));
-      var col = idx % cols, row = Math.floor(idx / cols);
-      var w = (cols - 1) * CELL;
-      // a channel down the middle keeps the two groups legible
-      var cx = isDonor ? (418 - w + col * CELL)
-                       : (22 + col * CELL);
-      return { x: cx, y: TOP + row * CELL, donor: isDonor };
-    }
-
-    var labelOut = document.getElementById('organLabelOut');
-    var labelIn = document.getElementById('organLabelIn');
-
     var STATE = {
-      'in':  { donors: 12, pct: '12%', fill: 'var(--ink-faint)',
-               cap: '독일 · 동의를 등록한 사람만 기증자가 된다',
-               sub: '아무것도 하지 않으면 명부 밖에 남는다' },
-      'out': { donors: 100, pct: '99.98%', fill: 'var(--accent)',
-               cap: '오스트리아 · 거부를 등록한 사람만 빠진다',
-               sub: '아무것도 하지 않으면 명부 안에 남는다' }
+      'in':  { x: 16, w: 12, pct: '12%', fill: 'var(--ink-faint)',
+               cap: '빈칸으로 두는 사람이 대다수다. 독일에서는 그것이 거절이 된다.' },
+      'out': { x: 232, w: 99.98, pct: '99.98%', fill: 'var(--accent)',
+               cap: '빈칸으로 두는 사람이 대다수다. 오스트리아에서는 그것이 동의가 된다.' }
     };
 
     function apply(mode, animate) {
       var st = STATE[mode];
+      var on = mode === 'in' ? de : at;
+      var off = mode === 'in' ? at : de;
+      var w = Math.max(4, Math.round(TRACK * st.w / 100));
 
-      dots.forEach(function (c, n) {
-        var q = seat(n, st.donors);
-        var fill = q.donor ? 'var(--accent)' : 'currentColor';
-        var op = q.donor ? 0.92 : 0.26;
-
-        if (animate && window.gsap) {
-          gsap.to(c, {
-            attr: { cx: q.x, cy: q.y },
-            duration: 0.62,
-            delay: (n % COLS) * 0.008 + Math.floor(n / COLS) * 0.02,
-            ease: 'power2.inOut'
-          });
-          gsap.to(c, { attr: { fill: fill }, opacity: op,
-                       duration: 0.4, delay: 0.12 });
-        } else {
-          c.setAttribute('cx', q.x);
-          c.setAttribute('cy', q.y);
-          c.setAttribute('fill', fill);
-          c.setAttribute('opacity', op);
-        }
-      });
-
-      var w = Math.max(4, Math.round(TRACK * (st.donors === 100 ? 99.98 : st.donors) / 100));
       if (animate && window.gsap) {
-        gsap.to(bar, { attr: { width: w }, duration: 0.62, ease: 'power2.inOut' });
+        gsap.to(ring, { attr: { x: st.x }, duration: 0.45, ease: 'power2.inOut' });
+        gsap.to(on, { opacity: 1, duration: 0.3 });
+        gsap.to(off, { opacity: 0.32, duration: 0.3 });
+        gsap.to(bar, { attr: { width: w }, duration: 0.55, ease: 'power2.inOut' });
       } else {
+        ring.setAttribute('x', st.x);
+        on.setAttribute('opacity', '1');
+        off.setAttribute('opacity', '0.32');
         bar.setAttribute('width', w);
       }
+
       bar.setAttribute('fill', st.fill);
-
-      // hide the empty side's heading entirely
-      var others = N - st.donors;
-      labelOut.textContent = others ? '기증자 아님 ' + others + '명' : '';
-      labelIn.textContent = '기증자 ' + (st.donors === 100 ? '100' : st.donors) + '명';
-
       var inside = w > 120;
       pct.setAttribute('x', inside ? X0 + 12 : X0 + w + 10);
       pct.setAttribute('fill', inside ? '#0B0D10' : 'currentColor');
       pct.textContent = st.pct;
       cap.textContent = st.cap;
-      sub.textContent = st.sub;
     }
 
     wrap.addEventListener('click', function (e) {
