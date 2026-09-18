@@ -1296,48 +1296,43 @@
 <section class="slide slide-case" id="s1" data-cat="default">
       <div class="case-figure">
         <figure>
-          <svg viewBox="0 0 440 250" role="img" id="organSvg"
-               aria-label="기본값을 바꾸면 아무것도 하지 않은 사람이 기증자가 되거나 되지 않는다. 유효 동의율은 12퍼센트와 99.98퍼센트 사이를 오간다.">
-            <text x="220" y="24" text-anchor="middle" class="t-body"
-                  font-size="13" fill="currentColor" opacity="0.72">아무것도 하지 않은 사람</text>
+          <svg viewBox="0 0 440 292" role="img" id="organSvg"
+               aria-label="100명이 두 진영으로 나뉜다. 독일식 기본값에서는 12명만 기증자가 되고, 오스트리아식에서는 99.98명이 기증자가 된다.">
+            <text x="16" y="20" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.6">100명 중 기증자가 되는 사람</text>
 
-            <!-- the two destinations -->
-            <text x="112" y="120" text-anchor="middle" class="t-body"
-                  font-size="12" fill="currentColor" opacity="0.55">기증자 아님</text>
-            <text x="328" y="120" text-anchor="middle" class="t-body"
-                  font-size="12" fill="currentColor" opacity="0.55">기증자</text>
+            <!-- side labels -->
+            <text x="16" y="48" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.45" id="organLabelOut">기증자 아님</text>
+            <text x="424" y="48" text-anchor="end" class="t-body" font-size="12"
+                  fill="var(--accent)" opacity="0.85" id="organLabelIn">기증자</text>
 
-            <line x1="112" y1="98" x2="112" y2="104" stroke="currentColor" stroke-opacity="0.3"/>
-            <line x1="328" y1="98" x2="328" y2="104" stroke="currentColor" stroke-opacity="0.3"/>
-            <line x1="112" y1="101" x2="328" y2="101" stroke="currentColor"
-                  stroke-opacity="0.18" stroke-dasharray="3 4"/>
+            <!-- the crowd, built by script -->
+            <g id="organCrowd"></g>
 
-            <!-- the person, moved by script -->
-            <g id="organPerson" transform="translate(112 66)">
-              <circle cx="0" cy="0" r="12" fill="currentColor" opacity="0.5"/>
-            </g>
+            <line x1="16" y1="186" x2="424" y2="186" stroke="currentColor" stroke-opacity="0.18"/>
 
-            <line x1="16" y1="150" x2="424" y2="150" stroke="currentColor" stroke-opacity="0.18"/>
-            <text x="16" y="174" class="t-body" font-size="11.5"
+            <text x="16" y="210" class="t-body" font-size="11.5"
                   fill="currentColor" opacity="0.6">유효 동의율 · Science 2003</text>
 
-            <!-- the bar, resized by script -->
-            <rect x="16" y="186" width="408" height="22" fill="var(--user-bg)"/>
-            <rect id="organBar" x="16" y="186" width="49" height="22" fill="var(--ink-faint)"/>
-            <text id="organPct" x="75" y="202" class="t-body" font-size="13"
+            <rect x="16" y="220" width="408" height="22" rx="2" fill="var(--user-bg)"/>
+            <rect id="organBar" x="16" y="220" width="49" height="22" rx="2" fill="var(--ink-faint)"/>
+            <text id="organPct" x="75" y="236" class="t-body" font-size="13"
                   fill="currentColor" font-weight="700">12%</text>
 
-            <text id="organCaption" x="16" y="238" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.72">독일 · 동의를 등록한 사람만 기증자가 된다</text>
+            <text id="organCaption" x="16" y="268" class="t-body" font-size="12.5"
+                  fill="currentColor" opacity="0.8">독일 · 동의를 등록한 사람만 기증자가 된다</text>
+            <text id="organSub" x="16" y="286" class="t-body" font-size="11.5"
+                  fill="currentColor" opacity="0.5">아무것도 하지 않으면 명부 밖에 남는다</text>
           </svg>
           <div class="fig-controls">
             <span class="try-label">기본값</span>
             <div class="toggle" id="organToggle" role="group" aria-label="기본값 선택">
-              <button type="button" data-mode="in" aria-pressed="true">동의를 등록</button>
-              <button type="button" data-mode="out" aria-pressed="false">거부를 등록</button>
+              <button type="button" data-mode="in" aria-pressed="true">독일 · 동의를 등록</button>
+              <button type="button" data-mode="out" aria-pressed="false">오스트리아 · 거부를 등록</button>
             </div>
           </div>
-        </figure>
+          </figure>
       </div>
 
       <div class="case-text">
@@ -2900,150 +2895,118 @@
   })();
 })();
 
-  // ---------- 1. organ donation: flip the default, the drawing follows ----------
+  // ---------- 1. organ donation: the default moves the crowd ----------
   (function () {
     var wrap = document.getElementById('organToggle');
-    var person = document.getElementById('organPerson');
+    var crowd = document.getElementById('organCrowd');
     var bar = document.getElementById('organBar');
     var pct = document.getElementById('organPct');
     var cap = document.getElementById('organCaption');
-    if (!wrap || !person) return;
+    var sub = document.getElementById('organSub');
+    if (!wrap || !crowd) return;
 
+    var NS = 'http://www.w3.org/2000/svg';
+    var COLS = 20, ROWS = 5, N = COLS * ROWS;
     var TRACK = 408, X0 = 16;
+
+    // two blocks, one per side: donors on the right, the rest on the left
+    var GAP = 22;
+    var CELL = 15.5, R = 4.8;
+    var TOP = 64;
+
+    var dots = [];
+    for (var n = 0; n < N; n++) {
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('r', R);
+      c.setAttribute('fill', 'currentColor');
+      c.setAttribute('opacity', '0.28');
+      crowd.appendChild(c);
+      dots.push(c);
+    }
+
+    // where person n sits when `donors` of them are on the donor side
+    function seat(n, donors) {
+      var isDonor = n < donors;
+      var idx = isDonor ? n : n - donors;
+      var total = isDonor ? donors : N - donors;
+
+      // everyone on one side when the split is total, two blocks otherwise
+      if (total === N) {
+        var col = idx % COLS, row = Math.floor(idx / COLS);
+        return { x: 40 + col * CELL, y: TOP + row * CELL, donor: isDonor };
+      }
+
+      // the big group gets a wide grid so it never runs past the divider;
+      // the small one stays compact enough to read as a minority
+      var cols = total > 40 ? 15 : Math.min(8, Math.max(2, Math.ceil(Math.sqrt(total * 1.6))));
+      var col = idx % cols, row = Math.floor(idx / cols);
+      var w = (cols - 1) * CELL;
+      // a channel down the middle keeps the two groups legible
+      var cx = isDonor ? (418 - w + col * CELL)
+                       : (22 + col * CELL);
+      return { x: cx, y: TOP + row * CELL, donor: isDonor };
+    }
+
     var STATE = {
-      'in':  { x: 112, pct: 12,    fill: 'var(--ink-faint)',
-               cap: '독일 · 동의를 등록한 사람만 기증자가 된다' },
-      'out': { x: 328, pct: 99.98, fill: 'var(--user)',
-               cap: '오스트리아 · 거부를 등록한 사람만 빠진다' }
+      'in':  { donors: 12, pct: '12%', fill: 'var(--ink-faint)',
+               cap: '독일 · 동의를 등록한 사람만 기증자가 된다',
+               sub: '아무것도 하지 않으면 명부 밖에 남는다' },
+      'out': { donors: 100, pct: '99.98%', fill: 'var(--accent)',
+               cap: '오스트리아 · 거부를 등록한 사람만 빠진다',
+               sub: '아무것도 하지 않으면 명부 안에 남는다' }
     };
 
-    function apply(mode) {
+    function apply(mode, animate) {
       var st = STATE[mode];
-      person.setAttribute('transform', 'translate(' + st.x + ' 66)');
-      bar.setAttribute('width', Math.max(4, Math.round(TRACK * st.pct / 100)));
+
+      dots.forEach(function (c, n) {
+        var q = seat(n, st.donors);
+        var fill = q.donor ? 'var(--accent)' : 'currentColor';
+        var op = q.donor ? 0.92 : 0.26;
+
+        if (animate && window.gsap) {
+          gsap.to(c, {
+            attr: { cx: q.x, cy: q.y },
+            duration: 0.62,
+            delay: (n % COLS) * 0.008 + Math.floor(n / COLS) * 0.02,
+            ease: 'power2.inOut'
+          });
+          gsap.to(c, { attr: { fill: fill }, opacity: op,
+                       duration: 0.4, delay: 0.12 });
+        } else {
+          c.setAttribute('cx', q.x);
+          c.setAttribute('cy', q.y);
+          c.setAttribute('fill', fill);
+          c.setAttribute('opacity', op);
+        }
+      });
+
+      var w = Math.max(4, Math.round(TRACK * (st.donors === 100 ? 99.98 : st.donors) / 100));
+      if (animate && window.gsap) {
+        gsap.to(bar, { attr: { width: w }, duration: 0.62, ease: 'power2.inOut' });
+      } else {
+        bar.setAttribute('width', w);
+      }
       bar.setAttribute('fill', st.fill);
-      // keep the label outside the bar when it is short, inside when long
-      var w = Math.round(TRACK * st.pct / 100);
+
       var inside = w > 120;
       pct.setAttribute('x', inside ? X0 + 12 : X0 + w + 10);
-      pct.setAttribute('fill', inside ? 'var(--panel)' : 'currentColor');
-      pct.textContent = st.pct + '%';
+      pct.setAttribute('fill', inside ? '#0B0D10' : 'currentColor');
+      pct.textContent = st.pct;
       cap.textContent = st.cap;
+      sub.textContent = st.sub;
     }
 
     wrap.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-mode]');
-      if (!b) return;
+      if (!b || b.getAttribute('aria-pressed') === 'true') return;
       wrap.querySelectorAll('button').forEach(function (x) {
         x.setAttribute('aria-pressed', String(x === b));
       });
-      apply(b.dataset.mode);
+      apply(b.dataset.mode, true);
     });
 
-    apply('in');
-  })();
-
-  // ---------- Google × Safari: the money moves, the dropdown opens on the first item ----------
-  (function () {
-    var svg = document.getElementById('ddSvg');
-    var G = window.gsap;
-    if (!svg || !G) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    var NS = 'http://www.w3.org/2000/svg';
-    var pay = document.getElementById('ddPay');
-    var buy = document.getElementById('ddBuy');
-    var amount = document.getElementById('ddAmount');
-    var coins = document.getElementById('ddCoins');
-    var menu = document.getElementById('ddMenu');
-    var first = document.getElementById('ddFirst');
-    var tag = document.getElementById('ddTag');
-    var caret = document.getElementById('ddCaret');
-    var escape = document.getElementById('ddEscape');
-    var FULL = '$20,000,000,000';
-
-    // an arrow draws itself; the dash is removed again once it is drawn
-    function drawLine(t, el, at, dur) {
-      var len = Math.hypot(el.x2.baseVal.value - el.x1.baseVal.value,
-                           el.y2.baseVal.value - el.y1.baseVal.value);
-      t.set(el, { attr: { 'stroke-dasharray': len, 'stroke-dashoffset': len } }, at);
-      t.to(el, { attr: { 'stroke-dashoffset': 0 }, duration: dur, ease: 'power2.inOut' }, at);
-      t.set(el, { attr: { 'stroke-dasharray': 'none' } }, at + dur);
-    }
-
-    // one coin sliding from Google to Apple
-    function coin() {
-      var c = document.createElementNS(NS, 'circle');
-      c.setAttribute('r', 3.5);
-      c.setAttribute('cx', 142);
-      c.setAttribute('cy', 52);
-      c.setAttribute('opacity', 0);
-      c.setAttribute('fill', 'var(--designer)');
-      coins.appendChild(c);
-      G.fromTo(c, { attr: { cx: 142 } }, {
-        attr: { cx: 292 }, duration: 1.3, ease: 'none',
-        keyframes: { opacity: [0, 1, 1, 0] },
-        onComplete: function () { c.remove(); }
-      });
-    }
-
-    function openMenu(t, at) {
-      t.to(caret, { rotation: 180, svgOrigin: '398 154', duration: 0.25, ease: 'power2.out' }, at);
-      t.fromTo(menu, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, at + 0.05);
-      t.fromTo(first, { attr: { 'fill-opacity': 0.18 } },
-        { attr: { 'fill-opacity': 0.45 }, duration: 0.35, yoyo: true, repeat: 3, ease: 'sine.inOut' }, at + 0.4);
-      t.fromTo(tag, { opacity: 0, x: 6 }, { opacity: 1, x: 0, duration: 0.3 }, at + 0.4);
-      t.to(menu, { opacity: 0, y: -6, duration: 0.3, ease: 'power2.in' }, at + 2.4);
-      t.to(caret, { rotation: 0, svgOrigin: '398 154', duration: 0.25 }, at + 2.4);
-    }
-
-    var intro = null, loop = null, flow = null, marching = null, introDone = false;
-
-    function playIntro() {
-      if (intro) return;
-      var n = { v: 0 };
-      var t = G.timeline({ delay: 0.7, onComplete: function () { introDone = true; startLoop(); } });
-      // 1. the payment: the arrow draws, the amount counts up
-      drawLine(t, pay, 0, 0.9);
-      t.to(n, {
-        v: 20, duration: 1.4, ease: 'power3.out',
-        onUpdate: function () { amount.textContent = '$' + Math.round(n.v * 1e9).toLocaleString('en-US'); },
-        onComplete: function () { amount.textContent = FULL; }
-      }, 0.1);
-      // 2. what it buys: down to Safari, the dropdown opens on its first item
-      drawLine(t, buy, 1.3, 0.45);
-      openMenu(t, 1.8);
-      // 3. the way out stays thin
-      t.fromTo(escape, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 4.4);
-      intro = t;
-    }
-
-    // while on screen: coins keep flowing, the escape path marches, the menu reopens now and then
-    function startLoop() {
-      if (!flow) flow = setInterval(coin, 550);
-      if (!marching) marching = G.to(escape, { attr: { 'stroke-dashoffset': -12 }, duration: 1.6, ease: 'none', repeat: -1 });
-      if (!loop) {
-        loop = G.timeline({ repeat: -1, repeatDelay: 4.5, delay: 3 });
-        openMenu(loop, 0);
-      }
-    }
-
-    function stopLoop() {
-      clearInterval(flow); flow = null;
-      if (marching) { marching.kill(); marching = null; }
-      if (loop) { loop.kill(); loop = null; }
-      G.set(menu, { opacity: 0 });
-      G.set(caret, { rotation: 0, svgOrigin: '398 154' });
-    }
-
-    if (!window.IntersectionObserver) return;
-    amount.textContent = '$0';   // counts up the first time it is seen
-    new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { if (introDone) startLoop(); else playIntro(); }
-        else if (introDone) stopLoop();
-      });
-    }, { threshold: 0.5 }).observe(svg);
+    apply('in', false);
   })();
 
   // ---------- small sound helper: created on first use only ----------
