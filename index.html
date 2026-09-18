@@ -1301,11 +1301,11 @@
             <text x="16" y="20" class="t-body" font-size="12"
                   fill="currentColor" opacity="0.6">100명 중 기증자가 되는 사람</text>
 
-            <!-- side labels -->
-            <text x="16" y="48" class="t-body" font-size="12"
-                  fill="currentColor" opacity="0.45" id="organLabelOut">기증자 아님</text>
-            <text x="424" y="48" text-anchor="end" class="t-body" font-size="12"
-                  fill="var(--accent)" opacity="0.85" id="organLabelIn">기증자</text>
+            <!-- counts sit over their own group, moved by script -->
+            <text x="22" y="52" class="t-body" font-size="12"
+                  fill="currentColor" opacity="0.5" id="organLabelOut">기증자 아님 88명</text>
+            <text x="418" y="52" text-anchor="end" class="t-body" font-size="12"
+                  fill="var(--accent)" font-weight="700" id="organLabelIn">기증자 12명</text>
 
             <!-- the crowd, built by script -->
             <g id="organCrowd"></g>
@@ -2930,10 +2930,12 @@
       var idx = isDonor ? n : n - donors;
       var total = isDonor ? donors : N - donors;
 
-      // everyone on one side when the split is total, two blocks otherwise
+      // when nobody is left behind, keep the block on the donor side so it
+      // never sits under the "not a donor" heading
       if (total === N) {
         var col = idx % COLS, row = Math.floor(idx / COLS);
-        return { x: 40 + col * CELL, y: TOP + row * CELL, donor: isDonor };
+        var w = (COLS - 1) * CELL;
+        return { x: 418 - w + col * CELL, y: TOP + row * CELL, donor: isDonor };
       }
 
       // the big group gets a wide grid so it never runs past the divider;
@@ -2946,6 +2948,9 @@
                        : (22 + col * CELL);
       return { x: cx, y: TOP + row * CELL, donor: isDonor };
     }
+
+    var labelOut = document.getElementById('organLabelOut');
+    var labelIn = document.getElementById('organLabelIn');
 
     var STATE = {
       'in':  { donors: 12, pct: '12%', fill: 'var(--ink-faint)',
@@ -2988,6 +2993,11 @@
         bar.setAttribute('width', w);
       }
       bar.setAttribute('fill', st.fill);
+
+      // hide the empty side's heading entirely
+      var others = N - st.donors;
+      labelOut.textContent = others ? '기증자 아님 ' + others + '명' : '';
+      labelIn.textContent = '기증자 ' + (st.donors === 100 ? '100' : st.donors) + '명';
 
       var inside = w > 120;
       pct.setAttribute('x', inside ? X0 + 12 : X0 + w + 10);
